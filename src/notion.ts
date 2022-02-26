@@ -115,6 +115,42 @@ export const updatePage = async (pageId: string) => {
   return res
 }
 
+export const retreiveBlock = async (blockId: string) => {
+  const res = notion.blocks.retrieve({
+    block_id: blockId,
+  })
+  return res
+}
+
+export const updateBlock = async (blockId: string) => {
+  const res = notion.blocks.update({
+    block_id: blockId,
+  })
+  return res
+}
+
+export const retreiveBlockChildren = async (blockId: string) => {
+  const res = notion.blocks.children.list({
+    block_id: blockId,
+  })
+  return res
+}
+
+export const appendBlockChildren = async (blockId: string) => {
+  const res = notion.blocks.children.append({
+    block_id: blockId,
+    children: [],
+  })
+  return res
+}
+
+export const deleteBlock = async (blockId: string) => {
+  const res = notion.blocks.delete({
+    block_id: blockId,
+  })
+  return res
+}
+
 export const getParentPages = async (
   databaseId: string,
   relationKeys: string
