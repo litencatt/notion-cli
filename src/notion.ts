@@ -16,28 +16,13 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 })
 
-export const getPlainTextFirst = (prop: PropertyValueRichText) => {
-  return prop.rich_text.map((e) => e.plain_text)[0]
+export const retrieveDb = async (
+  databaseId: string
+): Promise<GetDatabaseResponse> => {
+  return await notion.databases.retrieve({ database_id: databaseId })
 }
 
-const buildFilter = (
-  filter: string | null
-): QueryDatabaseParameters['filter'] => {
-  let f: QueryDatabaseParameters['filter'] = {
-    and: [],
-    or: [],
-  }
-  try {
-    if (filter) {
-      f = JSON.parse(filter)
-    }
-  } catch (e) {
-    console.log(e)
-  }
-  return f
-}
-
-export const query = async (
+export const queryDb = async (
   databaseId: string,
   filter: string | null
 ): Promise<QueryDatabaseResponse['results'][]> => {
@@ -68,13 +53,75 @@ export const query = async (
   return resArr
 }
 
+const buildFilter = (
+  filter: string | null
+): QueryDatabaseParameters['filter'] => {
+  let f: QueryDatabaseParameters['filter'] = {
+    and: [],
+    or: [],
+  }
+  try {
+    if (filter) {
+      f = JSON.parse(filter)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+  return f
+}
+
+export const retreivePage = async (pageId: string) => {
+  const res = notion.pages.retrieve({
+    page_id: pageId,
+  })
+  return res
+}
+
+export const createPage = async (databaseId: string) => {
+  const res = notion.pages.create({
+    parent: {
+      database_id: databaseId,
+    },
+    properties: {
+      Name: {
+        title: [
+          {
+            text: {
+              content: 'foo',
+            },
+          },
+        ],
+      },
+    },
+  })
+  return res
+}
+
+export const updatePage = async (pageId: string) => {
+  const res = notion.pages.update({
+    page_id: pageId,
+    properties: {
+      Name: {
+        title: [
+          {
+            text: {
+              content: 'bar',
+            },
+          },
+        ],
+      },
+    },
+  })
+  return res
+}
+
 export const getParentPages = async (
   databaseId: string,
   relationKeys: string
 ): Promise<ParentPage[]> => {
   const pages: ParentPage[] = []
   const propertyNames = relationKeys.split(',')
-  const results = await query(databaseId, null)
+  const results = await queryDb(databaseId, null)
   results.map((result) => {
     result.map((page) => {
       const tmp: ParentPage = {
@@ -111,7 +158,7 @@ export const getDbProps = async (
   databaseId: string,
   relationKeys: string[]
 ): Promise<GetDatabaseResponse['properties'][]> => {
-  const db = await retrieve(databaseId)
+  const db = await retrieveDb(databaseId)
   const props: any = []
   Object.entries(db.properties).forEach(([key, property]) => {
     if (relationKeys.includes(key)) {
@@ -119,12 +166,6 @@ export const getDbProps = async (
     }
   })
   return props
-}
-
-export const retrieve = async (
-  databaseId: string
-): Promise<GetDatabaseResponse> => {
-  return await notion.databases.retrieve({ database_id: databaseId })
 }
 
 export const buildFilterConditions = (
@@ -181,7 +222,7 @@ export const searchDbPageIds = async (
   databaseId: string,
   filter: string
 ): Promise<string[]> => {
-  const results = await query(databaseId, filter)
+  const results = await queryDb(databaseId, filter)
   const pageIds: string[] = []
   results.map((result) => {
     result.map((page) => {
@@ -224,4 +265,8 @@ export const updateRelation = async (
       },
     },
   })
+}
+
+export const getPlainTextFirst = (prop: PropertyValueRichText) => {
+  return prop.rich_text.map((e) => e.plain_text)[0]
 }

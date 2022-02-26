@@ -3,7 +3,7 @@ import {
   QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { Command, Flags } from '@oclif/core'
-import { retrieve, query } from '../notion'
+import { retrieveDb, queryDb } from '../notion'
 
 export default class Db extends Command {
   static description = 'describe the command here'
@@ -22,11 +22,11 @@ export default class Db extends Command {
     const { args, flags } = await this.parse(Db)
 
     if (flags.retrieve) {
-      const res = await retrieve(args.database_id)
+      const res = await retrieveDb(args.database_id)
       console.log(res)
     }
     if (flags.query) {
-      const res = await query(args.database_id, flags.filter as string)
+      const res = await queryDb(args.database_id, flags.filter as string)
       console.log(res)
     }
   }
