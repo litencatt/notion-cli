@@ -1,4 +1,5 @@
 import { Command, Flags } from '@oclif/core'
+import { retrieve } from '../notion'
 
 export default class Db extends Command {
   static description = 'describe the command here'
@@ -6,23 +7,17 @@ export default class Db extends Command {
   static examples = ['<%= config.bin %> <%= command.id %>']
 
   static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({ char: 'n', description: 'name to print' }),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({ char: 'f' }),
+    retrieve: Flags.boolean({ char: 'r' }),
   }
 
-  static args = [{ name: 'file' }]
+  static args = [{ name: 'databaseId' }]
 
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(Db)
 
-    const name = flags.name ?? 'world'
-    this.log(
-      `hello ${name} from /Users/nakamura.k/.ghq/github.com/litencatt/notion-cli-ts/src/commands/db.ts`
-    )
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
+    if (flags.retrieve) {
+      const res = await retrieve(args.databaseId)
+      console.log(res)
     }
   }
 }
