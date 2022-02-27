@@ -15,8 +15,6 @@ export default class Db extends Command {
 
     query: Flags.boolean({ char: 'q', dependsOn: ['database_id'] }),
     filter: Flags.string({ char: 'f' }),
-    propertyList: Flags.string({ char: 'p' }),
-    onlyValue: Flags.boolean({ char: 'P' }),
 
     create: Flags.boolean({ char: 'c', dependsOn: ['page_id'] }),
     page_id: Flags.string(),
@@ -24,6 +22,8 @@ export default class Db extends Command {
     update: Flags.boolean({ char: 'u', dependsOn: ['database_id'] }),
 
     retrieve: Flags.boolean({ char: 'r', dependsOn: ['database_id'] }),
+    propertyList: Flags.string({ char: 'p' }),
+    onlyValue: Flags.boolean({ char: 'P' }),
   }
 
   public async run(): Promise<void> {
