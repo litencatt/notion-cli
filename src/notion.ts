@@ -10,17 +10,12 @@ import {
   QueryDatabaseParameters,
   QueryDatabaseResponse,
   GetDatabaseResponse,
+  CreateDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 })
-
-export const retrieveDb = async (
-  databaseId: string
-): Promise<GetDatabaseResponse> => {
-  return await notion.databases.retrieve({ database_id: databaseId })
-}
 
 export const queryDb = async (
   databaseId: string,
@@ -68,6 +63,61 @@ const buildFilter = (
     console.log(e)
   }
   return f
+}
+
+// TODO
+// - Support title
+// - Support properties
+export const createDb = async (
+  pageId: string
+): Promise<CreateDatabaseResponse> => {
+  return await notion.databases.create({
+    parent: {
+      type: 'page_id',
+      page_id: pageId,
+    },
+    title: [
+      {
+        type: 'text',
+        text: {
+          content: `DB-${Date.now()}`,
+        },
+      },
+    ],
+    properties: {
+      Name: {
+        title: {},
+      },
+    },
+  })
+}
+
+// TODO
+// - Support title
+// - Support properties
+export const updateDb = async (
+  databaseId: string
+): Promise<GetDatabaseResponse> => {
+  return await notion.databases.update({
+    database_id: databaseId,
+    properties: {
+      Tags: {
+        multi_select: {
+          options: [
+            {
+              name: 'aaa',
+            },
+          ],
+        },
+      },
+    },
+  })
+}
+
+export const retrieveDb = async (
+  databaseId: string
+): Promise<GetDatabaseResponse> => {
+  return await notion.databases.retrieve({ database_id: databaseId })
 }
 
 export const retreivePage = async (pageId: string) => {
