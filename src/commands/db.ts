@@ -18,10 +18,10 @@ export default class Db extends Command {
     propertyList: Flags.string({ char: 'p' }),
     onlyValue: Flags.boolean({ char: 'P' }),
 
-    //create: Flags.boolean({ char: 'c' }),
-    //page_id: Flags.string({ char: 'p', dependsOn: ['c'] }),
+    create: Flags.boolean({ char: 'c', dependsOn: ['page_id'] }),
+    page_id: Flags.string(),
 
-    //update: Flags.boolean({ char: 'u' }),
+    update: Flags.boolean({ char: 'u', dependsOn: ['database_id'] }),
 
     retrieve: Flags.boolean({ char: 'r', dependsOn: ['database_id'] }),
   }
@@ -33,14 +33,14 @@ export default class Db extends Command {
       const res = await queryDb(flags.database_id, flags.filter as string)
       console.log(res)
     }
-    // if (flags.create && flags.page_id) {
-    //   const res = await createDb(flags.page_id)
-    //   console.log(res)
-    // }
-    // if (flags.database_id && flags.update) {
-    //   const res = await updateDb(flags.database_id)
-    //   console.log(res)
-    // }
+    if (flags.create && flags.page_id) {
+      const res = await createDb(flags.page_id)
+      console.log(res)
+    }
+    if (flags.database_id && flags.update) {
+      const res = await updateDb(flags.database_id)
+      console.log(res)
+    }
     if (flags.database_id && flags.retrieve) {
       const options = {
         propertyList: flags.propertyList,
