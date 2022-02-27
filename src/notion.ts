@@ -69,14 +69,7 @@ export const createDb = async (
       type: 'page_id',
       page_id: pageId,
     },
-    title: [
-      {
-        type: 'text',
-        text: {
-          content: `DB-${Date.now()}`,
-        },
-      },
-    ],
+    // title: [] => Untitled
     properties: {
       Name: {
         title: {},
