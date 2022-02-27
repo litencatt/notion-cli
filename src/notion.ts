@@ -108,9 +108,37 @@ export const updateDb = async (
 }
 
 export const retrieveDb = async (
-  databaseId: string
-): Promise<GetDatabaseResponse> => {
-  return await notion.databases.retrieve({ database_id: databaseId })
+  databaseId: string,
+  options: any
+): Promise<any> => {
+  const res = await notion.databases.retrieve({ database_id: databaseId })
+  return retrieveResponse(res, options)
+}
+
+// Now suppots res.properties only.
+const retrieveResponse = (res: GetDatabaseResponse, options: any) => {
+  if (!options.propertyList) {
+    return res
+  }
+
+  const showProperties = options.propertyList.split(',')
+  const output: any = []
+  Object.entries(res.properties).forEach(([_, prop]) => {
+    if (!showProperties.includes(prop.name)) {
+      return
+    }
+    const prefix = options.onlyValue ? '' : `${prop.name}: `
+    let o = ''
+    if (prop.type == 'title') {
+      o = prop.name
+    } else if (prop.type == 'select') {
+      o = prop.select.options.map((o) => o.name).join(',')
+    } else if (prop.type == 'multi_select') {
+      o = prop.multi_select.options.map((o) => o.name).join(',')
+    }
+    output.push(`${prefix}${o}`)
+  })
+  return output.join('\n')
 }
 
 export const retreivePage = async (pageId: string) => {

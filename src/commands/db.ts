@@ -14,7 +14,9 @@ export default class Db extends Command {
     database_id: Flags.string({ char: 'd' }),
 
     query: Flags.boolean({ char: 'q', dependsOn: ['database_id'] }),
-    filter: Flags.string({ char: 'f', dependsOn: ['query'] }),
+    filter: Flags.string({ char: 'f' }),
+    propertyList: Flags.string({ char: 'p' }),
+    onlyValue: Flags.boolean({ char: 'P' }),
 
     //create: Flags.boolean({ char: 'c' }),
     //page_id: Flags.string({ char: 'p', dependsOn: ['c'] }),
@@ -40,7 +42,11 @@ export default class Db extends Command {
     //   console.log(res)
     // }
     if (flags.database_id && flags.retrieve) {
-      const res = await retrieveDb(flags.database_id)
+      const options = {
+        propertyList: flags.propertyList,
+        onlyValue: flags.onlyValue,
+      }
+      const res = await retrieveDb(flags.database_id, options)
       console.log(res)
     }
   }
