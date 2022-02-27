@@ -356,3 +356,13 @@ export const updateRelation = async (
 export const getPlainTextFirst = (prop: PropertyValueRichText) => {
   return prop.rich_text.map((e) => e.plain_text)[0]
 }
+
+export const retreiveUser = async (userId: string) => {
+  return await notion.users.retrieve({
+    user_id: userId,
+  })
+}
+
+export const listUser = async () => {
+  return await notion.users.list({})
+}
