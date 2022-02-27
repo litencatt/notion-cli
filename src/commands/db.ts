@@ -11,22 +11,23 @@ export default class Db extends Command {
   static examples = ['<%= config.bin %> <%= command.id %>']
 
   static flags = {
-    retrieve: Flags.boolean({ char: 'r' }),
-    query: Flags.boolean({ char: 'q' }),
-    filter: Flags.string({ char: 'f' }),
+    database_id: Flags.string({ char: 'd' }),
+
+    query: Flags.boolean({ char: 'q', dependsOn: ['database_id'] }),
+    filter: Flags.string({ char: 'f', dependsOn: ['query'] }),
+
+    retrieve: Flags.boolean({ char: 'r', dependsOn: ['database_id'] }),
   }
 
-  static args = [{ name: 'database_id' }]
-
   public async run(): Promise<void> {
-    const { args, flags } = await this.parse(Db)
+    const { flags } = await this.parse(Db)
 
-    if (flags.retrieve) {
-      const res = await retrieveDb(args.database_id)
+    if (flags.database_id && flags.query) {
+      const res = await queryDb(flags.database_id, flags.filter as string)
       console.log(res)
     }
-    if (flags.query) {
-      const res = await queryDb(args.database_id, flags.filter as string)
+    if (flags.database_id && flags.retrieve) {
+      const res = await retrieveDb(flags.database_id)
       console.log(res)
     }
   }
