@@ -296,15 +296,7 @@
   dependencies:
     "@notionhq/client" "~0.4.6"
 
-"@notionhq/client@0.4.9":
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/@notionhq/client/-/client-0.4.9.tgz#679d103cda023f1095763c0334851aa44a624911"
-  integrity sha512-GR76TrbETlXDsCTr4TotQ/XQzi05g1ydT9iJwyB+N5Brgq6rwYaJva87y90wdI+UwiWquC1DoEHWRe7zeGClUQ==
-  dependencies:
-    "@types/node-fetch" "^2.5.10"
-    node-fetch "^2.6.1"
-
-"@notionhq/client@~0.4.6":
+"@notionhq/client@0.4.13", "@notionhq/client@~0.4.6":
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/@notionhq/client/-/client-0.4.13.tgz#b29c2ecc8c25508119f9b2875c2dda6c12f1c889"
   integrity sha512-tHC95h4JZYteHmIL49xdta0Yb9q0peXySqo9cqTQEVzpPwUdcPNgWQljMqfrSVKqlpGNX+DhXztY0LR6f3Iw6A==
