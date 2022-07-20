@@ -17,11 +17,11 @@ export default class User extends Command {
 
     if (flags.retrieve && flags.user_id) {
       const res = await retreiveUser(flags.user_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
     if (flags.list) {
       const res = await listUser()
-      console.log(res)
+      console.dir(res, { depth: null })
     }
   }
 }

@@ -7,8 +7,8 @@ export default class Page extends Command {
   static examples = ['<%= config.bin %> <%= command.id %>']
 
   static flags = {
-    page_id: Flags.string(),
-    database_id: Flags.string(),
+    page_id: Flags.string({ char: 'p' }),
+    database_id: Flags.string({ char: 'd' }),
     retrieve: Flags.boolean({ char: 'r' }),
     create: Flags.boolean({ char: 'c' }),
     update: Flags.boolean({ char: 'u' }),
@@ -18,15 +18,15 @@ export default class Page extends Command {
     const { flags } = await this.parse(Page)
     if (flags.retrieve && flags.page_id) {
       const res = await retreivePage(flags.page_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
     if (flags.create && flags.database_id) {
       const res = await createPage(flags.database_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
     if (flags.update && flags.page_id) {
       const res = await updatePage(flags.page_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
   }
 }
