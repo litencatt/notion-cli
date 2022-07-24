@@ -198,6 +198,9 @@ export const retrieveBlock = async (blockId: string) => {
   return res
 }
 
+// TODO
+// - support {type} params
+// - support archived params
 export const updateBlock = async (blockId: string) => {
   const res = notion.blocks.update({
     block_id: blockId,
@@ -212,6 +215,8 @@ export const retrieveBlockChildren = async (blockId: string) => {
   return res
 }
 
+// TODO
+// - support children params
 export const appendBlockChildren = async (blockId: string) => {
   const res = notion.blocks.children.append({
     block_id: blockId,
