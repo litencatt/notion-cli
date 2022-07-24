@@ -147,6 +147,14 @@ export const retreivePage = async (pageId: string) => {
   return res
 }
 
+export const retrievePageProperty = async (pageId: string, propId: string) => {
+  const res = notion.pages.properties.retrieve({
+    page_id: pageId,
+    property_id: propId,
+  })
+  return res
+}
+
 export const createPage = async (
   databaseId: string,
   title: string,

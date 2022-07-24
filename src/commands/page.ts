@@ -10,7 +10,9 @@ export default class Page extends Command {
   static examples = ['<%= config.bin %> <%= command.id %>']
 
   static flags = {
+    retrieve_property: Flags.boolean(),
     page_id: Flags.string({ char: 'p' }),
+    property_id: Flags.string(),
     database_id: Flags.string({ char: 'd' }),
     file_path: Flags.string({ char: 'f' }),
     retrieve: Flags.boolean({ char: 'r' }),
@@ -25,8 +27,11 @@ export default class Page extends Command {
       const res = await retreivePage(flags.page_id)
       console.dir(res, { depth: null })
     }
-
-    // Page create
+    // Retrieve a page property item
+    if (flags.retrieve_property && flags.page_id && flags.property_id) {
+      const res = await retrievePageProperty(flags.page_id, flags.property_id)
+      console.dir(res, { depth: null })
+    }
     if (flags.create && flags.database_id && flags.file_path) {
       const fp = path.join('./', flags.file_path)
       const fn = path.basename(flags.file_path)
