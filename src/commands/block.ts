@@ -26,23 +26,23 @@ export default class Block extends Command {
     const { args, flags } = await this.parse(Block)
     if (flags.retrieve) {
       const res = await retreiveBlock(args.block_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
     if (flags.update) {
       const res = await updateBlock(args.block_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
     if (flags.retreiveChildren) {
       const res = await retreiveBlockChildren(args.block_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
     if (flags.appendChildren) {
       const res = await appendBlockChildren(args.block_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
     if (flags.delete) {
       const res = await deleteBlock(args.block_id)
-      console.log(res)
+      console.dir(res, { depth: null })
     }
   }
 }
