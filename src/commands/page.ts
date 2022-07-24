@@ -33,7 +33,7 @@ export default class Page extends Command {
     const { flags } = await this.parse(Page)
     // Retrieve a page
     if (flags.retrieve && flags.page_id) {
-      const res = await retreivePage(flags.page_id)
+      const res = await retrievePage(flags.page_id)
       console.dir(res, { depth: null })
     }
     // Retrieve a page property item
