@@ -236,3 +236,7 @@ export const retrieveUser = async (userId: string) => {
 export const listUser = async () => {
   return await notion.users.list({})
 }
+
+export const botUser = async () => {
+  return await notion.users.me({})
+}
