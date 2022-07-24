@@ -6,6 +6,12 @@ import {
   CreateDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 
+import { markdownToBlocks } from '@tryfabric/martian'
+type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
+
+import { richText } from '@tryfabric/martian/build/src/notion'
+import { text } from 'stream/consumers'
+
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 })
@@ -141,22 +147,20 @@ export const retreivePage = async (pageId: string) => {
   return res
 }
 
-export const createPage = async (databaseId: string) => {
+export const createPage = async (
+  databaseId: string,
+  title: string,
+  blocks: BlockObjectRequest[]
+) => {
+  const props = {
+    Name: {
+      title: [{ text: { content: title } }],
+    },
+  }
   const res = notion.pages.create({
-    parent: {
-      database_id: databaseId,
-    },
-    properties: {
-      Name: {
-        title: [
-          {
-            text: {
-              content: 'foo',
-            },
-          },
-        ],
-      },
-    },
+    parent: { database_id: databaseId },
+    properties: props,
+    children: blocks,
   })
   return res
 }
