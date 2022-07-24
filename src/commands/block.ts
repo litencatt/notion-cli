@@ -1,8 +1,8 @@
 import { Command, Flags } from '@oclif/core'
 import {
-  retreiveBlock,
+  retrieveBlock,
   updateBlock,
-  retreiveBlockChildren,
+  retrieveBlockChildren,
   appendBlockChildren,
   deleteBlock,
 } from '../notion'
@@ -16,7 +16,7 @@ export default class Block extends Command {
     retrieve: Flags.boolean({ char: 'r' }),
     update: Flags.boolean({ char: 'u' }),
     delete: Flags.boolean({ char: 'd' }),
-    retreiveChildren: Flags.boolean({ char: 'c' }),
+    retrieveChildren: Flags.boolean({ char: 'c' }),
     appendChildren: Flags.boolean({ char: 'a' }),
   }
 
@@ -25,15 +25,15 @@ export default class Block extends Command {
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(Block)
     if (flags.retrieve) {
-      const res = await retreiveBlock(args.block_id)
+      const res = await retrieveBlock(args.block_id)
       console.dir(res, { depth: null })
     }
     if (flags.update) {
       const res = await updateBlock(args.block_id)
       console.dir(res, { depth: null })
     }
-    if (flags.retreiveChildren) {
-      const res = await retreiveBlockChildren(args.block_id)
+    if (flags.retrieveChildren) {
+      const res = await retrieveBlockChildren(args.block_id)
       console.dir(res, { depth: null })
     }
     if (flags.appendChildren) {

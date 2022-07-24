@@ -140,9 +140,17 @@ const retrieveResponse = (res: GetDatabaseResponse, options: any) => {
   return output.join('\n')
 }
 
-export const retreivePage = async (pageId: string) => {
+export const retrievePage = async (pageId: string) => {
   const res = notion.pages.retrieve({
     page_id: pageId,
+  })
+  return res
+}
+
+export const retrievePageProperty = async (pageId: string, propId: string) => {
+  const res = notion.pages.properties.retrieve({
+    page_id: pageId,
+    property_id: propId,
   })
   return res
 }
@@ -183,7 +191,7 @@ export const updatePage = async (pageId: string) => {
   return res
 }
 
-export const retreiveBlock = async (blockId: string) => {
+export const retrieveBlock = async (blockId: string) => {
   const res = notion.blocks.retrieve({
     block_id: blockId,
   })
@@ -197,7 +205,7 @@ export const updateBlock = async (blockId: string) => {
   return res
 }
 
-export const retreiveBlockChildren = async (blockId: string) => {
+export const retrieveBlockChildren = async (blockId: string) => {
   const res = notion.blocks.children.list({
     block_id: blockId,
   })
@@ -219,7 +227,7 @@ export const deleteBlock = async (blockId: string) => {
   return res
 }
 
-export const retreiveUser = async (userId: string) => {
+export const retrieveUser = async (userId: string) => {
   return await notion.users.retrieve({
     user_id: userId,
   })

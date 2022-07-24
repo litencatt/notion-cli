@@ -1,5 +1,5 @@
 import { Command, Flags } from '@oclif/core'
-import { retreiveUser, listUser } from '../notion'
+import { retrieveUser, listUser } from '../notion'
 
 export default class User extends Command {
   static description = 'describe the command here'
@@ -16,7 +16,7 @@ export default class User extends Command {
     const { flags } = await this.parse(User)
 
     if (flags.retrieve && flags.user_id) {
-      const res = await retreiveUser(flags.user_id)
+      const res = await retrieveUser(flags.user_id)
       console.dir(res, { depth: null })
     }
     if (flags.list) {
