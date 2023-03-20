@@ -466,7 +466,7 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^1", "@oclif/core@^1.0.8", "@oclif/core@^1.2.0", "@oclif/core@^1.2.1", "@oclif/core@^1.6.4":
+"@oclif/core@^1", "@oclif/core@^1.0.8", "@oclif/core@^1.2.1", "@oclif/core@^1.6.4":
   version "1.26.2"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.26.2.tgz#763c68dc91388225acd6f0819c90f93e5d8cde41"
   integrity sha512-6jYuZgXvHfOIc9GIaS4T3CIKGTjPmfAxuMcbCbMRKJJl4aq/4xeRlEz0E8/hz8HxvxZBGvN2GwAUHlrGWQVrVw==
@@ -500,7 +500,7 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^2.3.1", "@oclif/core@^2.6.4":
+"@oclif/core@^2.3.1", "@oclif/core@^2.6.2", "@oclif/core@^2.6.4":
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.6.4.tgz#40a35355fece01cdedecaf8d8d523d92d47a408b"
   integrity sha512-QkmPEdMsC8z/9d02bQvYZuviJhvK92YD/GJ5LlUk7cc8hEZ1JOLSwFg3i2EjlLNXn8OtOQHoe+EeOEaRWROuVA==
@@ -541,11 +541,11 @@
   integrity sha512-Ups2dShK52xXa8w6iBWLgcjPJWjais6KPJQq3gQ/88AY6BXoTX+MIGFPrWQO1KLMiQfoTpcLnUwloN4brrVUHw==
 
 "@oclif/plugin-help@^5", "@oclif/plugin-help@^5.1.11":
-  version "5.1.11"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.1.11.tgz#9c546959e0dc1b4db107b77686264e71680b9434"
-  integrity sha512-rWw1tIldlv54zMG804kHmftkaS007IMUkSclLX5sWtAyTrKM0HE730HmIg6ucbeFBrj0pXeDO1mXG/RZAC98tw==
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.2.8.tgz#25821ea8588b59e5554187611ce58b8a95d4e90d"
+  integrity sha512-Fl1DD6Hm7USG/BYqcUmc/hMXK6Bnd3HvkZsRG+qi0dbYaNtY9zJ58C5b3lgPn69bXJlyi1eWX4S8djSUWD8VYg==
   dependencies:
-    "@oclif/core" "^1.2.0"
+    "@oclif/core" "^2.6.2"
 
 "@oclif/plugin-not-found@^2.3.1":
   version "2.3.1"
