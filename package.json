@@ -21,7 +21,7 @@
     "@oclif/core": "^1",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.1.0",
-    "@tryfabric/martian": "^1.2.0"
+    "@tryfabric/martian": "^1.2.4"
   },
   "devDependencies": {
     "@notion-stuff/v4-types": "^5.1.0",
