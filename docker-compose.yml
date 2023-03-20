@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: node:latest
+    environment:
+      NOTION_TOKEN: $NOTION_TOKEN
+    volumes:
+      - .:/app
+    working_dir: /app
