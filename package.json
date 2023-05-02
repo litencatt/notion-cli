@@ -45,8 +45,8 @@
     "typescript": "^4.9.5"
   },
   "oclif": {
-    "bin": "notion-cli-ts",
-    "dirname": "notion-cli-ts",
+    "bin": "notion-cli",
+    "dirname": "notion-cli",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",
