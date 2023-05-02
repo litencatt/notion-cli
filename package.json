@@ -4,7 +4,7 @@
   "description": "Notion CLI",
   "author": "litencatt",
   "bin": {
-    "notion-cli-ts": "./bin/run"
+    "notion-cli": "./bin/run"
   },
   "homepage": "https://github.com/litencatt/notion-cli-ts",
   "license": "MIT",
