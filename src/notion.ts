@@ -168,6 +168,7 @@ export const createPage = async (
   const res = notion.pages.create({
     parent: { database_id: databaseId },
     properties: props,
+    // @ts-ignore
     children: blocks,
   })
   return res

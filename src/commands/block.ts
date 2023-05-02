@@ -1,4 +1,4 @@
-import { Command, Flags } from '@oclif/core'
+import { Args, Command, Flags } from '@oclif/core'
 import {
   retrieveBlock,
   updateBlock,
@@ -20,7 +20,9 @@ export default class Block extends Command {
     appendChildren: Flags.boolean({ char: 'a' }),
   }
 
-  static args = [{ name: 'block_id' }]
+  static args = {
+    block_id: Args.string({descriptin: 'block_id', required: true}),
+  }
 
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(Block)
