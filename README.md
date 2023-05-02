@@ -16,7 +16,7 @@ $ npm install -g notion-cli-ts
 $ notion-cli-ts COMMAND
 running command...
 $ notion-cli-ts (--version)
-notion-cli-ts/0.2.0 linux-arm64 node-v19.8.1
+notion-cli-ts/0.4.0 linux-arm64 node-v19.8.1
 $ notion-cli-ts --help [COMMAND]
 USAGE
   $ notion-cli-ts COMMAND
@@ -64,7 +64,7 @@ EXAMPLES
   $ notion-cli-ts block
 ```
 
-_See code: [dist/commands/block.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.2.0/dist/commands/block.ts)_
+_See code: [dist/commands/block.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.4.0/dist/commands/block.ts)_
 
 ## `notion-cli-ts db`
 
@@ -92,7 +92,7 @@ EXAMPLES
   $ notion-cli-ts db
 ```
 
-_See code: [dist/commands/db.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.2.0/dist/commands/db.ts)_
+_See code: [dist/commands/db.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.4.0/dist/commands/db.ts)_
 
 ## `notion-cli-ts help [COMMANDS]`
 
@@ -141,7 +141,7 @@ EXAMPLES
   $ notion-cli-ts page
 ```
 
-_See code: [dist/commands/page.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.2.0/dist/commands/page.ts)_
+_See code: [dist/commands/page.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.4.0/dist/commands/page.ts)_
 
 ## `notion-cli-ts plugins`
 
@@ -397,5 +397,5 @@ EXAMPLES
   $ notion-cli-ts user
 ```
 
-_See code: [dist/commands/user.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.2.0/dist/commands/user.ts)_
+_See code: [dist/commands/user.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.4.0/dist/commands/user.ts)_
 <!-- commandsstop -->
