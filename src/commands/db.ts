@@ -130,6 +130,11 @@ export default class Db extends Command {
         ]
       })
       const pages = await queryDb(database.database, filter)
+      if (pages.length == 0) {
+        this.log("No pages found")
+        return
+      }
+
       // Get update target page IDs
       const updatePageIDs = []
       for (const page of pages) {
