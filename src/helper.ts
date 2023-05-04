@@ -56,29 +56,29 @@ export const buildDatabaseQueryFilter = async (
   name: string,
   type: string,
   value: string
-): Promise<string|null> =>  {
+): Promise<object|null> =>  {
   switch (type) {
     case 'number':
-      return JSON.stringify({
+      return {
         property: name,
         [type]: {
           equals: value
         }
-      })
+      }
     case 'select':
-      return JSON.stringify({
+      return {
         property: name,
         [type]: {
           equals: value
         }
-      })
+      }
     case 'multi_select':
-      return JSON.stringify({
+      return {
         property: name,
         [type]: {
           contains: value
         }
-      })
+      }
   }
   return null
 }

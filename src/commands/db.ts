@@ -119,48 +119,63 @@ export default class Db extends Command {
           options: options
         })
       })
-      // console.dir(propChoices, {depth: null})
-      // Select a property
-      const promptPropResult = await prompts([
-        {
-          type: 'autocomplete',
-          name: 'property',
-          message: 'select a property',
-          choices: propChoices
-        },
-      ])
 
-      const selectedProp = propChoices.find((p) => {
-        return p.value == promptPropResult.property
-      })
-      if (selectedProp?.type == undefined) {
-        console.log("selectedProp.type is undefined")
-        return
-      }
+      // Build
+      const filter = { and: []}
+      while (true) {
+        // Select a property
+        const promptPropResult = await prompts([
+          {
+            type: 'autocomplete',
+            name: 'property',
+            message: 'select a property',
+            choices: propChoices
+          },
+        ])
 
-      // Select/Input a value for filtering
-      const fpp = await buildFilterPagePrompt(selectedProp)
-      //console.log(prompt)
-      const promptFilterPropResult = await prompts(fpp)
-      let filterValue = promptFilterPropResult.value
-      switch (selectedProp.type) {
-        case 'multi_select':
-          // Extract a value from prompt result
-          filterValue = promptFilterPropResult.value[0]
-      }
+        const selectedProp = propChoices.find((p) => {
+          return p.value == promptPropResult.property
+        })
+        if (selectedProp?.type == undefined) {
+          console.log("selectedProp.type is undefined")
+          return
+        }
 
-      // Build Filter and Filtering
-      const filter = await buildDatabaseQueryFilter(
-        selectedProp.value,
-        selectedProp.type,
-        filterValue
-      )
-      // console.log(filter)
-      if (filter == null) {
-        console.log("Error buildFilter")
-        return
+        // Select/Input a value for filtering
+        const fpp = await buildFilterPagePrompt(selectedProp)
+        //console.log(prompt)
+        const promptFilterPropResult = await prompts(fpp)
+        let filterValue = promptFilterPropResult.value
+        switch (selectedProp.type) {
+          case 'multi_select':
+            // Extract a value from prompt result
+            filterValue = promptFilterPropResult.value[0]
+        }
+        const buildFilter = await buildDatabaseQueryFilter(
+          selectedProp.value,
+          selectedProp.type,
+          filterValue
+        )
+        // console.log(filter)
+        if (buildFilter == null) {
+          console.log("Error buildFilter")
+          return
+        }
+        filter.and.push(buildFilter)
+
+        const promptConfirmResult = await prompts({
+          type: 'confirm',
+          name: 'value',
+          message: 'Can you confirm?',
+          initial: true
+        })
+        if (promptConfirmResult.value) {
+          break
+        }
       }
-      const pages = await queryDb(db.database_id, filter)
+      console.log(filter)
+
+      const pages = await queryDb(db.database_id, JSON.stringify(filter))
       if (pages.length == 0) {
         console.log("No pages found")
         return
