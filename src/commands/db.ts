@@ -3,8 +3,8 @@ const  prompts  = require('prompts')
 
 import { queryDb, createDb, updateDb, retrieveDb, searchDb, updatePage } from '../notion'
 import { PromptChoice } from '../interface'
-import { buildFilterPagePrompt, buildFilter, buildUpdateData } from '../helper'
-import { isFullDatabase } from '@notionhq/client'
+import { buildFilterPagePrompt, buildFilter, buildPagePropUpdateData } from '../helper'
+import { isFullDatabase, isFullPage } from '@notionhq/client'
 
 export default class Db extends Command {
   static description = 'describe the command here'
@@ -121,7 +121,7 @@ export default class Db extends Command {
       })
       console.dir(propChoices, {depth: null})
       // Select a property
-      const promptPropertyResult = await prompts([
+      const promptPropResult = await prompts([
         {
           type: 'autocomplete',
           name: 'property',
@@ -129,25 +129,25 @@ export default class Db extends Command {
           choices: propChoices
         },
       ])
-      // this.log(promptPropertyResult)
-      const selectedProperty = propChoices.find((p) => {
-        return p.value == promptPropertyResult.property
+
+      const selectedProp = propChoices.find((p) => {
+        return p.value == promptPropResult.property
       })
-      if (selectedProperty?.type == undefined) {
-        console.log("selectedProperty.type is undefined")
+      if (selectedProp?.type == undefined) {
+        console.log("selectedProp.type is undefined")
         return
       }
 
       // Select/Input a value for filtering
-      const fpp = await buildFilterPagePrompt(selectedProperty)
+      const fpp = await buildFilterPagePrompt(selectedProp)
       //console.log(prompt)
       const promptFilterPropResult = await prompts(fpp)
       //console.log(selectedPropValue)
 
       // Build Filter and Filtering
       const filter = await buildFilter(
-        selectedProperty.value,
-        selectedProperty.type,
+        selectedProp.value,
+        selectedProp.type,
         promptFilterPropResult.value
       )
       console.log(filter)
@@ -162,16 +162,25 @@ export default class Db extends Command {
       }
 
       // Get update target page IDs
+      console.log("Update Target Page IDs:")
       const updatePageIDs = []
       for (const page of pages) {
         updatePageIDs.push(page.id)
-        // @ts-ignore
-        //console.log(page.properties.name.title[0].plain_text)
+        if (page.object != "page") {
+          continue
+        }
+        if (!isFullPage(page)) {
+          continue
+        }
+        Object.entries(page.properties).forEach(([_, prop]) => {
+          if (prop.type == "title") {
+            console.log(`title: ${prop.title[0].plain_text}, page_id: ${page.id}`)
+          }
+        })
       }
-      console.log(updatePageIDs)
 
       // Select a update property
-      const selectUpdateProp = await prompts([
+      const promptSelectUpdatePropResult = await prompts([
         {
           type: 'autocomplete',
           name: 'property',
@@ -179,10 +188,10 @@ export default class Db extends Command {
           choices: propChoices
         },
       ])
-      this.log(selectUpdateProp)
+      this.log(promptSelectUpdatePropResult)
       //
       const updateTargetProp = propChoices.find((p) => {
-        return p.value == selectUpdateProp.property
+        return p.value == promptSelectUpdatePropResult.property
       })
       if (updateTargetProp?.type == undefined) {
         this.log(`${updateTargetProp} is not found`)
@@ -190,17 +199,20 @@ export default class Db extends Command {
       }
 
       const upp = await buildFilterPagePrompt(updateTargetProp)
-      const updateProp = await prompts(upp)
+      const promptUpdatePropValueResult = await prompts(upp)
 
-      const updateData = await buildUpdateData(
+      const updateData = await buildPagePropUpdateData(
         updateTargetProp.value,
         updateTargetProp.type,
-        updateProp.value
+        promptUpdatePropValueResult.value
       )
-      console.log(updateData)
+      console.log("Start Update Pages")
       for (const pageId of updatePageIDs) {
+        console.log(`page_id: ${pageId}, updateData:`)
+        console.dir(updateData, {depth: null})
         await updatePage(pageId, updateData)
       }
+      console.log("End Update Pages")
     }
   }
 }

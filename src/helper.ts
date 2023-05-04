@@ -84,7 +84,7 @@ export const buildFilter = async (
   return null
 }
 
-export const buildUpdateData = async (
+export const buildPagePropUpdateData = async (
   name: string,
   type: string,
   value: string
