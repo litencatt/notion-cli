@@ -26,7 +26,7 @@ export const queryDb = async (
 ): Promise<QueryDatabaseResponse['results']> => {
   const resArr = []
   const f = buildFilter(filter)
-  console.log(f)
+  // console.log(f)
   const res = await notion.databases.query({
     database_id: databaseId,
     filter: f,

@@ -91,7 +91,7 @@ export default class Db extends Command {
       // FIXME: 対応タイプを増やす
       const propChoices: PromptChoice[] = []
       const selectedDb = await retrieveDb(db.database_id, {})
-      console.dir(selectedDb, {depth: null})
+      // console.dir(selectedDb, {depth: null})
       Object.entries(selectedDb.properties).forEach(([_, prop]) => {
         const options = []
         switch (prop.type) {
@@ -119,7 +119,7 @@ export default class Db extends Command {
           options: options
         })
       })
-      console.dir(propChoices, {depth: null})
+      // console.dir(propChoices, {depth: null})
       // Select a property
       const promptPropResult = await prompts([
         {
@@ -155,14 +155,14 @@ export default class Db extends Command {
         selectedProp.type,
         filterValue
       )
-      console.log(filter)
+      // console.log(filter)
       if (filter == null) {
         console.log("Error buildFilter")
         return
       }
       const pages = await queryDb(db.database_id, filter)
       if (pages.length == 0) {
-        this.log("No pages found")
+        console.log("No pages found")
         return
       }
 
@@ -183,6 +183,7 @@ export default class Db extends Command {
           }
         })
       }
+      console.log("")
 
       // Select a update property
       const promptSelectUpdatePropResult = await prompts([
@@ -193,13 +194,12 @@ export default class Db extends Command {
           choices: propChoices
         },
       ])
-      this.log(promptSelectUpdatePropResult)
-      //
+      // console.log(promptSelectUpdatePropResult)
       const updateTargetProp = propChoices.find((p) => {
         return p.value == promptSelectUpdatePropResult.property
       })
       if (updateTargetProp?.type == undefined) {
-        this.log(`${updateTargetProp} is not found`)
+        console.log(`${updateTargetProp} is not found`)
         return
       }
 
