@@ -21,7 +21,8 @@
     "@oclif/core": "^2",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.4.7",
-    "@tryfabric/martian": "^1.2.4"
+    "@tryfabric/martian": "^1.2.4",
+    "prompts": "^2.4.2"
   },
   "devDependencies": {
     "@notion-stuff/v4-types": "^5.1.0",
@@ -29,6 +30,7 @@
     "@types/chai": "^4",
     "@types/mocha": "^9.1.0",
     "@types/node": "^16.18.25",
+    "@types/prompts": "^2.4.4",
     "chai": "^4",
     "eslint": "^8.39.0",
     "eslint-config-oclif": "^4",
