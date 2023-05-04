@@ -24,32 +24,25 @@ export const queryDb = async (
   databaseId: string,
   filter: string | null
 ): Promise<QueryDatabaseResponse['results']> => {
-  const resArr = []
   const f = buildFilter(filter)
   // console.log(f)
-  const res = await notion.databases.query({
-    database_id: databaseId,
-    filter: f,
-  })
-  resArr.push(...res.results)
 
-  // fetch all pages
-  let hasMore = res.has_more
-  let nextCursor = res.next_cursor
+  const pages = []
+  let cursor: string | undefined = undefined
   while (true) {
-    if (!hasMore || nextCursor == null) {
-      break
-    }
-    const tmp = await notion.databases.query({
+    const { results, next_cursor } = await notion.databases.query({
       database_id: databaseId,
       filter: f,
-      start_cursor: nextCursor,
+      start_cursor: cursor
     })
-    hasMore = tmp.has_more
-    nextCursor = tmp.next_cursor
-    resArr.push(...tmp.results)
+    pages.push(...results)
+    if (!next_cursor) {
+      break
+    }
+    cursor = next_cursor
   }
-  return resArr
+
+  return pages
 }
 
 const buildFilter = (
