@@ -1,4 +1,4 @@
-import { Client } from '@notionhq/client'
+import { Client, LogLevel } from '@notionhq/client'
 import {
   QueryDatabaseParameters,
   QueryDatabaseResponse,
@@ -17,6 +17,7 @@ import { text } from 'stream/consumers'
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
+  // logLevel: LogLevel.DEBUG
 })
 
 export const queryDb = async (
