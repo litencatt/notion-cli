@@ -134,7 +134,7 @@ export default class Db extends Command {
         if (Object.keys(filter).length != 0 && filterOperator == undefined) {
           const promptAndOrPropResult = await prompts([
             {
-              type: 'select',
+              type: 'autocomplete',
               name: 'operator',
               message: 'select and/or',
               choices: [
