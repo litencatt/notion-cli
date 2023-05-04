@@ -199,7 +199,9 @@ export default class Db extends Command {
           break
         }
       }
+      console.log("Filter:")
       console.log(filter)
+      console.log("")
 
       const pages = await queryDb(db.database_id, JSON.stringify(filter))
       if (pages.length == 0) {
