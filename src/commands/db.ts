@@ -121,7 +121,7 @@ export default class Db extends Command {
       })
       console.dir(propChoices, {depth: null})
       // Select a property
-      const selectedPropResult = await prompts([
+      const promptPropertyResult = await prompts([
         {
           type: 'autocomplete',
           name: 'property',
@@ -129,32 +129,26 @@ export default class Db extends Command {
           choices: propChoices
         },
       ])
-      this.log(selectedPropResult)
-      const selectedProp = propChoices.find((p) => {
-        return p.value == selectedPropResult.property
+      // this.log(promptPropertyResult)
+      const selectedProperty = propChoices.find((p) => {
+        return p.value == promptPropertyResult.property
       })
-      if (selectedProp?.type == undefined) {
-        console.log("selectedProp.type is null")
+      if (selectedProperty?.type == undefined) {
+        console.log("selectedProperty.type is undefined")
         return
       }
 
       // Select/Input a value for filtering
-      const fpp = await buildFilterPagePrompt(selectedProp)
+      const fpp = await buildFilterPagePrompt(selectedProperty)
       //console.log(prompt)
-      const filterProp = await prompts(fpp)
+      const promptFilterPropResult = await prompts(fpp)
       //console.log(selectedPropValue)
 
       // Build Filter and Filtering
-      console.log(propChoices)
-      if (selectedProp.options == null) {
-        console.log("selectedProp.options is null")
-        return
-      }
-
       const filter = await buildFilter(
-        selectedProp.value,
-        selectedProp.type,
-        filterProp.value
+        selectedProperty.value,
+        selectedProperty.type,
+        promptFilterPropResult.value
       )
       console.log(filter)
       if (filter == null) {
