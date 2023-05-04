@@ -122,7 +122,7 @@ export default class Db extends Command {
 
       // Build
       let filter = {}
-      let filterOperator
+      let filterOperator = undefined
       const promptAddFilterResult = await prompts({
         type: 'confirm',
         name: 'value',
@@ -131,7 +131,7 @@ export default class Db extends Command {
       })
 
       while (promptAddFilterResult.value) {
-        if (Object.keys(filter).length != 0) {
+        if (Object.keys(filter).length != 0 && filterOperator == undefined) {
           const promptAndOrPropResult = await prompts([
             {
               type: 'select',
