@@ -23,8 +23,12 @@ export interface RelationKey {
   value: string
 }
 
-export interface PromptItem {
+export interface PromptChoice {
   title: string
   value: string
   type: string
+  options: {
+    id: string
+    name: string
+  }[] | null
 }
