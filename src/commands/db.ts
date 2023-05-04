@@ -58,7 +58,7 @@ export default class Db extends Command {
     if (Object.keys(flags).length === 0) {
       // Search DB
       const dbs = await searchDb()
-      const dbObj = []
+      const dbChoices = []
       for (const db of dbs) {
         if (db.object != "database") {
           continue
@@ -69,28 +69,28 @@ export default class Db extends Command {
         if (db.title[0] == null) {
           continue
         }
-        dbObj.push({
+        dbChoices.push({
           title: db.title[0].plain_text,
           value: db.id,
         })
       }
-      const databaseChoices = dbObj.sort((a,b)=> {
+      const sortedDbChoices = dbChoices.sort((a,b)=> {
         return a.title.localeCompare(b.title)
       })
-      const database = await prompts([
+      const db = await prompts([
         {
           type: 'autocomplete',
-          name: 'database',
+          name: 'database_id',
           message: 'Select a database',
-          choices: databaseChoices
+          choices: sortedDbChoices
         },
       ])
-      this.log(database.database)
+      //console.log(db.database_id)
 
       // Search properties of DB
       // FIXME: 対応タイプを増やす
       const propChoices: PromptChoice[] = []
-      const selectedDb = await retrieveDb(database.database, {})
+      const selectedDb = await retrieveDb(db.database_id, {})
       console.dir(selectedDb, {depth: null})
       Object.entries(selectedDb.properties).forEach(([_, prop]) => {
         const options = []
@@ -161,7 +161,7 @@ export default class Db extends Command {
         console.log("Error buildFilter")
         return
       }
-      const pages = await queryDb(database.database, filter)
+      const pages = await queryDb(db.database_id, filter)
       if (pages.length == 0) {
         this.log("No pages found")
         return
