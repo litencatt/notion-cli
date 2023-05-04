@@ -1,6 +1,6 @@
 import { Command, Flags } from '@oclif/core'
 const  prompts  = require('prompts')
-import { queryDb, createDb, updateDb, retrieveDb, searchDb } from '../notion'
+import { queryDb, createDb, updateDb, retrieveDb, searchDb, updatePage } from '../notion'
 import { PromptItem } from '../interface'
 
 export default class Db extends Command {
@@ -119,7 +119,7 @@ export default class Db extends Command {
 
       // Build Filter and Filtering
       // propがnumberの場合
-      const pages = await queryDb(database.database, JSON.stringify({
+      const filter = JSON.stringify({
         and: [
           {
             property: choicedProp.property,
@@ -128,15 +128,50 @@ export default class Db extends Command {
             }
           }
         ]
-      }))
+      })
+      const pages = await queryDb(database.database, filter)
+      // Get update target page IDs
+      const updatePageIDs = []
       for (const page of pages) {
+        updatePageIDs.push(page.id)
         // @ts-ignore
         console.log(page.properties.name.title[0].plain_text)
       }
-      // Show page IDs
-      // Select a update column
-      // Set a value for update column
+
+      // Select a update column and set value
+      const choicedProp2 = await prompts([
+        {
+          type: 'autocomplete',
+          name: 'property',
+          message: 'select a property',
+          choices: propChoices
+        },
+        {
+          type: 'number',
+          name: 'value',
+          message: 'input a number',
+        }
+      ])
+      this.log(choicedProp2)
+      const choicedPropType2 = propChoices.find((a) => {
+        return a.value == choicedProp2.property
+      })?.type
+
+      if (choicedPropType2 == undefined) {
+        this.log(`${choicedPropType2} is not found`)
+        return
+      }
       // Update
+      // Support Number only now
+      for (const pageId of updatePageIDs) {
+        const updateData = {
+          [choicedProp2.property]: {
+            [choicedPropType2]: choicedProp2.value
+          }
+        }
+        console.log(updateData)
+        await updatePage(pageId, updateData)
+      }
     }
   }
 }

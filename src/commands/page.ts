@@ -52,7 +52,7 @@ export default class Page extends Command {
     }
     // Update a page
     if (flags.update && flags.page_id) {
-      const res = await updatePage(flags.page_id)
+      const res = await updatePage(flags.page_id, {})
       console.dir(res, { depth: null })
     }
   }

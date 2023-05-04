@@ -4,7 +4,10 @@ import {
   QueryDatabaseResponse,
   GetDatabaseResponse,
   CreateDatabaseResponse,
+  UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
+type UpdatePageBodyParameters = Omit<UpdatePageParameters, 'page_id'>
+
 
 import { markdownToBlocks } from '@tryfabric/martian'
 type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
@@ -175,20 +178,13 @@ export const createPage = async (
   return res
 }
 
-export const updatePage = async (pageId: string) => {
+export const updatePage = async (
+  pageId: string,
+  properties: any
+) => {
   const res = notion.pages.update({
     page_id: pageId,
-    properties: {
-      Name: {
-        title: [
-          {
-            text: {
-              content: 'bar',
-            },
-          },
-        ],
-      },
-    },
+    properties: properties,
   })
   return res
 }
