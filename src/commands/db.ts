@@ -130,7 +130,8 @@ export default class Db extends Command {
         ]
       }))
       for (const page of pages) {
-        console.log(page)
+        // @ts-ignore
+        console.log(page.properties.name.title[0].plain_text)
       }
       // Show page IDs
       // Select a update column
