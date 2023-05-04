@@ -121,8 +121,35 @@ export default class Db extends Command {
       })
 
       // Build
-      const filter = { and: []}
-      while (true) {
+      let filter = {and: []}
+      const promptAddFilterResult = await prompts({
+        type: 'confirm',
+        name: 'value',
+        message: 'Add filter?',
+        initial: true
+      })
+
+      while (promptAddFilterResult.value) {
+        if (Object.keys(filter).length > 0) {
+          const promptAndOrPropResult = await prompts([
+            {
+              type: 'select',
+              name: 'operator',
+              message: 'select and/or',
+              choices: [
+                { title: 'and', value: 'and' },
+                { title: 'or', value: 'or' },
+              ]
+            },
+          ])
+          if (promptAndOrPropResult.operator == 'and') {
+            const tmp = filter
+            filter = { and: []}
+            filter["and"].push(tmp)
+          }
+        }
+        console.log(filter)
+
         // Select a property
         const promptPropResult = await prompts([
           {
@@ -199,6 +226,16 @@ export default class Db extends Command {
         })
       }
       console.log("")
+
+      const promptConfirmUpdatePropResult = await prompts({
+        type: 'confirm',
+        name: 'value',
+        message: 'Update property?',
+        initial: true
+      })
+      if (!promptConfirmUpdatePropResult.value) {
+        return
+      }
 
       // Select a update property
       const promptSelectUpdatePropResult = await prompts([
