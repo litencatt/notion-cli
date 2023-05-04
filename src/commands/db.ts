@@ -1,8 +1,10 @@
 import { Command, Flags } from '@oclif/core'
 const  prompts  = require('prompts')
+
 import { queryDb, createDb, updateDb, retrieveDb, searchDb, updatePage } from '../notion'
 import { PromptChoice } from '../interface'
 import { buildFilterPagePrompt, buildFilter, buildUpdateData } from '../helper'
+import { isFullDatabase } from '@notionhq/client'
 
 export default class Db extends Command {
   static description = 'describe the command here'
@@ -58,12 +60,16 @@ export default class Db extends Command {
       const dbs = await searchDb()
       const dbObj = []
       for (const db of dbs) {
-        // @ts-ignore
+        if (db.object != "database") {
+          continue
+        }
+        if (!isFullDatabase(db)) {
+          continue
+        }
         if (db.title[0] == null) {
           continue
         }
         dbObj.push({
-          // @ts-ignore
           title: db.title[0].plain_text,
           value: db.id,
         })
