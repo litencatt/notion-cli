@@ -19,14 +19,15 @@ const notion = new Client({
 export const queryDb = async (
   databaseId: string,
   filter: string | null
-): Promise<QueryDatabaseResponse['results'][]> => {
+): Promise<QueryDatabaseResponse['results']> => {
   const resArr = []
   const f = buildFilter(filter)
+  console.log(f)
   const res = await notion.databases.query({
     database_id: databaseId,
     filter: f,
   })
-  resArr.push(res.results)
+  resArr.push(...res.results)
 
   // fetch all pages
   let hasMore = res.has_more
@@ -42,7 +43,7 @@ export const queryDb = async (
     })
     hasMore = tmp.has_more
     nextCursor = tmp.next_cursor
-    resArr.push(tmp.results)
+    resArr.push(...tmp.results)
   }
   return resArr
 }
@@ -109,7 +110,7 @@ export const updateDb = async (
 export const retrieveDb = async (
   databaseId: string,
   options: any
-): Promise<any> => {
+): Promise<GetDatabaseResponse> => {
   const res = await notion.databases.retrieve({ database_id: databaseId })
   return retrieveResponse(res, options)
 }
@@ -245,4 +246,14 @@ export const listUser = async () => {
 
 export const botUser = async () => {
   return await notion.users.me({})
+}
+
+export const searchDb = async () => {
+  const { results } = await notion.search({
+    filter: {
+      value: 'database',
+      property: 'object'
+    }
+  })
+  return results
 }
