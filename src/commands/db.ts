@@ -3,7 +3,7 @@ const  prompts  = require('prompts')
 
 import { queryDb, createDb, updateDb, retrieveDb, searchDb, updatePage } from '../notion'
 import { PromptChoice } from '../interface'
-import { buildFilterPagePrompt, buildFilter, buildPagePropUpdateData } from '../helper'
+import { buildFilterPagePrompt, buildDatabaseQueryFilter, buildPagePropUpdateData } from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 
 export default class Db extends Command {
@@ -142,13 +142,18 @@ export default class Db extends Command {
       const fpp = await buildFilterPagePrompt(selectedProp)
       //console.log(prompt)
       const promptFilterPropResult = await prompts(fpp)
-      //console.log(selectedPropValue)
+      let filterValue = promptFilterPropResult.value
+      switch (selectedProp.type) {
+        case 'multi_select':
+          // Extract a value from prompt result
+          filterValue = promptFilterPropResult.value[0]
+      }
 
       // Build Filter and Filtering
-      const filter = await buildFilter(
+      const filter = await buildDatabaseQueryFilter(
         selectedProp.value,
         selectedProp.type,
-        promptFilterPropResult.value
+        filterValue
       )
       console.log(filter)
       if (filter == null) {

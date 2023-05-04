@@ -38,7 +38,7 @@ export const buildFilterPagePrompt = async (
       const mSchoices = choice.options.map((co) => {
         return {
           title: co.name,
-          value: co.id
+          value: co.name
         }
       })
       return {
@@ -52,7 +52,7 @@ export const buildFilterPagePrompt = async (
   }
 }
 
-export const buildFilter = async (
+export const buildDatabaseQueryFilter = async (
   name: string,
   type: string,
   value: string
@@ -80,6 +80,17 @@ export const buildFilter = async (
           }
         ]
       })
+    case 'multi_select':
+      return JSON.stringify({
+        and: [
+          {
+            property: name,
+            [type]: {
+              contains: value
+            }
+          }
+        ]
+      })
   }
   return null
 }
@@ -102,6 +113,18 @@ export const buildPagePropUpdateData = async (
           [type]: {
             name: value
           }
+        }
+      }
+    case 'multi_select':
+      const nameObjects = []
+      for (const val of value) {
+        nameObjects.push({
+          name: val
+        })
+      }
+      return {
+        [name]: {
+          [type]: nameObjects
         }
       }
   }
