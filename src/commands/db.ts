@@ -121,7 +121,8 @@ export default class Db extends Command {
       })
 
       // Build
-      let filter = {and: []}
+      let filter = {}
+      let filterOperator
       const promptAddFilterResult = await prompts({
         type: 'confirm',
         name: 'value',
@@ -130,7 +131,7 @@ export default class Db extends Command {
       })
 
       while (promptAddFilterResult.value) {
-        if (Object.keys(filter).length > 0) {
+        if (Object.keys(filter).length != 0) {
           const promptAndOrPropResult = await prompts([
             {
               type: 'select',
@@ -142,23 +143,18 @@ export default class Db extends Command {
               ]
             },
           ])
-          if (promptAndOrPropResult.operator == 'and') {
-            const tmp = filter
-            filter = { and: []}
-            filter["and"].push(tmp)
-          }
+          const tmp = filter
+          filterOperator = promptAndOrPropResult.operator
+          filter = {[filterOperator]: [tmp]}
         }
-        console.log(filter)
 
         // Select a property
-        const promptPropResult = await prompts([
-          {
-            type: 'autocomplete',
-            name: 'property',
-            message: 'select a property',
-            choices: propChoices
-          },
-        ])
+        const promptPropResult = await prompts({
+          type: 'autocomplete',
+          name: 'property',
+          message: 'select a property',
+          choices: propChoices
+        })
 
         const selectedProp = propChoices.find((p) => {
           return p.value == promptPropResult.property
@@ -178,25 +174,28 @@ export default class Db extends Command {
             // Extract a value from prompt result
             filterValue = promptFilterPropResult.value[0]
         }
-        const buildFilter = await buildDatabaseQueryFilter(
+        const filterObj = await buildDatabaseQueryFilter(
           selectedProp.value,
           selectedProp.type,
           filterValue
         )
-        // console.log(filter)
-        if (buildFilter == null) {
+        if (filterObj == null) {
           console.log("Error buildFilter")
           return
         }
-        filter.and.push(buildFilter)
+        if (Object.keys(filter).length == 0) {
+          filter = filterObj
+        } else {
+          filter[filterOperator].push(filterObj)
+        }
 
-        const promptConfirmResult = await prompts({
+        const promptConfirmAddFilterFinishResult = await prompts({
           type: 'confirm',
           name: 'value',
-          message: 'Can you confirm?',
+          message: 'Finish add filter?',
           initial: true
         })
-        if (promptConfirmResult.value) {
+        if (promptConfirmAddFilterFinishResult.value) {
           break
         }
       }
