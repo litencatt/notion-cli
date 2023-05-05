@@ -1,3 +1,8 @@
+import {
+  GetDatabaseResponse,
+  PartialDatabaseObjectResponse
+} from '@notionhq/client/build/src/api-endpoints'
+
 export interface Setting {
   name: string
   enable: boolean
@@ -31,4 +36,9 @@ export interface PromptChoice {
     id: string
     name: string
   }[] | null
+}
+
+export interface IPromptChoice {
+  title: string
+  value: string
 }

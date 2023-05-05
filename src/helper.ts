@@ -1,9 +1,29 @@
-import { PromptChoice } from './interface'
+import {
+    GetDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints'
+import { PromptChoice, IPromptChoice } from './interface'
+import { promises } from 'dns'
+import * as notion from './notion'
+import { isFullPage } from '@notionhq/client'
+
+
+export const getPromptChoices = async (
+  selectedDb: GetDatabaseResponse
+): Promise<IPromptChoice[]> => {
+  const propChoices: IPromptChoice[] = []
+  Object.entries(selectedDb.properties).forEach(([_, prop]) => {
+    propChoices.push({
+      title: prop.name,
+      value: prop.name,
+    })
+  })
+  return propChoices
+}
 
 export const buildFilterPagePrompt = async (
-  choice: PromptChoice
+  prop: any // DatabasePropertyConfigResponse
 ) => {
-  switch (choice.type) {
+  switch (prop.type) {
     case 'number':
       return {
         type: 'number',
@@ -11,15 +31,10 @@ export const buildFilterPagePrompt = async (
         message: 'input a number',
       }
     case 'select':
-      if (choice.options == null) {
-        console.log("selected column options is null")
-        return
-      }
-
-      const selectChoices = choice.options.map((co) => {
+      const selectChoices = prop.select.options.map(o => {
         return {
-          title: co.name,
-          value: co.name
+          title: o.name,
+          value: o.name
         }
       })
       return {
@@ -30,25 +45,51 @@ export const buildFilterPagePrompt = async (
       }
       break
     case 'multi_select':
-      if (choice.options == null) {
+      if (prop.select.options == null) {
         console.log("selected column options is null")
         return
       }
-
-      const mSchoices = choice.options.map((co) => {
+      const multiSelectChoices = prop.select.options.map((o) => {
         return {
-          title: co.name,
-          value: co.name
+          title: o.name,
+          value: o.name
         }
       })
       return {
         type: 'autocompleteMultiselect',
         name: 'value',
         message: 'select items',
-        choices: mSchoices
+        choices: multiSelectChoices
+      }
+    case 'relation':
+      const relationPages = await notion.queryDb(prop.relation.database_id, "")
+      // console.log(relationPages)
+      const relationChoices: IPromptChoice[] = []
+      for (const page of relationPages) {
+        if (page.object != "page") {
+          continue
+        }
+        if (!isFullPage(page)) {
+          continue
+        }
+        Object.entries(page.properties).forEach(([_, prop]) => {
+          if (prop.type == "title") {
+            relationChoices.push({
+              title: prop.title[0].plain_text,
+              value: page.id
+            })
+            return
+          }
+        })
+      }
+      return {
+        type: 'autocompleteMultiselect',
+        name: 'value',
+        message: 'select relation pages',
+        choices: relationChoices
       }
     default:
-      console.log(`${choice.type} is not supported`)
+      console.log(`${prop.type} is not supported`)
   }
 }
 
@@ -76,6 +117,14 @@ export const buildDatabaseQueryFilter = async (
       }
       break
     case 'multi_select':
+      filter = {
+        property: name,
+        [type]: {
+          contains: value
+        }
+      }
+      break
+    case 'relation':
       filter = {
         property: name,
         [type]: {
@@ -120,6 +169,16 @@ export const buildPagePropUpdateData = async (
       return {
         [name]: {
           [type]: nameObjects
+        }
+      }
+    case 'relation':
+      const relationPageIds = []
+      for (const id of value) {
+        relationPageIds.push({ id: id })
+      }
+      return {
+        [name]: {
+          [type]: relationPageIds
         }
       }
   }

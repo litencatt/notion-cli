@@ -1,10 +1,14 @@
 import { Command, Flags } from '@oclif/core'
 const  prompts  = require('prompts')
-
-import { queryDb, createDb, updateDb, retrieveDb, searchDb, updatePage } from '../notion'
-import { PromptChoice } from '../interface'
-import { buildFilterPagePrompt, buildDatabaseQueryFilter, buildPagePropUpdateData } from '../helper'
+import * as notion from '../notion'
+import {
+  buildFilterPagePrompt,
+  buildDatabaseQueryFilter,
+  buildPagePropUpdateData,
+  getPromptChoices,
+} from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
+
 
 export default class Db extends Command {
   static description = 'describe the command here'
@@ -32,12 +36,12 @@ export default class Db extends Command {
 
     // Query a database
     if (flags.database_id && flags.query) {
-      const res = await queryDb(flags.database_id, flags.filter as string)
+      const res = await notion.queryDb(flags.database_id, flags.filter as string)
       console.dir(res, { depth: null })
     }
     // Create a database
     if (flags.create && flags.page_id) {
-      const res = await createDb(flags.page_id)
+      const res = await notion.createDb(flags.page_id)
       console.dir(res, { depth: null })
     }
     // Update a database
@@ -51,13 +55,13 @@ export default class Db extends Command {
         propertyList: flags.propertyList,
         onlyValue: flags.onlyValue,
       }
-      const res = await retrieveDb(flags.database_id, options)
+      const res = await notion.retrieveDb(flags.database_id, options)
       console.dir(res, { depth: null })
     }
     // Run prompt when no flags
     if (Object.keys(flags).length === 0) {
-      // Search DB
-      const dbs = await searchDb()
+      // Search all accessible DBs
+      const dbs = await notion.searchDb()
       const dbChoices = []
       for (const db of dbs) {
         if (db.object != "database") {
@@ -77,116 +81,93 @@ export default class Db extends Command {
       const sortedDbChoices = dbChoices.sort((a,b)=> {
         return a.title.localeCompare(b.title)
       })
-      const db = await prompts([
-        {
-          type: 'autocomplete',
-          name: 'database_id',
-          message: 'Select a database',
-          choices: sortedDbChoices
-        },
-      ])
-      //console.log(db.database_id)
 
-      // Search properties of DB
-      // FIXME: 対応タイプを増やす
-      const propChoices: PromptChoice[] = []
-      const selectedDb = await retrieveDb(db.database_id, {})
-      // console.dir(selectedDb, {depth: null})
-      Object.entries(selectedDb.properties).forEach(([_, prop]) => {
-        const options = []
-        switch (prop.type) {
-          case 'select':
-            for (const opt of prop.select.options) {
-              options.push({
-                id: opt.id,
-                name: opt.name
-              })
-            }
-            break
-          case 'multi_select':
-            for (const opt of prop.multi_select.options) {
-              options.push({
-                id: opt.id,
-                name: opt.name
-              })
-            }
-            break
-        }
-        propChoices.push({
-          title: prop.name,
-          value: prop.name,
-          type: prop.type,
-          options: options
-        })
+      // Select a DB
+      const promptSelectedDbResult = await prompts({
+        type: 'autocomplete',
+        name: 'database_id',
+        message: 'Select a database',
+        choices: sortedDbChoices
       })
+      //console.log(promptSelectedDbResult.database_id)
 
-      // Build
+      // Get DB properties
+      // FIXME: Increase support types
+      const selectedDb = await notion.retrieveDb(promptSelectedDbResult.database_id, {})
+      // console.dir(selectedDb, {depth: null})
+      const filterPropChoices = await getPromptChoices(selectedDb)
+
+      // Build a filter
       let filter = {}
-      let filterOperator = undefined
+      let CombineOperator = undefined
       const promptAddFilterResult = await prompts({
         type: 'confirm',
         name: 'value',
         message: 'Add filter?',
         initial: true
       })
-
       while (promptAddFilterResult.value) {
-        if (Object.keys(filter).length != 0 && filterOperator == undefined) {
-          const promptAndOrPropResult = await prompts([
-            {
-              type: 'autocomplete',
-              name: 'operator',
-              message: 'select and/or',
-              choices: [
-                { title: 'and', value: 'and' },
-                { title: 'or', value: 'or' },
-              ]
-            },
-          ])
+        // Choice the operator first time and keep using it.
+        if (Object.keys(filter).length != 0 && CombineOperator == undefined) {
+          const promptAndOrPropResult = await prompts({
+            type: 'autocomplete',
+            name: 'operator',
+            message: 'select and/or',
+            choices: [
+              { title: 'and', value: 'and' },
+              { title: 'or', value: 'or' },
+            ]
+          })
+          // rebuild filter object with choose operator
           const tmp = filter
-          filterOperator = promptAndOrPropResult.operator
-          filter = {[filterOperator]: [tmp]}
+          CombineOperator = promptAndOrPropResult.operator
+          filter = {[CombineOperator]: [tmp]}
         }
 
-        // Select a property
+        // Select a property for filter
         const promptPropResult = await prompts({
           type: 'autocomplete',
           name: 'property',
-          message: 'select a property',
-          choices: propChoices
+          message: 'select a property for filter by',
+          choices: filterPropChoices
         })
-
-        const selectedProp = propChoices.find((p) => {
-          return p.value == promptPropResult.property
-        })
-        if (selectedProp?.type == undefined) {
+        // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
+        // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
+        const selectedProp = Object.entries(selectedDb.properties)
+          .find(([_, prop]) => {
+            return prop.name == promptPropResult.property
+          })
+        // console.log(selectedProp2)
+        if (selectedProp[1].type == undefined) {
           console.log("selectedProp.type is undefined")
           return
         }
 
         // Select/Input a value for filtering
-        const fpp = await buildFilterPagePrompt(selectedProp)
-        //console.log(prompt)
+        const fpp = await buildFilterPagePrompt(selectedProp[1])
         const promptFilterPropResult = await prompts(fpp)
         let filterValue = promptFilterPropResult.value
-        switch (selectedProp.type) {
+        switch (selectedProp[1].type) {
           case 'multi_select':
-            // Extract a value from prompt result
+          case 'relation':
+            // Extract a value from multi-select result
             filterValue = promptFilterPropResult.value[0]
         }
         const filterObj = await buildDatabaseQueryFilter(
-          selectedProp.value,
-          selectedProp.type,
+          selectedProp[1].name,
+          selectedProp[1].type,
           filterValue
         )
         if (filterObj == null) {
           console.log("Error buildFilter")
           return
         }
+
+        // set or push a build filter
         if (Object.keys(filter).length == 0) {
           filter = filterObj
         } else {
-          filter[filterOperator].push(filterObj)
+          filter[CombineOperator].push(filterObj)
         }
 
         const promptConfirmAddFilterFinishResult = await prompts({
@@ -203,17 +184,22 @@ export default class Db extends Command {
       console.log(filter)
       console.log("")
 
-      const pages = await queryDb(db.database_id, JSON.stringify(filter))
+      // Get filtered pages
+      const pages = await notion.queryDb(
+        promptSelectedDbResult.database_id,
+        JSON.stringify(filter)
+      )
       if (pages.length == 0) {
         console.log("No pages found")
         return
       }
 
-      // Get update target page IDs
+      // Get filtered page IDs
       console.log("Filtered Pages:")
-      const updatePageIDs = []
+      const filteredPageIDs = []
       for (const page of pages) {
-        updatePageIDs.push(page.id)
+        filteredPageIDs.push(page.id)
+
         if (page.object != "page") {
           continue
         }
@@ -239,36 +225,36 @@ export default class Db extends Command {
       }
 
       // Select a update property
-      const promptSelectUpdatePropResult = await prompts([
-        {
-          type: 'autocomplete',
-          name: 'property',
-          message: 'select a update property',
-          choices: propChoices
-        },
-      ])
-      // console.log(promptSelectUpdatePropResult)
-      const updateTargetProp = propChoices.find((p) => {
-        return p.value == promptSelectUpdatePropResult.property
+      const promptSelectUpdatePropResult = await prompts({
+        type: 'autocomplete',
+        name: 'property',
+        message: 'select a update property',
+        choices: filterPropChoices
       })
-      if (updateTargetProp?.type == undefined) {
+      const updateTargetProp = Object.entries(selectedDb.properties)
+        .find(([_, prop]) => {
+          return prop.name == promptSelectUpdatePropResult.property
+        })
+      if (updateTargetProp[1].type == undefined) {
         console.log(`${updateTargetProp} is not found`)
         return
       }
 
-      const upp = await buildFilterPagePrompt(updateTargetProp)
+      // Input/Select update value(s)
+      const upp = await buildFilterPagePrompt(updateTargetProp[1])
       const promptUpdatePropValueResult = await prompts(upp)
-
       const updateData = await buildPagePropUpdateData(
-        updateTargetProp.value,
-        updateTargetProp.type,
+        updateTargetProp[1].name,
+        updateTargetProp[1].type,
         promptUpdatePropValueResult.value
       )
+
+      // Update property
       console.log("Start Update Pages")
-      for (const pageId of updatePageIDs) {
+      for (const pageId of filteredPageIDs) {
         console.log(`page_id: ${pageId}, updateData:`)
         console.dir(updateData, {depth: null})
-        await updatePage(pageId, updateData)
+        await notion.updatePage(pageId, updateData)
       }
       console.log("End Update Pages")
     }
