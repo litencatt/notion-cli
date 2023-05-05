@@ -145,6 +145,7 @@ export default class Db extends Command {
         }
 
         // Support only filter fields of the following types
+        // - Number
         // - Select
         // - Multi-select
         // - Relation
