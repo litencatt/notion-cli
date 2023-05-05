@@ -96,7 +96,8 @@ export const buildFilterPagePrompt = async (
 export const buildDatabaseQueryFilter = async (
   name: string,
   type: string,
-  value: string | string[]
+  field: string,
+  value: string | string[] | boolean
 ): Promise<object|null> =>  {
   let filter
   switch (type) {
@@ -105,29 +106,35 @@ export const buildDatabaseQueryFilter = async (
       filter = {
         property: name,
         [type]: {
-          equals: value
+          [field]: value
         }
       }
       break
     case 'multi_select':
     case 'relation':
-      if (typeof value == "string") {
-        filter = {
-          property: name,
-          [type]: {
-            contains: value
-          }
-        }
-      } else {
-        filter = { and: [] }
-        for (const v of value) {
-          filter.and.push({
+      switch (typeof value) {
+        case 'string':
+        case 'boolean':
+          filter = {
             property: name,
             [type]: {
-              contains: v
+              [field]: value
             }
-          })
-        }
+          }
+          break
+        case "object":
+          filter = { and: [] }
+          for (const v of value) {
+            filter.and.push({
+              property: name,
+              [type]: {
+                [field]: v
+              }
+            })
+          }
+          break
+        default:
+          console.log(`Not supported value type(${typeof value})`)
       }
       break
     default:

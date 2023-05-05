@@ -143,13 +143,31 @@ export default class Db extends Command {
           return
         }
 
+        const promptFieldResult = await prompts({
+          type: 'autocomplete',
+          name: 'value',
+          message: 'select a field for filter by',
+          choices: [
+            { title: 'equals' },
+            { title: 'does_not_equal' },
+            { title: 'is_empty' },
+            { title: 'is_not_empty' },
+          ]
+        })
+        const filterField = promptFieldResult.value
+
+        let filterValue: string | string[] | boolean = true
+        if (!['is_empty', 'is_not_empty'].includes(filterField)) {
         // Select/Input a value for filtering
-        const fpp = await buildFilterPagePrompt(selectedProp[1])
-        const promptFilterPropResult = await prompts(fpp)
+          const fpp = await buildFilterPagePrompt(selectedProp[1])
+          const promptFilterPropResult = await prompts(fpp)
+          filterValue = promptFilterPropResult.value
+        }
         const filterObj = await buildDatabaseQueryFilter(
           selectedProp[1].name,
           selectedProp[1].type,
-          promptFilterPropResult.value
+          filterField,
+          filterValue
         )
         if (filterObj == null) {
           console.log("Error buildFilter")
@@ -174,7 +192,7 @@ export default class Db extends Command {
         }
       }
       console.log("Filter:")
-      console.log(filter)
+      console.dir(filter, {depth: null})
       console.log("")
 
       // Get filtered pages
