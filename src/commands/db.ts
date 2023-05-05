@@ -239,24 +239,28 @@ export default class Db extends Command {
         },
       ])
       // console.log(promptSelectUpdatePropResult)
-      const updateTargetProp = propChoices.find((p) => {
-        return p.value == promptSelectUpdatePropResult.property
       })
-      if (updateTargetProp?.type == undefined) {
+      const updateTargetProp = Object.entries(selectedDb.properties)
+      .find(([_, prop]) => {
+        return prop.name == promptSelectUpdatePropResult.property
+      })
+      if (updateTargetProp[1].type == undefined) {
         console.log(`${updateTargetProp} is not found`)
         return
       }
 
-      const upp = await buildFilterPagePrompt(updateTargetProp)
+      // Input/Select update value(s)
+      const upp = await buildFilterPagePromptFromObj(updateTargetProp[1])
       const promptUpdatePropValueResult = await prompts(upp)
-
       const updateData = await buildPagePropUpdateData(
-        updateTargetProp.value,
-        updateTargetProp.type,
+        updateTargetProp[1].name,
+        updateTargetProp[1].type,
         promptUpdatePropValueResult.value
       )
+
+      // Update property
       console.log("Start Update Pages")
-      for (const pageId of updatePageIDs) {
+      for (const pageId of filteredPageIDs) {
         console.log(`page_id: ${pageId}, updateData:`)
         console.dir(updateData, {depth: null})
         await notion.updatePage(pageId, updateData)

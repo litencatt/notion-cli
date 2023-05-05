@@ -278,6 +278,16 @@ export const buildPagePropUpdateData = async (
           [type]: nameObjects
         }
       }
+    case 'relation':
+      const relationPageIds = []
+      for (const id of value) {
+        relationPageIds.push({ id: id })
+      }
+      return {
+        [name]: {
+          [type]: relationPageIds
+        }
+      }
   }
   return null
 }
