@@ -51,7 +51,6 @@ export const buildFilterPagePrompt = async (
         console.log("selected column options is null")
         return
       }
-
       const selectChoices = choice.options.map((co) => {
         return {
           title: co.name,
@@ -70,8 +69,7 @@ export const buildFilterPagePrompt = async (
         console.log("selected column options is null")
         return
       }
-
-      const mSchoices = choice.options.map((co) => {
+      const multiSelectChoices = choice.options.map((co) => {
         return {
           title: co.name,
           value: co.name
@@ -81,7 +79,7 @@ export const buildFilterPagePrompt = async (
         type: 'autocompleteMultiselect',
         name: 'value',
         message: 'select items',
-        choices: mSchoices
+        choices: multiSelectChoices
       }
     default:
       console.log(`${choice.type} is not supported`)
