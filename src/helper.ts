@@ -5,6 +5,7 @@ import { IPromptChoice } from './interface'
 import * as notion from './notion'
 import { isFullPage } from '@notionhq/client'
 
+export const SupportTypes = ['number', 'select', 'multi_select', 'relation']
 
 export const onCancel = () => {
   console.log('prompt is canceled');
@@ -41,6 +42,11 @@ export const getPromptChoices = async (
 ): Promise<IPromptChoice[]> => {
   const propChoices: IPromptChoice[] = []
   Object.entries(selectedDb.properties).forEach(([_, prop]) => {
+    // Skip not support property
+    if (!SupportTypes.includes(prop.type)) {
+      return
+    }
+
     propChoices.push({
       title: prop.name,
     })
