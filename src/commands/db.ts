@@ -150,7 +150,7 @@ export default class Db extends Command {
         const promptFieldResult = await prompts({
           type: 'autocomplete',
           name: 'value',
-          message: 'select a field for filter by',
+          message: 'select a field of filter',
           choices: [
             { title: 'equals' },
             { title: 'does_not_equal' },
@@ -232,7 +232,7 @@ export default class Db extends Command {
       const promptConfirmUpdatePropResult = await prompts({
         type: 'confirm',
         name: 'value',
-        message: 'Update property?',
+        message: 'update a property of those pages?',
         initial: true
       })
       if (!promptConfirmUpdatePropResult.value) {
@@ -243,7 +243,7 @@ export default class Db extends Command {
       const promptSelectUpdatePropResult = await prompts({
         type: 'autocomplete',
         name: 'property',
-        message: 'select a update property',
+        message: 'select an update property',
         choices: filterPropChoices
       })
       const updateTargetProp = Object.entries(selectedDb.properties)
@@ -265,13 +265,13 @@ export default class Db extends Command {
       )
 
       // Update property
-      console.log("Start Update Pages")
+      console.log("Start update pages")
       for (const pageId of filteredPageIDs) {
         console.log(`page_id: ${pageId}, updateData:`)
         console.dir(updateData, {depth: null})
         await notion.updatePage(pageId, updateData)
       }
-      console.log("End Update Pages")
+      console.log("End update pages")
     }
   }
 }
