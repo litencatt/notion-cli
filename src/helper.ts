@@ -5,7 +5,12 @@ import { IPromptChoice } from './interface'
 import * as notion from './notion'
 import { isFullPage } from '@notionhq/client'
 
-export const SupportTypes = ['number', 'select', 'multi_select', 'relation']
+export const SupportTypes = [
+  'number',
+  'select',
+  'multi_select',
+  'relation'
+]
 
 export const onCancel = () => {
   console.log('prompt is canceled');
