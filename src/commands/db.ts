@@ -62,7 +62,7 @@ export default class Db extends Command {
     }
     // Run prompt when no flags
     if (Object.keys(flags).length === 0) {
-      // Search DB
+      // Search all accessible DBs
       const dbs = await notion.searchDb()
       const dbChoices = []
       for (const db of dbs) {
@@ -83,22 +83,21 @@ export default class Db extends Command {
       const sortedDbChoices = dbChoices.sort((a,b)=> {
         return a.title.localeCompare(b.title)
       })
-      const db = await prompts([
-        {
-          type: 'autocomplete',
-          name: 'database_id',
-          message: 'Select a database',
-          choices: sortedDbChoices
-        },
-      ])
-      //console.log(db.database_id)
 
-      // Search properties of DB
-      // FIXME: 対応タイプを増やす
-      const selectedDb = await notion.retrieveDb(db.database_id, {})
+      // Select a DB
+      const promptSelectedDbResult = await prompts({
+        type: 'autocomplete',
+        name: 'database_id',
+        message: 'Select a database',
+        choices: sortedDbChoices
+      })
+      //console.log(promptSelectedDbResult.database_id)
+
+      // Get DB properties
+      // FIXME: Increase support types
+      const selectedDb = await notion.retrieveDb(promptSelectedDbResult.database_id, {})
       // console.dir(selectedDb, {depth: null})
       const propChoices = await getNotionDbOptions(selectedDb)
-      // console.dir(selectedDb, {depth: null})
 
       // Build
       let filter = {}
@@ -145,7 +144,6 @@ export default class Db extends Command {
         // console.log(selectedProp)
         const selectedProp = Object.entries(selectedDb.properties)
           .find(([_, prop]) => {
-            // console.log(prop)
             return prop.name == promptPropResult.property
           })
         // console.log(selectedProp2)
@@ -194,17 +192,18 @@ export default class Db extends Command {
       console.log(filter)
       console.log("")
 
-      const pages = await notion.queryDb(db.database_id, JSON.stringify(filter))
+      // Get filtered pages
+      const pages = await notion.queryDb(promptSelectedDbResult.database_id, JSON.stringify(filter))
       if (pages.length == 0) {
         console.log("No pages found")
         return
       }
 
-      // Get update target page IDs
+      // Get filtered page IDs
       console.log("Filtered Pages:")
-      const updatePageIDs = []
+      const filteredPageIDs = []
       for (const page of pages) {
-        updatePageIDs.push(page.id)
+        filteredPageIDs.push(page.id)
         if (page.object != "page") {
           continue
         }
@@ -230,15 +229,11 @@ export default class Db extends Command {
       }
 
       // Select a update property
-      const promptSelectUpdatePropResult = await prompts([
-        {
-          type: 'autocomplete',
-          name: 'property',
-          message: 'select a update property',
-          choices: propChoices
-        },
-      ])
-      // console.log(promptSelectUpdatePropResult)
+      const promptSelectUpdatePropResult = await prompts({
+        type: 'autocomplete',
+        name: 'property',
+        message: 'select a update property',
+        choices: propChoices
       })
       const updateTargetProp = Object.entries(selectedDb.properties)
       .find(([_, prop]) => {
