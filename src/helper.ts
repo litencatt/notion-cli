@@ -2,7 +2,6 @@ import {
     GetDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { IPromptChoice } from './interface'
-import { promises } from 'dns'
 import * as notion from './notion'
 import { isFullPage } from '@notionhq/client'
 
