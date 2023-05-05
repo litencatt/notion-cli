@@ -122,7 +122,7 @@ export default class Db extends Command {
 
       // Build
       let filter = {}
-      let filterOperator = undefined
+      let CombineOperator = undefined
       const promptAddFilterResult = await prompts({
         type: 'confirm',
         name: 'value',
@@ -131,24 +131,24 @@ export default class Db extends Command {
       })
 
       while (promptAddFilterResult.value) {
-        if (Object.keys(filter).length != 0 && filterOperator == undefined) {
-          const promptAndOrPropResult = await prompts([
-            {
-              type: 'autocomplete',
-              name: 'operator',
-              message: 'select and/or',
-              choices: [
-                { title: 'and', value: 'and' },
-                { title: 'or', value: 'or' },
-              ]
-            },
-          ])
+        // Choice the operator first time and keep using it.
+        if (Object.keys(filter).length != 0 && CombineOperator == undefined) {
+          const promptAndOrPropResult = await prompts({
+            type: 'autocomplete',
+            name: 'operator',
+            message: 'select and/or',
+            choices: [
+              { title: 'and', value: 'and' },
+              { title: 'or', value: 'or' },
+            ]
+          })
+          // rebuild filter object with choose operator
           const tmp = filter
-          filterOperator = promptAndOrPropResult.operator
-          filter = {[filterOperator]: [tmp]}
+          CombineOperator = promptAndOrPropResult.operator
+          filter = {[CombineOperator]: [tmp]}
         }
 
-        // Select a property
+        // Select a property for filter
         const promptPropResult = await prompts({
           type: 'autocomplete',
           name: 'property',
@@ -186,7 +186,7 @@ export default class Db extends Command {
         if (Object.keys(filter).length == 0) {
           filter = filterObj
         } else {
-          filter[filterOperator].push(filterObj)
+          filter[CombineOperator].push(filterObj)
         }
 
         const promptConfirmAddFilterFinishResult = await prompts({
