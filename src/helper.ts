@@ -1,11 +1,35 @@
 import {
     GetDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { PromptChoice, IPromptChoice } from './interface'
+import { IPromptChoice } from './interface'
 import { promises } from 'dns'
 import * as notion from './notion'
 import { isFullPage } from '@notionhq/client'
 
+export const getFilterFields = async (
+  type: string
+) => {
+  switch (type) {
+    case 'select':
+      return [
+        { title: 'equals' },
+        { title: 'does_not_equal' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+      ]
+    case 'multi_select':
+    case 'relation':
+      return [
+        { title: 'contains' },
+        { title: 'does_not_contain' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+      ]
+    default:
+      console.log(`${type} is not support type`)
+      return null
+  }
+}
 
 export const getPromptChoices = async (
   selectedDb: GetDatabaseResponse
@@ -14,7 +38,6 @@ export const getPromptChoices = async (
   Object.entries(selectedDb.properties).forEach(([_, prop]) => {
     propChoices.push({
       title: prop.name,
-      value: prop.name,
     })
   })
   return propChoices
@@ -34,7 +57,6 @@ export const buildFilterPagePrompt = async (
       const selectChoices = prop.select.options.map(o => {
         return {
           title: o.name,
-          value: o.name
         }
       })
       return {
@@ -52,7 +74,6 @@ export const buildFilterPagePrompt = async (
       const multiSelectChoices = prop.multi_select.options.map((o) => {
         return {
           title: o.name,
-          value: o.name
         }
       })
       return {
@@ -96,7 +117,8 @@ export const buildFilterPagePrompt = async (
 export const buildDatabaseQueryFilter = async (
   name: string,
   type: string,
-  value: string | string[]
+  field: string,
+  value: string | string[] | boolean
 ): Promise<object|null> =>  {
   let filter
   switch (type) {
@@ -105,29 +127,35 @@ export const buildDatabaseQueryFilter = async (
       filter = {
         property: name,
         [type]: {
-          equals: value
+          [field]: value
         }
       }
       break
     case 'multi_select':
     case 'relation':
-      if (typeof value == "string") {
-        filter = {
-          property: name,
-          [type]: {
-            contains: value
-          }
-        }
-      } else {
-        filter = { and: [] }
-        for (const v of value) {
-          filter.and.push({
+      switch (typeof value) {
+        case 'string':
+        case 'boolean':
+          filter = {
             property: name,
             [type]: {
-              contains: v
+              [field]: value
             }
-          })
-        }
+          }
+          break
+        case "object":
+          filter = { and: [] }
+          for (const v of value) {
+            filter.and.push({
+              property: name,
+              [type]: {
+                [field]: v
+              }
+            })
+          }
+          break
+        default:
+          console.log(`Not supported value type(${typeof value})`)
       }
       break
     default:

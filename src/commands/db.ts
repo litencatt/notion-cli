@@ -6,6 +6,7 @@ import {
   buildDatabaseQueryFilter,
   buildPagePropUpdateData,
   getPromptChoices,
+  getFilterFields,
 } from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 
@@ -98,7 +99,7 @@ export default class Db extends Command {
       const filterPropChoices = await getPromptChoices(selectedDb)
 
       // Build a filter
-      let filter = {}
+      let filter: object | undefined
       let CombineOperator = undefined
       const promptAddFilterResult = await prompts({
         type: 'confirm',
@@ -108,14 +109,14 @@ export default class Db extends Command {
       })
       while (promptAddFilterResult.value) {
         // Choice the operator first time and keep using it.
-        if (Object.keys(filter).length != 0 && CombineOperator == undefined) {
+        if (filter != undefined && CombineOperator == undefined) {
           const promptAndOrPropResult = await prompts({
             type: 'autocomplete',
             name: 'operator',
             message: 'select and/or',
             choices: [
-              { title: 'and', value: 'and' },
-              { title: 'or', value: 'or' },
+              { title: 'and'},
+              { title: 'or'},
             ]
           })
           // rebuild filter object with choose operator
@@ -143,13 +144,31 @@ export default class Db extends Command {
           return
         }
 
+        // Support only filter fields of the following types
+        // - Select
+        // - Multi-select
+        // - Relation
+        const fieldChoices = await getFilterFields(selectedProp[1].type)
+        const promptFieldResult = await prompts({
+          type: 'autocomplete',
+          name: 'value',
+          message: 'select a field of filter',
+          choices: fieldChoices
+        })
+        const filterField = promptFieldResult.value
+
+        let filterValue: string | string[] | boolean = true
+        if (!['is_empty', 'is_not_empty'].includes(filterField)) {
         // Select/Input a value for filtering
-        const fpp = await buildFilterPagePrompt(selectedProp[1])
-        const promptFilterPropResult = await prompts(fpp)
+          const fpp = await buildFilterPagePrompt(selectedProp[1])
+          const promptFilterPropResult = await prompts(fpp)
+          filterValue = promptFilterPropResult.value
+        }
         const filterObj = await buildDatabaseQueryFilter(
           selectedProp[1].name,
           selectedProp[1].type,
-          promptFilterPropResult.value
+          filterField,
+          filterValue
         )
         if (filterObj == null) {
           console.log("Error buildFilter")
@@ -157,7 +176,7 @@ export default class Db extends Command {
         }
 
         // set or push a build filter
-        if (Object.keys(filter).length == 0) {
+        if (filter == undefined) {
           filter = filterObj
         } else {
           filter[CombineOperator].push(filterObj)
@@ -174,7 +193,7 @@ export default class Db extends Command {
         }
       }
       console.log("Filter:")
-      console.log(filter)
+      console.dir(filter, {depth: null})
       console.log("")
 
       // Get filtered pages
@@ -210,7 +229,7 @@ export default class Db extends Command {
       const promptConfirmUpdatePropResult = await prompts({
         type: 'confirm',
         name: 'value',
-        message: 'Update property?',
+        message: 'update a property of those pages?',
         initial: true
       })
       if (!promptConfirmUpdatePropResult.value) {
@@ -221,7 +240,7 @@ export default class Db extends Command {
       const promptSelectUpdatePropResult = await prompts({
         type: 'autocomplete',
         name: 'property',
-        message: 'select a update property',
+        message: 'select an update property',
         choices: filterPropChoices
       })
       const updateTargetProp = Object.entries(selectedDb.properties)
@@ -243,13 +262,13 @@ export default class Db extends Command {
       )
 
       // Update property
-      console.log("Start Update Pages")
+      console.log("Start update pages")
       for (const pageId of filteredPageIDs) {
         console.log(`page_id: ${pageId}, updateData:`)
         console.dir(updateData, {depth: null})
         await notion.updatePage(pageId, updateData)
       }
-      console.log("End Update Pages")
+      console.log("End update pages")
     }
   }
 }
