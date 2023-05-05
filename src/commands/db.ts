@@ -143,6 +143,10 @@ export default class Db extends Command {
           return
         }
 
+        // Support only filter fields of the following types
+        // - Select
+        // - Multi-select
+        // - Relation
         const promptFieldResult = await prompts({
           type: 'autocomplete',
           name: 'value',
