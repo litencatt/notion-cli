@@ -98,7 +98,7 @@ export default class Db extends Command {
       const filterPropChoices = await getPromptChoices(selectedDb)
 
       // Build a filter
-      let filter = {}
+      let filter: object | undefined
       let CombineOperator = undefined
       const promptAddFilterResult = await prompts({
         type: 'confirm',
@@ -108,7 +108,7 @@ export default class Db extends Command {
       })
       while (promptAddFilterResult.value) {
         // Choice the operator first time and keep using it.
-        if (Object.keys(filter).length != 0 && CombineOperator == undefined) {
+        if (filter != undefined && CombineOperator == undefined) {
           const promptAndOrPropResult = await prompts({
             type: 'autocomplete',
             name: 'operator',
@@ -157,7 +157,7 @@ export default class Db extends Command {
         }
 
         // set or push a build filter
-        if (Object.keys(filter).length == 0) {
+        if (filter == undefined) {
           filter = filterObj
         } else {
           filter[CombineOperator].push(filterObj)
