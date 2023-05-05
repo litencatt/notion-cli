@@ -210,7 +210,7 @@ export default class Db extends Command {
       }
 
       // Get update target page IDs
-      console.log("Update Target Page IDs:")
+      console.log("Filtered Pages:")
       const updatePageIDs = []
       for (const page of pages) {
         updatePageIDs.push(page.id)
