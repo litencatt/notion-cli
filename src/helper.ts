@@ -6,6 +6,30 @@ import { promises } from 'dns'
 import * as notion from './notion'
 import { isFullPage } from '@notionhq/client'
 
+export const getFilterFields = async (
+  type: string
+) => {
+  switch (type) {
+    case 'select':
+      return [
+        { title: 'equals' },
+        { title: 'does_not_equal' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+      ]
+    case 'multi_select':
+    case 'relation':
+      return [
+        { title: 'contains' },
+        { title: 'does_not_contain' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+      ]
+    default:
+      console.log(`${type} is not support type`)
+      return null
+  }
+}
 
 export const getPromptChoices = async (
   selectedDb: GetDatabaseResponse

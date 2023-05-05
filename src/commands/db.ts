@@ -6,6 +6,7 @@ import {
   buildDatabaseQueryFilter,
   buildPagePropUpdateData,
   getPromptChoices,
+  getFilterFields,
 } from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 
@@ -147,16 +148,12 @@ export default class Db extends Command {
         // - Select
         // - Multi-select
         // - Relation
+        const fieldChoices = await getFilterFields(selectedProp[1].type)
         const promptFieldResult = await prompts({
           type: 'autocomplete',
           name: 'value',
           message: 'select a field of filter',
-          choices: [
-            { title: 'equals' },
-            { title: 'does_not_equal' },
-            { title: 'is_empty' },
-            { title: 'is_not_empty' },
-          ]
+          choices: fieldChoices
         })
         const filterField = promptFieldResult.value
 
