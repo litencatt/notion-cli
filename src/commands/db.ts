@@ -119,55 +119,98 @@ export default class Db extends Command {
           options: options
         })
       })
-      // console.dir(propChoices, {depth: null})
-      // Select a property
-      const promptPropResult = await prompts([
-        {
+
+      // Build
+      let filter = {}
+      let filterOperator = undefined
+      const promptAddFilterResult = await prompts({
+        type: 'confirm',
+        name: 'value',
+        message: 'Add filter?',
+        initial: true
+      })
+
+      while (promptAddFilterResult.value) {
+        if (Object.keys(filter).length != 0 && filterOperator == undefined) {
+          const promptAndOrPropResult = await prompts([
+            {
+              type: 'autocomplete',
+              name: 'operator',
+              message: 'select and/or',
+              choices: [
+                { title: 'and', value: 'and' },
+                { title: 'or', value: 'or' },
+              ]
+            },
+          ])
+          const tmp = filter
+          filterOperator = promptAndOrPropResult.operator
+          filter = {[filterOperator]: [tmp]}
+        }
+
+        // Select a property
+        const promptPropResult = await prompts({
           type: 'autocomplete',
           name: 'property',
           message: 'select a property',
           choices: propChoices
-        },
-      ])
+        })
 
-      const selectedProp = propChoices.find((p) => {
-        return p.value == promptPropResult.property
-      })
-      if (selectedProp?.type == undefined) {
-        console.log("selectedProp.type is undefined")
-        return
-      }
+        const selectedProp = propChoices.find((p) => {
+          return p.value == promptPropResult.property
+        })
+        if (selectedProp?.type == undefined) {
+          console.log("selectedProp.type is undefined")
+          return
+        }
 
-      // Select/Input a value for filtering
-      const fpp = await buildFilterPagePrompt(selectedProp)
-      //console.log(prompt)
-      const promptFilterPropResult = await prompts(fpp)
-      let filterValue = promptFilterPropResult.value
-      switch (selectedProp.type) {
-        case 'multi_select':
-          // Extract a value from prompt result
-          filterValue = promptFilterPropResult.value[0]
-      }
+        // Select/Input a value for filtering
+        const fpp = await buildFilterPagePrompt(selectedProp)
+        //console.log(prompt)
+        const promptFilterPropResult = await prompts(fpp)
+        let filterValue = promptFilterPropResult.value
+        switch (selectedProp.type) {
+          case 'multi_select':
+            // Extract a value from prompt result
+            filterValue = promptFilterPropResult.value[0]
+        }
+        const filterObj = await buildDatabaseQueryFilter(
+          selectedProp.value,
+          selectedProp.type,
+          filterValue
+        )
+        if (filterObj == null) {
+          console.log("Error buildFilter")
+          return
+        }
+        if (Object.keys(filter).length == 0) {
+          filter = filterObj
+        } else {
+          filter[filterOperator].push(filterObj)
+        }
 
-      // Build Filter and Filtering
-      const filter = await buildDatabaseQueryFilter(
-        selectedProp.value,
-        selectedProp.type,
-        filterValue
-      )
-      // console.log(filter)
-      if (filter == null) {
-        console.log("Error buildFilter")
-        return
+        const promptConfirmAddFilterFinishResult = await prompts({
+          type: 'confirm',
+          name: 'value',
+          message: 'Finish add filter?',
+          initial: true
+        })
+        if (promptConfirmAddFilterFinishResult.value) {
+          break
+        }
       }
-      const pages = await queryDb(db.database_id, filter)
+      console.log("Filter:")
+      console.log(filter)
+      console.log("")
+
+      const pages = await queryDb(db.database_id, JSON.stringify(filter))
       if (pages.length == 0) {
         console.log("No pages found")
         return
       }
 
       // Get update target page IDs
-      console.log("Update Target Page IDs:")
+      console.log("Filtered Pages:")
       const updatePageIDs = []
       for (const page of pages) {
         updatePageIDs.push(page.id)
@@ -184,6 +227,16 @@ export default class Db extends Command {
         })
       }
       console.log("")
+
+      const promptConfirmUpdatePropResult = await prompts({
+        type: 'confirm',
+        name: 'value',
+        message: 'Update property?',
+        initial: true
+      })
+      if (!promptConfirmUpdatePropResult.value) {
+        return
+      }
 
       // Select a update property
       const promptSelectUpdatePropResult = await prompts([

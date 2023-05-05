@@ -1,6 +1,6 @@
 {
   "name": "@litencatt/notion-cli",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Notion CLI",
   "author": "litencatt",
   "bin": {
@@ -63,7 +63,7 @@
   },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
-    "lint": "eslint . --ext .ts --config .eslintrc",
+    "lint": "eslint . --ext .ts --config .eslintrc.json",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint",
     "prepack": "yarn build && oclif manifest && oclif readme",

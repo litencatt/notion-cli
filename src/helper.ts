@@ -56,43 +56,38 @@ export const buildDatabaseQueryFilter = async (
   name: string,
   type: string,
   value: string
-): Promise<string|null> =>  {
+): Promise<object|null> =>  {
+  let filter
   switch (type) {
     case 'number':
-      return JSON.stringify({
-        and: [
-          {
-            property: name,
-            [type]: {
-              equals: value
-            }
-          }
-        ]
-      })
+      filter = {
+        property: name,
+        [type]: {
+          equals: value
+        }
+      }
+      break
     case 'select':
-      return JSON.stringify({
-        and: [
-          {
-            property: name,
-            [type]: {
-              equals: value
-            }
-          }
-        ]
-      })
+      filter = {
+        property: name,
+        [type]: {
+          equals: value
+        }
+      }
+      break
     case 'multi_select':
-      return JSON.stringify({
-        and: [
-          {
-            property: name,
-            [type]: {
-              contains: value
-            }
-          }
-        ]
-      })
+      filter = {
+        property: name,
+        [type]: {
+          contains: value
+        }
+      }
+      break
+    default:
+      filter = null
   }
-  return null
+  // console.log(filter)
+  return filter
 }
 
 export const buildPagePropUpdateData = async (
