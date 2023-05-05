@@ -1,9 +1,12 @@
 import { Command, Flags } from '@oclif/core'
 const  prompts  = require('prompts')
-
-import { PromptChoice } from '../interface'
-import { buildFilterPagePrompt, buildDatabaseQueryFilter, buildPagePropUpdateData } from '../helper'
 import * as notion from '../notion'
+import {
+  buildFilterPagePrompt,
+  buildDatabaseQueryFilter,
+  buildPagePropUpdateData,
+  getNotionDbOptions
+} from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 
 export default class Db extends Command {
@@ -89,36 +92,9 @@ export default class Db extends Command {
 
       // Search properties of DB
       // FIXME: 対応タイプを増やす
-      const propChoices: PromptChoice[] = []
       const selectedDb = await notion.retrieveDb(db.database_id, {})
+      const propChoices = await getNotionDbOptions(selectedDb)
       // console.dir(selectedDb, {depth: null})
-      Object.entries(selectedDb.properties).forEach(([_, prop]) => {
-        const options = []
-        switch (prop.type) {
-          case 'select':
-            for (const opt of prop.select.options) {
-              options.push({
-                id: opt.id,
-                name: opt.name
-              })
-            }
-            break
-          case 'multi_select':
-            for (const opt of prop.multi_select.options) {
-              options.push({
-                id: opt.id,
-                name: opt.name
-              })
-            }
-            break
-        }
-        propChoices.push({
-          title: prop.name,
-          value: prop.name,
-          type: prop.type,
-          options: options
-        })
-      })
 
       // Build
       let filter = {}

@@ -1,4 +1,40 @@
+import { GetDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import { PromptChoice } from './interface'
+
+
+export const getNotionDbOptions = async(
+  selectedDb: GetDatabaseResponse
+) => {
+  const propChoices: PromptChoice[] = []
+  Object.entries(selectedDb.properties).forEach(([_, prop]) => {
+    const options = []
+    switch (prop.type) {
+      case 'select':
+        for (const opt of prop.select.options) {
+          options.push({
+            id: opt.id,
+            name: opt.name
+          })
+        }
+        break
+      case 'multi_select':
+        for (const opt of prop.multi_select.options) {
+          options.push({
+            id: opt.id,
+            name: opt.name
+          })
+        }
+        break
+    }
+    propChoices.push({
+      title: prop.name,
+      value: prop.name,
+      type: prop.type,
+      options: options
+    })
+  })
+  return propChoices
+}
 
 export const buildFilterPagePrompt = async (
   choice: PromptChoice
