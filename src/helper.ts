@@ -45,11 +45,11 @@ export const buildFilterPagePrompt = async (
       }
       break
     case 'multi_select':
-      if (prop.select.options == null) {
+      if (prop.multi_select.options == null) {
         console.log("selected column options is null")
         return
       }
-      const multiSelectChoices = prop.select.options.map((o) => {
+      const multiSelectChoices = prop.multi_select.options.map((o) => {
         return {
           title: o.name,
           value: o.name
@@ -96,18 +96,11 @@ export const buildFilterPagePrompt = async (
 export const buildDatabaseQueryFilter = async (
   name: string,
   type: string,
-  value: string
+  value: string | string[]
 ): Promise<object|null> =>  {
   let filter
   switch (type) {
     case 'number':
-      filter = {
-        property: name,
-        [type]: {
-          equals: value
-        }
-      }
-      break
     case 'select':
       filter = {
         property: name,
@@ -117,18 +110,23 @@ export const buildDatabaseQueryFilter = async (
       }
       break
     case 'multi_select':
-      filter = {
-        property: name,
-        [type]: {
-          contains: value
-        }
-      }
-      break
     case 'relation':
-      filter = {
-        property: name,
-        [type]: {
-          contains: value
+      if (typeof value == "string") {
+        filter = {
+          property: name,
+          [type]: {
+            contains: value
+          }
+        }
+      } else {
+        filter = { and: [] }
+        for (const v of value) {
+          filter.and.push({
+            property: name,
+            [type]: {
+              contains: v
+            }
+          })
         }
       }
       break
