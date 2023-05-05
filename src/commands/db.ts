@@ -114,8 +114,8 @@ export default class Db extends Command {
             name: 'operator',
             message: 'select and/or',
             choices: [
-              { title: 'and', value: 'and' },
-              { title: 'or', value: 'or' },
+              { title: 'and'},
+              { title: 'or'},
             ]
           })
           // rebuild filter object with choose operator
