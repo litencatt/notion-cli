@@ -11,11 +11,16 @@ Notion CLI tool written by TypeScript.
 # Usage
 
 ```sh-session
+$ export NOTION_TOKEN=secret_xxx...
+
 $ npm install -g @litencatt/notion-cli
+
 $ notion-cli COMMAND
 running command...
+
 $ notion-cli (--version)
 @litencatt/notion-cli/0.4.3 linux-arm64 node-v19.8.1
+
 $ notion-cli --help [COMMAND]
 USAGE
   $ notion-cli COMMAND
