@@ -25,6 +25,12 @@ export const getNotionDbOptions = async(
           })
         }
         break
+      case 'relation':
+        options.push({
+          id: prop.relation.database_id,
+          name: ""
+        })
+        break
     }
     propChoices.push({
       title: prop.name,
@@ -80,6 +86,23 @@ export const buildFilterPagePrompt = async (
         name: 'value',
         message: 'select items',
         choices: multiSelectChoices
+      }
+    case 'relation':
+      if (choice.options == null) {
+        console.log("selected column options is null")
+        return
+      }
+      const relationChoices = choice.options.map((co) => {
+        return {
+          title: co.name,
+          value: co.id
+        }
+      })
+      return {
+        type: 'autocompleteMultiselect',
+        name: 'value',
+        message: 'select relation pages',
+        choices: relationChoices
       }
     default:
       console.log(`${choice.type} is not supported`)
