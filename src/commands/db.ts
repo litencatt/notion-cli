@@ -97,7 +97,7 @@ export default class Db extends Command {
       // console.dir(selectedDb, {depth: null})
       const filterPropChoices = await getPromptChoices(selectedDb)
 
-      // Build
+      // Build a filter
       let filter = {}
       let CombineOperator = undefined
       const promptAddFilterResult = await prompts({
@@ -106,7 +106,6 @@ export default class Db extends Command {
         message: 'Add filter?',
         initial: true
       })
-
       while (promptAddFilterResult.value) {
         // Choice the operator first time and keep using it.
         if (Object.keys(filter).length != 0 && CombineOperator == undefined) {
@@ -132,13 +131,8 @@ export default class Db extends Command {
           message: 'select a property for filter by',
           choices: filterPropChoices
         })
-
-        // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する
-        // 同一DB上でプロパティ名は重複せずユニークなのでnameで指定プロパティは決定する
-        // const selectedProp = propChoices.find((p) => {
-        //   return p.value == promptPropResult.property
-        // })
-        // console.log(selectedProp)
+        // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
+        // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
         const selectedProp = Object.entries(selectedDb.properties)
           .find(([_, prop]) => {
             return prop.name == promptPropResult.property
@@ -148,7 +142,6 @@ export default class Db extends Command {
           console.log("selectedProp.type is undefined")
           return
         }
-
 
         // Select/Input a value for filtering
         const fpp = await buildFilterPagePrompt(selectedProp[1])
@@ -169,6 +162,8 @@ export default class Db extends Command {
           console.log("Error buildFilter")
           return
         }
+
+        // set or push a build filter
         if (Object.keys(filter).length == 0) {
           filter = filterObj
         } else {
@@ -190,7 +185,10 @@ export default class Db extends Command {
       console.log("")
 
       // Get filtered pages
-      const pages = await notion.queryDb(promptSelectedDbResult.database_id, JSON.stringify(filter))
+      const pages = await notion.queryDb(
+        promptSelectedDbResult.database_id,
+        JSON.stringify(filter)
+      )
       if (pages.length == 0) {
         console.log("No pages found")
         return
@@ -201,6 +199,7 @@ export default class Db extends Command {
       const filteredPageIDs = []
       for (const page of pages) {
         filteredPageIDs.push(page.id)
+
         if (page.object != "page") {
           continue
         }
@@ -233,9 +232,9 @@ export default class Db extends Command {
         choices: filterPropChoices
       })
       const updateTargetProp = Object.entries(selectedDb.properties)
-      .find(([_, prop]) => {
-        return prop.name == promptSelectUpdatePropResult.property
-      })
+        .find(([_, prop]) => {
+          return prop.name == promptSelectUpdatePropResult.property
+        })
       if (updateTargetProp[1].type == undefined) {
         console.log(`${updateTargetProp} is not found`)
         return
