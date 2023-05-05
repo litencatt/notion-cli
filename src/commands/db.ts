@@ -1,9 +1,9 @@
 import { Command, Flags } from '@oclif/core'
 const  prompts  = require('prompts')
 
-import { queryDb, createDb, updateDb, retrieveDb, searchDb, updatePage } from '../notion'
 import { PromptChoice } from '../interface'
 import { buildFilterPagePrompt, buildDatabaseQueryFilter, buildPagePropUpdateData } from '../helper'
+import * as notion from '../notion'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 
 export default class Db extends Command {
@@ -32,12 +32,12 @@ export default class Db extends Command {
 
     // Query a database
     if (flags.database_id && flags.query) {
-      const res = await queryDb(flags.database_id, flags.filter as string)
+      const res = await notion.queryDb(flags.database_id, flags.filter as string)
       console.dir(res, { depth: null })
     }
     // Create a database
     if (flags.create && flags.page_id) {
-      const res = await createDb(flags.page_id)
+      const res = await notion.createDb(flags.page_id)
       console.dir(res, { depth: null })
     }
     // Update a database
@@ -51,13 +51,13 @@ export default class Db extends Command {
         propertyList: flags.propertyList,
         onlyValue: flags.onlyValue,
       }
-      const res = await retrieveDb(flags.database_id, options)
+      const res = await notion.retrieveDb(flags.database_id, options)
       console.dir(res, { depth: null })
     }
     // Run prompt when no flags
     if (Object.keys(flags).length === 0) {
       // Search DB
-      const dbs = await searchDb()
+      const dbs = await notion.searchDb()
       const dbChoices = []
       for (const db of dbs) {
         if (db.object != "database") {
@@ -90,7 +90,7 @@ export default class Db extends Command {
       // Search properties of DB
       // FIXME: 対応タイプを増やす
       const propChoices: PromptChoice[] = []
-      const selectedDb = await retrieveDb(db.database_id, {})
+      const selectedDb = await notion.retrieveDb(db.database_id, {})
       // console.dir(selectedDb, {depth: null})
       Object.entries(selectedDb.properties).forEach(([_, prop]) => {
         const options = []
@@ -203,7 +203,7 @@ export default class Db extends Command {
       console.log(filter)
       console.log("")
 
-      const pages = await queryDb(db.database_id, JSON.stringify(filter))
+      const pages = await notion.queryDb(db.database_id, JSON.stringify(filter))
       if (pages.length == 0) {
         console.log("No pages found")
         return
@@ -268,7 +268,7 @@ export default class Db extends Command {
       for (const pageId of updatePageIDs) {
         console.log(`page_id: ${pageId}, updateData:`)
         console.dir(updateData, {depth: null})
-        await updatePage(pageId, updateData)
+        await notion.updatePage(pageId, updateData)
       }
       console.log("End Update Pages")
     }
