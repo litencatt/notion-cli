@@ -45,11 +45,11 @@ export const buildFilterPagePrompt = async (
       }
       break
     case 'multi_select':
-      if (prop.select.options == null) {
+      if (prop.multi_select.options == null) {
         console.log("selected column options is null")
         return
       }
-      const multiSelectChoices = prop.select.options.map((o) => {
+      const multiSelectChoices = prop.multi_select.options.map((o) => {
         return {
           title: o.name,
           value: o.name
