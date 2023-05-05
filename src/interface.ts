@@ -40,5 +40,5 @@ export interface PromptChoice {
 
 export interface IPromptChoice {
   title: string
-  value: string
+  value?: string
 }

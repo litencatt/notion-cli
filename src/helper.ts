@@ -14,7 +14,6 @@ export const getPromptChoices = async (
   Object.entries(selectedDb.properties).forEach(([_, prop]) => {
     propChoices.push({
       title: prop.name,
-      value: prop.name,
     })
   })
   return propChoices
@@ -34,7 +33,6 @@ export const buildFilterPagePrompt = async (
       const selectChoices = prop.select.options.map(o => {
         return {
           title: o.name,
-          value: o.name
         }
       })
       return {
@@ -52,7 +50,6 @@ export const buildFilterPagePrompt = async (
       const multiSelectChoices = prop.multi_select.options.map((o) => {
         return {
           title: o.name,
-          value: o.name
         }
       })
       return {
