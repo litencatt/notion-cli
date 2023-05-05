@@ -97,7 +97,7 @@ export default class Db extends Command {
       // FIXME: Increase support types
       const selectedDb = await notion.retrieveDb(promptSelectedDbResult.database_id, {})
       // console.dir(selectedDb, {depth: null})
-      const propChoices = await getNotionDbOptions(selectedDb)
+      const filterPropChoices = await getPromptChoices(selectedDb)
 
       // Build
       let filter = {}
@@ -128,7 +128,6 @@ export default class Db extends Command {
         }
 
         // Select a property for filter
-        const filterPropChoices = await getPromptChoices(selectedDb)
         const promptPropResult = await prompts({
           type: 'autocomplete',
           name: 'property',
@@ -233,7 +232,7 @@ export default class Db extends Command {
         type: 'autocomplete',
         name: 'property',
         message: 'select a update property',
-        choices: propChoices
+        choices: filterPropChoices
       })
       const updateTargetProp = Object.entries(selectedDb.properties)
       .find(([_, prop]) => {
