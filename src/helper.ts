@@ -16,6 +16,17 @@ export const getFilterFields = async (
   type: string
 ) => {
   switch (type) {
+    case 'number':
+      return [
+        { title: 'equals' },
+        { title: 'does_not_equal' },
+        { title: 'greater_than' },
+        { title: 'greater_than_or_equal_to' },
+        { title: 'less_than' },
+        { title: 'less_than_or_equal_to' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+      ]
     case 'select':
       return [
         { title: 'equals' },
