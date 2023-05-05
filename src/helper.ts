@@ -6,6 +6,12 @@ import { promises } from 'dns'
 import * as notion from './notion'
 import { isFullPage } from '@notionhq/client'
 
+
+export const onCancel = () => {
+  console.log('prompt is canceled');
+  process.exit(0)
+}
+
 export const getFilterFields = async (
   type: string
 ) => {

@@ -2,6 +2,7 @@ import { Command, Flags } from '@oclif/core'
 const  prompts  = require('prompts')
 import * as notion from '../notion'
 import {
+  onCancel,
   buildFilterPagePrompt,
   buildDatabaseQueryFilter,
   buildPagePropUpdateData,
@@ -9,7 +10,6 @@ import {
   getFilterFields,
 } from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
-
 
 export default class Db extends Command {
   static description = 'describe the command here'
@@ -84,13 +84,13 @@ export default class Db extends Command {
       })
 
       // Select a DB
-      const promptSelectedDbResult = await prompts({
+      const promptSelectedDbResult = await prompts([{
         type: 'autocomplete',
         name: 'database_id',
         message: 'Select a database',
         choices: sortedDbChoices
-      })
-      //console.log(promptSelectedDbResult.database_id)
+      }], { onCancel })
+      console.log(promptSelectedDbResult)
 
       // Get DB properties
       // FIXME: Increase support types
@@ -101,16 +101,16 @@ export default class Db extends Command {
       // Build a filter
       let filter: object | undefined
       let CombineOperator = undefined
-      const promptAddFilterResult = await prompts({
+      const promptAddFilterResult = await prompts([{
         type: 'confirm',
         name: 'value',
         message: 'Add filter?',
         initial: true
-      })
+      }], { onCancel })
       while (promptAddFilterResult.value) {
         // Choice the operator first time and keep using it.
         if (filter != undefined && CombineOperator == undefined) {
-          const promptAndOrPropResult = await prompts({
+          const promptAndOrPropResult = await prompts([{
             type: 'autocomplete',
             name: 'operator',
             message: 'select and/or',
@@ -118,7 +118,7 @@ export default class Db extends Command {
               { title: 'and'},
               { title: 'or'},
             ]
-          })
+          }], { onCancel })
           // rebuild filter object with choose operator
           const tmp = filter
           CombineOperator = promptAndOrPropResult.operator
@@ -126,12 +126,12 @@ export default class Db extends Command {
         }
 
         // Select a property for filter
-        const promptPropResult = await prompts({
+        const promptPropResult = await prompts([{
           type: 'autocomplete',
           name: 'property',
           message: 'select a property for filter by',
           choices: filterPropChoices
-        })
+        }], { onCancel })
         // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
         // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
         const selectedProp = Object.entries(selectedDb.properties)
@@ -149,19 +149,19 @@ export default class Db extends Command {
         // - Multi-select
         // - Relation
         const fieldChoices = await getFilterFields(selectedProp[1].type)
-        const promptFieldResult = await prompts({
+        const promptFieldResult = await prompts([{
           type: 'autocomplete',
           name: 'value',
           message: 'select a field of filter',
           choices: fieldChoices
-        })
+        }], { onCancel })
         const filterField = promptFieldResult.value
 
         let filterValue: string | string[] | boolean = true
         if (!['is_empty', 'is_not_empty'].includes(filterField)) {
         // Select/Input a value for filtering
           const fpp = await buildFilterPagePrompt(selectedProp[1])
-          const promptFilterPropResult = await prompts(fpp)
+          const promptFilterPropResult = await prompts([fpp], { onCancel })
           filterValue = promptFilterPropResult.value
         }
         const filterObj = await buildDatabaseQueryFilter(
@@ -182,12 +182,12 @@ export default class Db extends Command {
           filter[CombineOperator].push(filterObj)
         }
 
-        const promptConfirmAddFilterFinishResult = await prompts({
+        const promptConfirmAddFilterFinishResult = await prompts([{
           type: 'confirm',
           name: 'value',
           message: 'Finish add filter?',
           initial: true
-        })
+        }], { onCancel })
         if (promptConfirmAddFilterFinishResult.value) {
           break
         }
@@ -226,23 +226,23 @@ export default class Db extends Command {
       }
       console.log("")
 
-      const promptConfirmUpdatePropResult = await prompts({
+      const promptConfirmUpdatePropResult = await prompts([{
         type: 'confirm',
         name: 'value',
         message: 'update a property of those pages?',
         initial: true
-      })
+      }], { onCancel })
       if (!promptConfirmUpdatePropResult.value) {
         return
       }
 
       // Select a update property
-      const promptSelectUpdatePropResult = await prompts({
+      const promptSelectUpdatePropResult = await prompts([{
         type: 'autocomplete',
         name: 'property',
         message: 'select an update property',
         choices: filterPropChoices
-      })
+      }], { onCancel })
       const updateTargetProp = Object.entries(selectedDb.properties)
         .find(([_, prop]) => {
           return prop.name == promptSelectUpdatePropResult.property
@@ -254,7 +254,7 @@ export default class Db extends Command {
 
       // Input/Select update value(s)
       const upp = await buildFilterPagePrompt(updateTargetProp[1])
-      const promptUpdatePropValueResult = await prompts(upp)
+      const promptUpdatePropValueResult = await prompts([upp], { onCancel })
       const updateData = await buildPagePropUpdateData(
         updateTargetProp[1].name,
         updateTargetProp[1].type,
