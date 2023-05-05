@@ -5,9 +5,12 @@ import {
   buildFilterPagePrompt,
   buildDatabaseQueryFilter,
   buildPagePropUpdateData,
-  getNotionDbOptions
+  getNotionDbOptions,
+  getPromptChoices,
+  buildFilterPagePromptFromObj
 } from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
+
 
 export default class Db extends Command {
   static description = 'describe the command here'
@@ -93,6 +96,7 @@ export default class Db extends Command {
       // Search properties of DB
       // FIXME: 対応タイプを増やす
       const selectedDb = await notion.retrieveDb(db.database_id, {})
+      // console.dir(selectedDb, {depth: null})
       const propChoices = await getNotionDbOptions(selectedDb)
       // console.dir(selectedDb, {depth: null})
 
@@ -125,34 +129,45 @@ export default class Db extends Command {
         }
 
         // Select a property for filter
+        const filterPropChoices = await getPromptChoices(selectedDb)
         const promptPropResult = await prompts({
           type: 'autocomplete',
           name: 'property',
-          message: 'select a property',
-          choices: propChoices
+          message: 'select a property for filter by',
+          choices: filterPropChoices
         })
 
-        const selectedProp = propChoices.find((p) => {
-          return p.value == promptPropResult.property
-        })
-        if (selectedProp?.type == undefined) {
+        // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する
+        // 同一DB上でプロパティ名は重複せずユニークなのでnameで指定プロパティは決定する
+        // const selectedProp = propChoices.find((p) => {
+        //   return p.value == promptPropResult.property
+        // })
+        // console.log(selectedProp)
+        const selectedProp = Object.entries(selectedDb.properties)
+          .find(([_, prop]) => {
+            // console.log(prop)
+            return prop.name == promptPropResult.property
+          })
+        // console.log(selectedProp2)
+        if (selectedProp[1].type == undefined) {
           console.log("selectedProp.type is undefined")
           return
         }
 
+
         // Select/Input a value for filtering
-        const fpp = await buildFilterPagePrompt(selectedProp)
-        //console.log(prompt)
+        const fpp = await buildFilterPagePromptFromObj(selectedProp[1])
         const promptFilterPropResult = await prompts(fpp)
         let filterValue = promptFilterPropResult.value
-        switch (selectedProp.type) {
+        switch (selectedProp[1].type) {
           case 'multi_select':
-            // Extract a value from prompt result
+          case 'relation':
+            // Extract a value from multi-select result
             filterValue = promptFilterPropResult.value[0]
         }
         const filterObj = await buildDatabaseQueryFilter(
-          selectedProp.value,
-          selectedProp.type,
+          selectedProp[1].name,
+          selectedProp[1].type,
           filterValue
         )
         if (filterObj == null) {
