@@ -146,17 +146,10 @@ export default class Db extends Command {
         // Select/Input a value for filtering
         const fpp = await buildFilterPagePrompt(selectedProp[1])
         const promptFilterPropResult = await prompts(fpp)
-        let filterValue = promptFilterPropResult.value
-        switch (selectedProp[1].type) {
-          case 'multi_select':
-          case 'relation':
-            // Extract a value from multi-select result
-            filterValue = promptFilterPropResult.value[0]
-        }
         const filterObj = await buildDatabaseQueryFilter(
           selectedProp[1].name,
           selectedProp[1].type,
-          filterValue
+          promptFilterPropResult.value
         )
         if (filterObj == null) {
           console.log("Error buildFilter")

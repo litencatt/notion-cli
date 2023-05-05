@@ -117,18 +117,23 @@ export const buildDatabaseQueryFilter = async (
       }
       break
     case 'multi_select':
-      filter = {
-        property: name,
-        [type]: {
-          contains: value
-        }
-      }
-      break
     case 'relation':
-      filter = {
-        property: name,
-        [type]: {
-          contains: value
+      if (typeof value == "string") {
+        filter = {
+          property: name,
+          [type]: {
+            contains: value
+          }
+        }
+      } else {
+        filter = { and: [] }
+        for (const v of value) {
+          filter.and.push({
+            property: name,
+            [type]: {
+              contains: v
+            }
+          })
         }
       }
       break
