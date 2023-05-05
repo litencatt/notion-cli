@@ -20,47 +20,7 @@ export const getPromptChoices = async (
   return propChoices
 }
 
-export const getNotionDbOptions = async(
-  selectedDb: GetDatabaseResponse
-) => {
-  const propChoices: PromptChoice[] = []
-  Object.entries(selectedDb.properties).forEach(([_, prop]) => {
-    const options = []
-    switch (prop.type) {
-      case 'select':
-        for (const opt of prop.select.options) {
-          options.push({
-            id: opt.id,
-            name: opt.name
-          })
-        }
-        break
-      case 'multi_select':
-        for (const opt of prop.multi_select.options) {
-          options.push({
-            id: opt.id,
-            name: opt.name
-          })
-        }
-        break
-      case 'relation':
-        options.push({
-          id: prop.relation.database_id,
-          name: ""
-        })
-        break
-    }
-    propChoices.push({
-      title: prop.name,
-      value: prop.name,
-      type: prop.type,
-      options: options
-    })
-  })
-  return propChoices
-}
-
-export const buildFilterPagePromptFromObj = async (
+export const buildFilterPagePrompt = async (
   prop: any // DatabasePropertyConfigResponse
 ) => {
   switch (prop.type) {
@@ -130,73 +90,6 @@ export const buildFilterPagePromptFromObj = async (
       }
     default:
       console.log(`${prop.type} is not supported`)
-  }
-}
-
-export const buildFilterPagePrompt = async (
-  choice: PromptChoice
-) => {
-  switch (choice.type) {
-    case 'number':
-      return {
-        type: 'number',
-        name: 'value',
-        message: 'input a number',
-      }
-    case 'select':
-      if (choice.options == null) {
-        console.log("selected column options is null")
-        return
-      }
-      const selectChoices = choice.options.map((co) => {
-        return {
-          title: co.name,
-          value: co.name
-        }
-      })
-      return {
-        type: 'autocomplete',
-        name: 'value',
-        message: 'select an item',
-        choices: selectChoices
-      }
-      break
-    case 'multi_select':
-      if (choice.options == null) {
-        console.log("selected column options is null")
-        return
-      }
-      const multiSelectChoices = choice.options.map((co) => {
-        return {
-          title: co.name,
-          value: co.name
-        }
-      })
-      return {
-        type: 'autocompleteMultiselect',
-        name: 'value',
-        message: 'select items',
-        choices: multiSelectChoices
-      }
-    case 'relation':
-      if (choice.options == null) {
-        console.log("selected column options is null")
-        return
-      }
-      const relationChoices = choice.options.map((co) => {
-        return {
-          title: co.name,
-          value: co.id
-        }
-      })
-      return {
-        type: 'autocompleteMultiselect',
-        name: 'value',
-        message: 'select relation pages',
-        choices: relationChoices
-      }
-    default:
-      console.log(`${choice.type} is not supported`)
   }
 }
 

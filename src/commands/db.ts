@@ -5,9 +5,7 @@ import {
   buildFilterPagePrompt,
   buildDatabaseQueryFilter,
   buildPagePropUpdateData,
-  getNotionDbOptions,
   getPromptChoices,
-  buildFilterPagePromptFromObj
 } from '../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 
@@ -153,7 +151,7 @@ export default class Db extends Command {
 
 
         // Select/Input a value for filtering
-        const fpp = await buildFilterPagePromptFromObj(selectedProp[1])
+        const fpp = await buildFilterPagePrompt(selectedProp[1])
         const promptFilterPropResult = await prompts(fpp)
         let filterValue = promptFilterPropResult.value
         switch (selectedProp[1].type) {
@@ -244,7 +242,7 @@ export default class Db extends Command {
       }
 
       // Input/Select update value(s)
-      const upp = await buildFilterPagePromptFromObj(updateTargetProp[1])
+      const upp = await buildFilterPagePrompt(updateTargetProp[1])
       const promptUpdatePropValueResult = await prompts(upp)
       const updateData = await buildPagePropUpdateData(
         updateTargetProp[1].name,
