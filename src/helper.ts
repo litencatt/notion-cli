@@ -96,18 +96,11 @@ export const buildFilterPagePrompt = async (
 export const buildDatabaseQueryFilter = async (
   name: string,
   type: string,
-  value: string
+  value: string | string[]
 ): Promise<object|null> =>  {
   let filter
   switch (type) {
     case 'number':
-      filter = {
-        property: name,
-        [type]: {
-          equals: value
-        }
-      }
-      break
     case 'select':
       filter = {
         property: name,
