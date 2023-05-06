@@ -1,7 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class DbRetrieve extends Command {
-  static description = 'describe the command here'
+  static description = 'Retrieve a database'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',

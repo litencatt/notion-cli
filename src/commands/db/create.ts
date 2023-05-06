@@ -1,7 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class DbCreate extends Command {
-  static description = 'describe the command here'
+  static description = 'Create a database'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',

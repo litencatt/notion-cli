@@ -1,7 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class DbUpdate extends Command {
-  static description = 'describe the command here'
+  static description = 'Update a database'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',

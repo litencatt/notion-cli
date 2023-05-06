@@ -1,7 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
 
 export default class DbQuery extends Command {
-  static description = 'describe the command here'
+  static description = 'Query a database'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
