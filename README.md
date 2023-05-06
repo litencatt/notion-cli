@@ -32,11 +32,11 @@ USAGE
 <!-- commands -->
 # Command Topics
 
-* [`notion-cli block`](docs/block.md)
-* [`notion-cli db`](docs/db.md)
+* [`notion-cli block`](docs/block.md) - Append block children
+* [`notion-cli db`](docs/db.md) - database operation on prompt
 * [`notion-cli help`](docs/help.md) - Display help for notion-cli.
-* [`notion-cli page`](docs/page.md)
+* [`notion-cli page`](docs/page.md) - Archive a page
 * [`notion-cli plugins`](docs/plugins.md) - List installed plugins.
-* [`notion-cli user`](docs/user.md)
+* [`notion-cli user`](docs/user.md) - List all users
 
 <!-- commandsstop -->

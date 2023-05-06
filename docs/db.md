@@ -1,7 +1,7 @@
 `notion-cli db`
 ===============
 
-
+database operation on prompt
 
 * [`notion-cli db`](#notion-cli-db)
 * [`notion-cli db create PAGE_ID`](#notion-cli-db-create-page_id)
@@ -11,6 +11,8 @@
 
 ## `notion-cli db`
 
+database operation on prompt
+
 ```
 USAGE
   $ notion-cli db [-d <value>] [-f <value>] [-u <value>]
@@ -19,6 +21,9 @@ FLAGS
   -d, --database_id=<value>
   -f, --filter_json_path=<value>
   -u, --update_json_path=<value>
+
+DESCRIPTION
+  database operation on prompt
 
 EXAMPLES
   $ notion-cli db
