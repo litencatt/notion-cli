@@ -187,8 +187,18 @@ export default class Db extends Command {
     )
     if (pages.length == 0) {
       console.log("No pages found")
+    }
+
+    const promptConfirmUpdatePagesResult = await prompts([{
+      type: 'confirm',
+      name: 'value',
+      message: 'Update a property of filtered pages?',
+      initial: false
+    }], { onCancel })
+    if (!promptConfirmUpdatePagesResult.value) {
       return
     }
+
     // Get filtered page IDs
     console.log("Filtered Pages:")
     const filteredPageIDs = []
