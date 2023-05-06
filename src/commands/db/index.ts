@@ -21,10 +21,6 @@ export default class Db extends Command {
     filter: Flags.string({ char: 'f' }),
 
     update: Flags.boolean({ char: 'u', dependsOn: ['database_id'] }),
-
-    retrieve: Flags.boolean({ char: 'r', dependsOn: ['database_id'] }),
-    propertyList: Flags.string({ char: 'p' }),
-    onlyValue: Flags.boolean({ char: 'P' }),
   }
 
   public async run(): Promise<void> {
@@ -39,15 +35,6 @@ export default class Db extends Command {
     if (flags.database_id && flags.update) {
       // const res = await updateDb(flags.database_id)
       // console.dir(res, { depth: null })
-    }
-    // Retrieve a database
-    if (flags.database_id && flags.retrieve) {
-      const options = {
-        propertyList: flags.propertyList,
-        onlyValue: flags.onlyValue,
-      }
-      const res = await notion.retrieveDb(flags.database_id, options)
-      console.dir(res, { depth: null })
     }
     // Run prompt when no flags
     if (Object.keys(flags).length === 0) {

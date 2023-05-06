@@ -1,30 +1,29 @@
 import {Args, Command, Flags} from '@oclif/core'
+import * as notion from '../../notion'
 
 export default class DbRetrieve extends Command {
   static description = 'Retrieve a database'
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    `$ notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d`,
   ]
 
-  static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({char: 'f'}),
+  static args = {
+    databaseId: Args.string({required: true}),
   }
 
-  static args = {
-    file: Args.string({description: 'file to read'}),
+  static flags = {
+    propertyList: Flags.string({ char: 'p' }),
+    onlyValue: Flags.boolean({ char: 'P' }),
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(DbRetrieve)
-
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from /app/src/commands/db/retrieve.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
+    const { flags, args } = await this.parse(DbRetrieve)
+    const options = {
+      propertyList: flags.propertyList,
+      onlyValue: flags.onlyValue,
     }
+    const res = await notion.retrieveDb(args.databaseId, options)
+    console.dir(res, { depth: null })
   }
 }
