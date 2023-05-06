@@ -6,14 +6,8 @@ import {
   CreateDatabaseResponse,
   UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
-type UpdatePageBodyParameters = Omit<UpdatePageParameters, 'page_id'>
-
-
 import { markdownToBlocks } from '@tryfabric/martian'
 type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
-
-import { richText } from '@tryfabric/martian/build/src/notion'
-import { text } from 'stream/consumers'
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -172,7 +166,7 @@ export const createPage = async (
   return res
 }
 
-export const updatePage = async (
+export const updatePageProps = async (
   pageId: string,
   properties: any
 ) => {
@@ -182,6 +176,39 @@ export const updatePage = async (
   })
   return res
 }
+
+// To keep the same page URL,
+// remove all blocks in the page and add new blocks
+export const updatePage = async (
+  pageId: string,
+  blocks: BlockObjectRequest[]
+) => {
+  const blks = await notion.blocks.children.list({
+    block_id: pageId,
+  });
+  for (const blk of blks.results) {
+    await notion.blocks.delete({
+      block_id: blk.id,
+    });
+  }
+
+  const res = await notion.blocks.children.append({
+    block_id: pageId,
+    // @ts-ignore
+    children: blocks,
+  });
+
+  return res
+};
+
+export const archivePage = async (
+  pageId: string
+) => {
+  notion.pages.update({
+    page_id: pageId,
+    archived: true,
+  });
+};
 
 export const retrieveBlock = async (blockId: string) => {
   const res = notion.blocks.retrieve({

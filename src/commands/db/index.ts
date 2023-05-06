@@ -295,7 +295,7 @@ export default class Db extends Command {
     console.log("Start update pages")
     for (const pageId of filteredPageIDs) {
       console.log(`page_id: ${pageId}`)
-      await notion.updatePage(pageId, updateParams)
+      await notion.updatePageProps(pageId, updateParams)
     }
     console.log("End update pages")
   }
