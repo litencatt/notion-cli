@@ -16,11 +16,9 @@ const notion = new Client({
 
 export const queryDb = async (
   databaseId: string,
-  filter: string | null
+  filter?: object | undefined
 ): Promise<QueryDatabaseResponse['results']> => {
-  const f = buildFilter(filter)
-  // console.log(f)
-
+  const f = filter as QueryDatabaseParameters['filter']
   const pages = []
   let cursor: string | undefined = undefined
   while (true) {
@@ -37,23 +35,6 @@ export const queryDb = async (
   }
 
   return pages
-}
-
-const buildFilter = (
-  filter: string | null
-): QueryDatabaseParameters['filter'] => {
-  let f: QueryDatabaseParameters['filter'] = {
-    and: [],
-    or: [],
-  }
-  try {
-    if (filter) {
-      f = JSON.parse(filter)
-    }
-  } catch (e) {
-    console.log(e)
-  }
-  return f
 }
 
 // TODO

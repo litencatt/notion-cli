@@ -111,7 +111,7 @@ export const buildFilterPagePrompt = async (
         choices: multiSelectChoices
       }
     case 'relation':
-      const relationPages = await notion.queryDb(prop.relation.database_id, "")
+      const relationPages = await notion.queryDb(prop.relation.database_id)
       // console.log(relationPages)
       const relationChoices: IPromptChoice[] = []
       for (const page of relationPages) {

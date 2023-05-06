@@ -19,7 +19,15 @@ export default class DbQuery extends Command {
 
   public async run(): Promise<void> {
     const { flags, args } = await this.parse(DbQuery)
-    const res = await notion.queryDb(args.database_id, flags.filter)
+
+    let filter: object | undefined
+    try {
+      filter = flags.filter ? JSON.parse(flags.filter) : undefined
+    } catch(e) {
+      console.log(e)
+      filter = undefined
+    }
+    const res = await notion.queryDb(args.database_id, filter)
     console.dir(res, { depth: null })
   }
 }
