@@ -183,6 +183,40 @@ export const updatePageProps = async (
   return res
 }
 
+
+// Update a page blocks
+// Delete all blocks in a page and add blocks
+export const updatePageBlocks = async (
+  pageId: string,
+  blocks: BlockObjectRequest[]
+) => {
+  const blks = await notion.blocks.children.list({
+    block_id: pageId,
+  });
+  for (const blk of blks.results) {
+    await notion.blocks.delete({
+      block_id: blk.id,
+    });
+  }
+
+  const res = await notion.blocks.children.append({
+    block_id: pageId,
+    // @ts-ignore
+    children: blocks,
+  });
+
+  return res
+};
+
+export const archivePage = async (
+  pageId: string
+) => {
+  notion.pages.update({
+    page_id: pageId,
+    archived: true,
+  });
+};
+
 export const retrieveBlock = async (blockId: string) => {
   const res = notion.blocks.retrieve({
     block_id: blockId,

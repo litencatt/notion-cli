@@ -1,4 +1,5 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command} from '@oclif/core'
+import * as notion from '../../notion'
 
 export default class PageArchive extends Command {
   static description = 'Archive a page'
@@ -7,24 +8,13 @@ export default class PageArchive extends Command {
     '<%= config.bin %> <%= command.id %>',
   ]
 
-  static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({char: 'f'}),
-  }
-
   static args = {
-    file: Args.string({description: 'file to read'}),
+    page_id: Args.string({ required: true }),
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(PageArchive)
-
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from /app/src/commands/page/archive.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
-    }
+    const { args } = await this.parse(PageArchive)
+    const res = await notion.archivePage(args.page_id)
+    console.dir(res, { depth: null })
   }
 }
