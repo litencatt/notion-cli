@@ -240,6 +240,19 @@ export default class Db extends Command {
       updateTargetProp[1].type,
       promptUpdatePropValueResult.value
     )
+    console.log("Update params:")
+    console.dir(updateData, {depth: null})
+    console.log("")
+
+    const promptReconfirmUpdatePropResult = await prompts([{
+      type: 'confirm',
+      name: 'value',
+      message: 'update pages with this params?',
+      initial: true
+    }], { onCancel })
+    if (!promptReconfirmUpdatePropResult.value) {
+      return
+    }
 
     // Update property
     console.log("Start update pages")
