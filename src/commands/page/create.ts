@@ -22,11 +22,21 @@ export default class PageCreate extends Command {
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageCreate)
 
+    // Support database_id only now
+    const parent = {
+      database_id: args.parent_id
+    }
     const fp = path.join('./', flags.file_path)
-    const fn = path.basename(flags.file_path)
+    const fileName = path.basename(flags.file_path)
     const md = fs.readFileSync(fp, { encoding: 'utf-8' })
     const blocks = markdownToBlocks(md)
-    const res = await notion.createPage(args.parent_id, fn, blocks)
+    let titlePropName = flags.title_name || "Name"
+    const pageProps = {
+      [titlePropName]: {
+        title: [{ text: { content: fileName } }],
+      },
+    }
+    const res = await notion.createPage(parent, pageProps, blocks)
     console.dir(res, { depth: null })
   }
 }
