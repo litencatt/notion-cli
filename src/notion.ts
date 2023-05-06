@@ -177,10 +177,9 @@ export const updatePageProps = async (
   return res
 }
 
-
-// Update a page blocks
-// Delete all blocks in a page and add blocks
-export const updatePageBlocks = async (
+// To keep the same page URL,
+// remove all blocks in the page and add new blocks
+export const updatePage = async (
   pageId: string,
   blocks: BlockObjectRequest[]
 ) => {
