@@ -1,30 +1,20 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command} from '@oclif/core'
+import * as notion from '../../notion'
 
 export default class DbCreate extends Command {
   static description = 'Create a database'
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    `$ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d`,
   ]
 
-  static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({char: 'f'}),
-  }
-
   static args = {
-    file: Args.string({description: 'file to read'}),
+    page_id: Args.string({required: true}),
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(DbCreate)
-
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from /app/src/commands/db/create.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
-    }
+    const { args } = await this.parse(DbCreate)
+    const res = await notion.createDb(args.page_id)
+    console.dir(res, { depth: null })
   }
 }
