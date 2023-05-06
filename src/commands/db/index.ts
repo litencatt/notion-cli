@@ -14,7 +14,12 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 export default class Db extends Command {
-  static examples = ['<%= config.bin %> <%= command.id %>']
+  static examples = [
+    `$ notion-cli db`,
+    `$ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c`,
+    `$ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/filter.json`,
+    `$ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/filter.json -u path/to/update.json`,
+  ]
 
   static flags = {
     database_id: Flags.string({ char: 'd' }),

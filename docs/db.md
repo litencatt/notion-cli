@@ -22,6 +22,12 @@ FLAGS
 
 EXAMPLES
   $ notion-cli db
+
+  $ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c
+
+  $ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/filter.json
+
+  $ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/filter.json -u path/to/update.json
 ```
 
 _See code: [dist/commands/db/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.8.0/dist/commands/db/index.ts)_
