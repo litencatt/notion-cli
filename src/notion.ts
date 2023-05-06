@@ -6,14 +6,8 @@ import {
   CreateDatabaseResponse,
   UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
-type UpdatePageBodyParameters = Omit<UpdatePageParameters, 'page_id'>
-
-
 import { markdownToBlocks } from '@tryfabric/martian'
 type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
-
-import { richText } from '@tryfabric/martian/build/src/notion'
-import { text } from 'stream/consumers'
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
