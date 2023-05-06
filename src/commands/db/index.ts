@@ -224,7 +224,8 @@ export default class Db extends Command {
     }], { onCancel })
     const updateTargetProp = Object.entries(selectedDb.properties)
       .find(([_, prop]) => {
-        return prop.name == promptSelectUpdatePropResult.property
+        // prompt result => "prperty_name <property_type>"
+        return prop.name == promptSelectUpdatePropResult.property.split(" <")[0]
       })
     if (updateTargetProp[1].type == undefined) {
       console.log(`${updateTargetProp} is not found`)
