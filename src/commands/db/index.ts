@@ -10,13 +10,15 @@ import {
   getFilterFields,
 } from '../../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
+import * as fs from 'fs'
+import * as path from 'path'
 
 export default class Db extends Command {
   static examples = ['<%= config.bin %> <%= command.id %>']
 
   static flags = {
     database_id: Flags.string({ char: 'd' }),
-    filter: Flags.string({ char: 'f' }),
+    filter_json_path: Flags.string({ char: 'f' }),
   }
 
   public async run(): Promise<void> {
@@ -68,100 +70,107 @@ export default class Db extends Command {
 
     // Build a filter
     let filter: object | undefined
-    let CombineOperator = undefined
-    const promptAddFilterResult = await prompts([{
-      type: 'confirm',
-      name: 'value',
-      message: 'Add filter?',
-      initial: true
-    }], { onCancel })
-    while (promptAddFilterResult.value) {
-      // Choice the operator first time and keep using it.
-      if (filter != undefined && CombineOperator == undefined) {
-        const promptAndOrPropResult = await prompts([{
-          type: 'autocomplete',
-          name: 'operator',
-          message: 'select and/or',
-          choices: [
-            { title: 'and'},
-            { title: 'or'},
-          ]
-        }], { onCancel })
-        // rebuild filter object with choose operator
-        const tmp = filter
-        CombineOperator = promptAndOrPropResult.operator
-        filter = {[CombineOperator]: [tmp]}
-      }
-
-      // Select a property for filter
-      const promptPropResult = await prompts([{
-        type: 'autocomplete',
-        name: 'property',
-        message: 'select a property for filter by',
-        choices: filterPropChoices
-      }], { onCancel })
-      // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
-      // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
-      const selectedProp = Object.entries(selectedDb.properties)
-        .find(([_, prop]) => {
-          // prompt result => "prperty_name <property_type>"
-          return prop.name == promptPropResult.property.split(" <")[0]
-        })
-      // console.log(selectedProp2)
-      if (selectedProp[1].type == undefined) {
-        console.log("selectedProp.type is undefined")
-        return
-      }
-
-      // Support only filter fields of the following types
-      // - Number
-      // - Select
-      // - Multi-select
-      // - Relation
-      const fieldChoices = await getFilterFields(selectedProp[1].type)
-      const promptFieldResult = await prompts([{
-        type: 'autocomplete',
-        name: 'value',
-        message: 'select a field of filter',
-        choices: fieldChoices
-      }], { onCancel })
-      const filterField = promptFieldResult.value
-
-      let filterValue: string | string[] | boolean = true
-      if (!['is_empty', 'is_not_empty'].includes(filterField)) {
-      // Select/Input a value for filtering
-        const fpp = await buildFilterPagePrompt(selectedProp[1])
-        const promptFilterPropResult = await prompts([fpp], { onCancel })
-        filterValue = promptFilterPropResult.value
-      }
-      const filterObj = await buildDatabaseQueryFilter(
-        selectedProp[1].name,
-        selectedProp[1].type,
-        filterField,
-        filterValue
-      )
-      if (filterObj == null) {
-        console.log("Error buildFilter")
-        return
-      }
-
-      // set or push a build filter
-      if (filter == undefined) {
-        filter = filterObj
-      } else {
-        filter[CombineOperator].push(filterObj)
-      }
-
-      const promptConfirmAddFilterFinishResult = await prompts([{
+    if (flags.filter_json_path != undefined) {
+      const fp = path.join('./', flags.filter_json_path)
+      const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
+      filter = JSON.parse(fj)
+    } else {
+      let CombineOperator = undefined
+      const promptAddFilterResult = await prompts([{
         type: 'confirm',
         name: 'value',
-        message: 'Finish add filter?',
+        message: 'Add filter?',
         initial: true
       }], { onCancel })
-      if (promptConfirmAddFilterFinishResult.value) {
-        break
+      while (promptAddFilterResult.value) {
+        // Choice the operator first time and keep using it.
+        if (filter != undefined && CombineOperator == undefined) {
+          const promptAndOrPropResult = await prompts([{
+            type: 'autocomplete',
+            name: 'operator',
+            message: 'select and/or',
+            choices: [
+              { title: 'and'},
+              { title: 'or'},
+            ]
+          }], { onCancel })
+          // rebuild filter object with choose operator
+          const tmp = filter
+          CombineOperator = promptAndOrPropResult.operator
+          filter = {[CombineOperator]: [tmp]}
+        }
+
+        // Select a property for filter
+        const promptPropResult = await prompts([{
+          type: 'autocomplete',
+          name: 'property',
+          message: 'select a property for filter by',
+          choices: filterPropChoices
+        }], { onCancel })
+        // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
+        // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
+        const selectedProp = Object.entries(selectedDb.properties)
+          .find(([_, prop]) => {
+            // prompt result => "prperty_name <property_type>"
+            return prop.name == promptPropResult.property.split(" <")[0]
+          })
+        // console.log(selectedProp2)
+        if (selectedProp[1].type == undefined) {
+          console.log("selectedProp.type is undefined")
+          return
+        }
+
+        // Support only filter fields of the following types
+        // - Number
+        // - Select
+        // - Multi-select
+        // - Relation
+        const fieldChoices = await getFilterFields(selectedProp[1].type)
+        const promptFieldResult = await prompts([{
+          type: 'autocomplete',
+          name: 'value',
+          message: 'select a field of filter',
+          choices: fieldChoices
+        }], { onCancel })
+        const filterField = promptFieldResult.value
+
+        let filterValue: string | string[] | boolean = true
+        if (!['is_empty', 'is_not_empty'].includes(filterField)) {
+        // Select/Input a value for filtering
+          const fpp = await buildFilterPagePrompt(selectedProp[1])
+          const promptFilterPropResult = await prompts([fpp], { onCancel })
+          filterValue = promptFilterPropResult.value
+        }
+        const filterObj = await buildDatabaseQueryFilter(
+          selectedProp[1].name,
+          selectedProp[1].type,
+          filterField,
+          filterValue
+        )
+        if (filterObj == null) {
+          console.log("Error buildFilter")
+          return
+        }
+
+        // set or push a build filter
+        if (filter == undefined) {
+          filter = filterObj
+        } else {
+          filter[CombineOperator].push(filterObj)
+        }
+
+        const promptConfirmAddFilterFinishResult = await prompts([{
+          type: 'confirm',
+          name: 'value',
+          message: 'Finish add filter?',
+          initial: true
+        }], { onCancel })
+        if (promptConfirmAddFilterFinishResult.value) {
+          break
+        }
       }
     }
+
     console.log("Filter:")
     console.dir(filter, {depth: null})
     console.log("")

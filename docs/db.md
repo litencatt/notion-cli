@@ -17,7 +17,7 @@ USAGE
 
 FLAGS
   -d, --database_id=<value>
-  -f, --filter=<value>
+  -f, --filter_json_path=<value>
 
 EXAMPLES
   $ notion-cli db
