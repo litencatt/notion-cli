@@ -8,11 +8,13 @@ export default class PageCreate extends Command {
   static description = 'Create a page'
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    `$ notion-cli page create 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/file.md`,
+    `$ notion-cli page create 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/file.md -t Title`,
   ]
 
   static flags = {
-    file_path: Flags.string({ char: 'f' }),
+    file_path: Flags.string({ char: 'f', description: 'path/to/***.md' }),
+    title_name: Flags.string({ char: 't', description: 'title property name(default: Name)' }),
   }
 
   static args = {
