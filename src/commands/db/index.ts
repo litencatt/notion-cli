@@ -10,21 +10,29 @@ import {
   getFilterFields,
 } from '../../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
+import * as fs from 'fs'
+import * as path from 'path'
 
 export default class Db extends Command {
-  static examples = ['<%= config.bin %> <%= command.id %>']
+  static examples = [
+    `$ notion-cli db`,
+    `$ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c`,
+    `$ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/filter.json`,
+    `$ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/filter.json -u path/to/update.json`,
+  ]
 
   static flags = {
     database_id: Flags.string({ char: 'd' }),
-    filter: Flags.string({ char: 'f' }),
+    filter_json_path: Flags.string({ char: 'f' }),
+    update_json_path: Flags.string({ char: 'u' }),
   }
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(Db)
 
-    // Run prompt when no flags
-    if (Object.keys(flags).length === 0) {
-      // Search all accessible DBs
+    // Search all accessible DBs
+    let databaseId: string
+    if (flags.database_id == undefined) {
       const dbs = await notion.searchDb()
       const dbChoices = []
       for (const db of dbs) {
@@ -55,14 +63,24 @@ export default class Db extends Command {
       }], { onCancel })
       console.log(promptSelectedDbResult)
 
-      // Get DB properties
-      // FIXME: Increase support types
-      const selectedDb = await notion.retrieveDb(promptSelectedDbResult.database_id, {})
-      // console.dir(selectedDb, {depth: null})
-      const filterPropChoices = await getPromptChoices(selectedDb)
+      databaseId = promptSelectedDbResult.database_id
+    } else {
+      databaseId = flags.database_id
+    }
 
-      // Build a filter
-      let filter: object | undefined
+    // Get DB properties
+    // FIXME: Increase support types
+    const selectedDb = await notion.retrieveDb(databaseId, {})
+    // console.dir(selectedDb, {depth: null})
+    const filterPropChoices = await getPromptChoices(selectedDb)
+
+    // Build a filter
+    let filter: object | undefined
+    if (flags.filter_json_path != undefined) {
+      const fp = path.join('./', flags.filter_json_path)
+      const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
+      filter = JSON.parse(fj)
+    } else {
       let CombineOperator = undefined
       const promptAddFilterResult = await prompts([{
         type: 'confirm',
@@ -157,40 +175,46 @@ export default class Db extends Command {
           break
         }
       }
-      console.log("Filter:")
-      console.dir(filter, {depth: null})
-      console.log("")
+    }
+    console.log("Filter:")
+    console.dir(filter, {depth: null})
+    console.log("")
 
-      // Get filtered pages
-      const pages = await notion.queryDb(
-        promptSelectedDbResult.database_id,
-        JSON.stringify(filter)
-      )
-      if (pages.length == 0) {
-        console.log("No pages found")
-        return
+    // Get filtered pages
+    const pages = await notion.queryDb(
+      databaseId,
+      JSON.stringify(filter)
+    )
+    if (pages.length == 0) {
+      console.log("No pages found")
+      return
+    }
+    // Get filtered page IDs
+    console.log("Filtered Pages:")
+    const filteredPageIDs = []
+    for (const page of pages) {
+      filteredPageIDs.push(page.id)
+
+      if (page.object != "page") {
+        continue
       }
-
-      // Get filtered page IDs
-      console.log("Filtered Pages:")
-      const filteredPageIDs = []
-      for (const page of pages) {
-        filteredPageIDs.push(page.id)
-
-        if (page.object != "page") {
-          continue
-        }
-        if (!isFullPage(page)) {
-          continue
-        }
-        Object.entries(page.properties).forEach(([_, prop]) => {
-          if (prop.type == "title") {
-            console.log(`title: ${prop.title[0].plain_text}, page_id: ${page.id}`)
-          }
-        })
+      if (!isFullPage(page)) {
+        continue
       }
-      console.log("")
+      Object.entries(page.properties).forEach(([_, prop]) => {
+        if (prop.type == "title") {
+          console.log(`title: ${prop.title[0].plain_text}, page_id: ${page.id}`)
+        }
+      })
+    }
+    console.log("")
 
+    let updateParams
+    if (flags.update_json_path != undefined) {
+      const up = path.join('./', flags.update_json_path)
+      const uj = fs.readFileSync(up, { encoding: 'utf-8' })
+      updateParams = JSON.parse(uj)
+    } else {
       const promptConfirmUpdatePropResult = await prompts([{
         type: 'confirm',
         name: 'value',
@@ -200,7 +224,6 @@ export default class Db extends Command {
       if (!promptConfirmUpdatePropResult.value) {
         return
       }
-
       // Select a update property
       const promptSelectUpdatePropResult = await prompts([{
         type: 'autocomplete',
@@ -210,7 +233,8 @@ export default class Db extends Command {
       }], { onCancel })
       const updateTargetProp = Object.entries(selectedDb.properties)
         .find(([_, prop]) => {
-          return prop.name == promptSelectUpdatePropResult.property
+          // prompt result => "prperty_name <property_type>"
+          return prop.name == promptSelectUpdatePropResult.property.split(" <")[0]
         })
       if (updateTargetProp[1].type == undefined) {
         console.log(`${updateTargetProp} is not found`)
@@ -220,21 +244,33 @@ export default class Db extends Command {
       // Input/Select update value(s)
       const upp = await buildFilterPagePrompt(updateTargetProp[1])
       const promptUpdatePropValueResult = await prompts([upp], { onCancel })
-      const updateData = await buildPagePropUpdateData(
+      updateParams = await buildPagePropUpdateData(
         updateTargetProp[1].name,
         updateTargetProp[1].type,
         promptUpdatePropValueResult.value
       )
-
-      // Update property
-      console.log("Start update pages")
-      for (const pageId of filteredPageIDs) {
-        console.log(`page_id: ${pageId}, updateData:`)
-        console.dir(updateData, {depth: null})
-        await notion.updatePage(pageId, updateData)
-      }
-      console.log("End update pages")
     }
+    console.log("Update params:")
+    console.dir(updateParams, {depth: null})
+    console.log("")
+
+    const promptReconfirmUpdatePropResult = await prompts([{
+      type: 'confirm',
+      name: 'value',
+      message: 'update pages with this params?',
+      initial: true
+    }], { onCancel })
+    if (!promptReconfirmUpdatePropResult.value) {
+      return
+    }
+
+    // Update property
+    console.log("Start update pages")
+    for (const pageId of filteredPageIDs) {
+      console.log(`page_id: ${pageId}`)
+      await notion.updatePage(pageId, updateParams)
+    }
+    console.log("End update pages")
   }
 }
 
