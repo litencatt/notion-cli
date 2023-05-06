@@ -1,26 +1,13 @@
 `notion-cli page`
 =================
 
+Archive a page
 
-
-* [`notion-cli page`](#notion-cli-page)
 * [`notion-cli page archive [FILE]`](#notion-cli-page-archive-file)
 * [`notion-cli page create [PARENT_ID]`](#notion-cli-page-create-parent_id)
 * [`notion-cli page retrieve PAGE_ID`](#notion-cli-page-retrieve-page_id)
 * [`notion-cli page retrieve property_item PAGE_ID PROPERTY_ID`](#notion-cli-page-retrieve-property_item-page_id-property_id)
 * [`notion-cli page update PAGE_ID`](#notion-cli-page-update-page_id)
-
-## `notion-cli page`
-
-```
-USAGE
-  $ notion-cli page
-
-EXAMPLES
-  $ notion-cli page
-```
-
-_See code: [dist/commands/page/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.9.0/dist/commands/page/index.ts)_
 
 ## `notion-cli page archive [FILE]`
 

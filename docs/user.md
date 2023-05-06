@@ -1,24 +1,11 @@
 `notion-cli user`
 =================
 
+List all users
 
-
-* [`notion-cli user`](#notion-cli-user)
 * [`notion-cli user list`](#notion-cli-user-list)
 * [`notion-cli user retrieve [USER_ID]`](#notion-cli-user-retrieve-user_id)
 * [`notion-cli user retrieve bot`](#notion-cli-user-retrieve-bot)
-
-## `notion-cli user`
-
-```
-USAGE
-  $ notion-cli user
-
-EXAMPLES
-  $ notion-cli user
-```
-
-_See code: [dist/commands/user/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.9.0/dist/commands/user/index.ts)_
 
 ## `notion-cli user list`
 

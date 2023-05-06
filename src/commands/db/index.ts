@@ -15,6 +15,8 @@ import * as path from 'path'
 import * as dayjs from 'dayjs'
 
 export default class Db extends Command {
+  static description = 'database operation on prompt'
+
   static examples = [
     `$ notion-cli db`,
     `$ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c`,

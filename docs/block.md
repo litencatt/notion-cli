@@ -1,26 +1,13 @@
 `notion-cli block`
 ==================
 
+Append block children
 
-
-* [`notion-cli block`](#notion-cli-block)
 * [`notion-cli block append BLOCK_ID`](#notion-cli-block-append-block_id)
 * [`notion-cli block delete BLOCK_ID`](#notion-cli-block-delete-block_id)
 * [`notion-cli block retrieve BLOCK_ID`](#notion-cli-block-retrieve-block_id)
 * [`notion-cli block retrieve children BLOCK_ID`](#notion-cli-block-retrieve-children-block_id)
 * [`notion-cli block update BLOCK_ID`](#notion-cli-block-update-block_id)
-
-## `notion-cli block`
-
-```
-USAGE
-  $ notion-cli block
-
-EXAMPLES
-  $ notion-cli block
-```
-
-_See code: [dist/commands/block/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.9.0/dist/commands/block/index.ts)_
 
 ## `notion-cli block append BLOCK_ID`
 
