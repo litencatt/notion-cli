@@ -78,7 +78,7 @@ export default class Db extends Command {
     const filterPropChoices = await getPromptChoices(selectedDb)
 
     // Build a filter
-    let filter: object | undefined = undefined
+    let filter: object | undefined
     if (flags.filter_json_path != undefined) {
       const fp = path.join('./', flags.filter_json_path)
       const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
@@ -187,10 +187,7 @@ export default class Db extends Command {
     console.log("")
 
     // Get filtered pages
-    const pages = await notion.queryDb(
-      databaseId,
-      JSON.stringify(filter)
-    )
+    const pages = await notion.queryDb(databaseId, filter)
     if (pages.length == 0) {
       console.log("No pages found")
     }
