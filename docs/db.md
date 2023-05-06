@@ -23,7 +23,7 @@ EXAMPLES
   $ notion-cli db
 ```
 
-_See code: [dist/commands/db/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.5.0/dist/commands/db/index.ts)_
+_See code: [dist/commands/db/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.8.0/dist/commands/db/index.ts)_
 
 ## `notion-cli db create PAGE_ID`
 

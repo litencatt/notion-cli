@@ -20,7 +20,7 @@ EXAMPLES
   $ notion-cli page
 ```
 
-_See code: [dist/commands/page/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.5.0/dist/commands/page/index.ts)_
+_See code: [dist/commands/page/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.8.0/dist/commands/page/index.ts)_
 
 ## `notion-cli page archive [FILE]`
 
