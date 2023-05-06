@@ -1,6 +1,6 @@
 import { Command, Flags } from '@oclif/core'
 const  prompts  = require('prompts')
-import * as notion from '../notion'
+import * as notion from '../../notion'
 import {
   onCancel,
   buildFilterPagePrompt,
@@ -8,7 +8,7 @@ import {
   buildPagePropUpdateData,
   getPromptChoices,
   getFilterFields,
-} from '../helper'
+} from '../../helper'
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 
 export default class Db extends Command {
