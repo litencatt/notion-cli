@@ -101,6 +101,7 @@ export const buildFilterPagePrompt = async (
       const multiSelectChoices = prop.multi_select.options.map((o) => {
         return {
           title: o.name,
+          value: o.name
         }
       })
       return {
@@ -160,29 +161,24 @@ export const buildDatabaseQueryFilter = async (
       break
     case 'multi_select':
     case 'relation':
-      switch (typeof value) {
-        case 'string':
-        case 'boolean':
-          filter = {
+      const values = value as string[]
+      if (values.length == 1) {
+        filter = {
+          property: name,
+          [type]: {
+            [field]: value[0]
+          }
+        }
+      } else {
+        filter = { and: [] }
+        for (const v of values) {
+          filter.and.push({
             property: name,
             [type]: {
-              [field]: value
+              [field]: v
             }
-          }
-          break
-        case "object":
-          filter = { and: [] }
-          for (const v of value) {
-            filter.and.push({
-              property: name,
-              [type]: {
-                [field]: v
-              }
-            })
-          }
-          break
-        default:
-          console.log(`Not supported value type(${typeof value})`)
+          })
+        }
       }
       break
     default:

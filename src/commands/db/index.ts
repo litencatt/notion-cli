@@ -12,6 +12,7 @@ import {
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as dayjs from 'dayjs'
 
 export default class Db extends Command {
   static examples = [
@@ -75,7 +76,7 @@ export default class Db extends Command {
     const filterPropChoices = await getPromptChoices(selectedDb)
 
     // Build a filter
-    let filter: object | undefined
+    let filter: object | undefined = undefined
     if (flags.filter_json_path != undefined) {
       const fp = path.join('./', flags.filter_json_path)
       const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
@@ -94,7 +95,7 @@ export default class Db extends Command {
           const promptAndOrPropResult = await prompts([{
             type: 'autocomplete',
             name: 'operator',
-            message: 'select and/or',
+            message: 'Select and/or',
             choices: [
               { title: 'and'},
               { title: 'or'},
@@ -105,12 +106,13 @@ export default class Db extends Command {
           CombineOperator = promptAndOrPropResult.operator
           filter = {[CombineOperator]: [tmp]}
         }
+        console.log(filter)
 
         // Select a property for filter
         const promptPropResult = await prompts([{
           type: 'autocomplete',
           name: 'property',
-          message: 'select a property for filter by',
+          message: 'Select a property for filter by',
           choices: filterPropChoices
         }], { onCancel })
         // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
@@ -135,7 +137,7 @@ export default class Db extends Command {
         const promptFieldResult = await prompts([{
           type: 'autocomplete',
           name: 'value',
-          message: 'select a field of filter',
+          message: 'Select a field of filter',
           choices: fieldChoices
         }], { onCancel })
         const filterField = promptFieldResult.value
@@ -147,6 +149,7 @@ export default class Db extends Command {
           const promptFilterPropResult = await prompts([fpp], { onCancel })
           filterValue = promptFilterPropResult.value
         }
+        console.log(filterValue)
         const filterObj = await buildDatabaseQueryFilter(
           selectedProp[1].name,
           selectedProp[1].type,
@@ -164,6 +167,7 @@ export default class Db extends Command {
         } else {
           filter[CombineOperator].push(filterObj)
         }
+        console.log(filter)
 
         const promptConfirmAddFilterFinishResult = await prompts([{
           type: 'confirm',
@@ -187,8 +191,29 @@ export default class Db extends Command {
     )
     if (pages.length == 0) {
       console.log("No pages found")
+    }
+    const promptConfirmSaveFilterResult = await prompts([{
+      type: 'confirm',
+      name: 'value',
+      message: 'Save this filter to a file?',
+      initial: false
+    }], { onCancel })
+    if (promptConfirmSaveFilterResult.value) {
+      const fileName = dayjs().format('YYYYMMDD_HHmmss') + ".json"
+      fs.writeFileSync(fileName, JSON.stringify(filter, null, 2))
+      console.log(`Save to ${fileName}\n`)
+    }
+
+    const promptConfirmUpdatePagesResult = await prompts([{
+      type: 'confirm',
+      name: 'value',
+      message: 'Update a property of filtered pages?',
+      initial: false
+    }], { onCancel })
+    if (!promptConfirmUpdatePagesResult.value) {
       return
     }
+
     // Get filtered page IDs
     console.log("Filtered Pages:")
     const filteredPageIDs = []
@@ -218,7 +243,7 @@ export default class Db extends Command {
       const promptConfirmUpdatePropResult = await prompts([{
         type: 'confirm',
         name: 'value',
-        message: 'update a property of those pages?',
+        message: 'Update a property of those pages?',
         initial: true
       }], { onCancel })
       if (!promptConfirmUpdatePropResult.value) {
@@ -228,7 +253,7 @@ export default class Db extends Command {
       const promptSelectUpdatePropResult = await prompts([{
         type: 'autocomplete',
         name: 'property',
-        message: 'select an update property',
+        message: 'Select an update property',
         choices: filterPropChoices
       }], { onCancel })
       const updateTargetProp = Object.entries(selectedDb.properties)
@@ -257,7 +282,7 @@ export default class Db extends Command {
     const promptReconfirmUpdatePropResult = await prompts([{
       type: 'confirm',
       name: 'value',
-      message: 'update pages with this params?',
+      message: 'Update pages with this params?',
       initial: true
     }], { onCancel })
     if (!promptReconfirmUpdatePropResult.value) {
