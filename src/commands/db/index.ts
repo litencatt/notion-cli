@@ -99,7 +99,8 @@ export default class Db extends Command {
         // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
         const selectedProp = Object.entries(selectedDb.properties)
           .find(([_, prop]) => {
-            return prop.name == promptPropResult.property
+            // prompt result => "prperty_name <property_type>"
+            return prop.name == promptPropResult.property.split(" <")[0]
           })
         // console.log(selectedProp2)
         if (selectedProp[1].type == undefined) {
