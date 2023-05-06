@@ -19,8 +19,6 @@ export default class Db extends Command {
 
     query: Flags.boolean({ char: 'q', dependsOn: ['database_id'] }),
     filter: Flags.string({ char: 'f' }),
-
-    update: Flags.boolean({ char: 'u', dependsOn: ['database_id'] }),
   }
 
   public async run(): Promise<void> {
@@ -30,11 +28,6 @@ export default class Db extends Command {
     if (flags.database_id && flags.query) {
       const res = await notion.queryDb(flags.database_id, flags.filter as string)
       console.dir(res, { depth: null })
-    }
-    // Update a database
-    if (flags.database_id && flags.update) {
-      // const res = await updateDb(flags.database_id)
-      // console.dir(res, { depth: null })
     }
     // Run prompt when no flags
     if (Object.keys(flags).length === 0) {
