@@ -1,30 +1,25 @@
 import {Args, Command, Flags} from '@oclif/core'
+import * as notion from '../../notion'
 
 export default class DbQuery extends Command {
   static description = 'Query a database'
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    `$ notion-cli db query f929e92f257c4d8bb9d0c176ce24814d`,
+    `$ notion-cli db query f929e92f257c4d8bb9d0c176ce24814d -f "{\"property\":\"Number\",\"number\":{\"equals\":2}}"`,
   ]
 
-  static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({char: 'f'}),
+  static args = {
+    database_id: Args.string({required: true}),
   }
 
-  static args = {
-    file: Args.string({description: 'file to read'}),
+  static flags = {
+    filter: Flags.string({ char: 'f', description: 'JSON stringified filter string' }),
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(DbQuery)
-
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from /app/src/commands/db/query.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
-    }
+    const { flags, args } = await this.parse(DbQuery)
+    const res = await notion.queryDb(args.database_id, flags.filter)
+    console.dir(res, { depth: null })
   }
 }

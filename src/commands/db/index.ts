@@ -16,7 +16,6 @@ export default class Db extends Command {
 
   static flags = {
     database_id: Flags.string({ char: 'd' }),
-
     query: Flags.boolean({ char: 'q', dependsOn: ['database_id'] }),
     filter: Flags.string({ char: 'f' }),
   }
@@ -24,11 +23,6 @@ export default class Db extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(Db)
 
-    // Query a database
-    if (flags.database_id && flags.query) {
-      const res = await notion.queryDb(flags.database_id, flags.filter as string)
-      console.dir(res, { depth: null })
-    }
     // Run prompt when no flags
     if (Object.keys(flags).length === 0) {
       // Search all accessible DBs
