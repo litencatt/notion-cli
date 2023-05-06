@@ -3,10 +3,10 @@
 Notion CLI tool written by TypeScript.
 
 <!-- toc -->
-* [@litencatt/notion-cli](#litencattnotion-cli)
-* [Usage](#usage)
-* [Commands](#commands)
-* [Command Topics](#command-topics)
+- [@litencatt/notion-cli](#litencattnotion-cli)
+- [Usage](#usage)
+- [Commands](#commands)
+- [Command Topics](#command-topics)
 <!-- tocstop -->
 
 # Usage
@@ -20,7 +20,7 @@ $ notion-cli COMMAND
 running command...
 
 $ notion-cli (--version)
-@litencatt/notion-cli/0.4.3 linux-arm64 node-v19.8.1
+@litencatt/notion-cli/0.9.0 linux-arm64 node-v19.8.1
 
 $ notion-cli --help [COMMAND]
 USAGE
