@@ -64,7 +64,7 @@ export const getPromptChoices = async (
     }
 
     propChoices.push({
-      title: `${prop.name} |${prop.type}|`,
+      title: `${prop.name} <${prop.type}>`,
     })
   })
   return propChoices
