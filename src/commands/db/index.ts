@@ -16,7 +16,6 @@ export default class Db extends Command {
 
   static flags = {
     database_id: Flags.string({ char: 'd' }),
-    query: Flags.boolean({ char: 'q', dependsOn: ['database_id'] }),
     filter: Flags.string({ char: 'f' }),
   }
 
