@@ -76,7 +76,7 @@ export default class Db extends Command {
     const filterPropChoices = await getPromptChoices(selectedDb)
 
     // Build a filter
-    let filter: object | undefined
+    let filter: object | undefined = undefined
     if (flags.filter_json_path != undefined) {
       const fp = path.join('./', flags.filter_json_path)
       const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
