@@ -13,11 +13,12 @@
 
 ```
 USAGE
-  $ notion-cli db [-d <value>] [-f <value>]
+  $ notion-cli db [-d <value>] [-f <value>] [-u <value>]
 
 FLAGS
   -d, --database_id=<value>
   -f, --filter_json_path=<value>
+  -u, --update_json_path=<value>
 
 EXAMPLES
   $ notion-cli db
