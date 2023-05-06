@@ -20,7 +20,7 @@ EXAMPLES
   $ notion-cli block
 ```
 
-_See code: [dist/commands/block/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.8.0/dist/commands/block/index.ts)_
+_See code: [dist/commands/block/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.9.0/dist/commands/block/index.ts)_
 
 ## `notion-cli block append BLOCK_ID`
 
