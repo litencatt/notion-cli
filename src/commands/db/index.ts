@@ -12,6 +12,7 @@ import {
 import { isFullDatabase, isFullPage } from '@notionhq/client'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as dayjs from 'dayjs'
 
 export default class Db extends Command {
   static examples = [
@@ -187,6 +188,17 @@ export default class Db extends Command {
     )
     if (pages.length == 0) {
       console.log("No pages found")
+    }
+    const promptConfirmSaveFilterResult = await prompts([{
+      type: 'confirm',
+      name: 'value',
+      message: 'Save this filter to a file?',
+      initial: false
+    }], { onCancel })
+    if (promptConfirmSaveFilterResult.value) {
+      const fileName = dayjs().format('YYYYMMDD_HHmmss') + ".json"
+      fs.writeFileSync(fileName, JSON.stringify(filter, null, 2))
+      console.log(`Save to ${fileName}\n`)
     }
 
     const promptConfirmUpdatePagesResult = await prompts([{
