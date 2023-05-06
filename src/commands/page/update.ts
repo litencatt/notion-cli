@@ -18,7 +18,7 @@ export default class PageUpdate extends Command {
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageUpdate)
-    const res = await notion.updatePage(args.page_id, {})
+    const res = await notion.updatePageProps(args.page_id, {})
     console.dir(res, { depth: null })
   }
 }

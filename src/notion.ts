@@ -172,7 +172,7 @@ export const createPage = async (
   return res
 }
 
-export const updatePage = async (
+export const updatePageProps = async (
   pageId: string,
   properties: any
 ) => {
