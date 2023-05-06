@@ -19,6 +19,7 @@ export default class Db extends Command {
   static flags = {
     database_id: Flags.string({ char: 'd' }),
     filter_json_path: Flags.string({ char: 'f' }),
+    update_json_path: Flags.string({ char: 'u' }),
   }
 
   public async run(): Promise<void> {
@@ -170,7 +171,6 @@ export default class Db extends Command {
         }
       }
     }
-
     console.log("Filter:")
     console.dir(filter, {depth: null})
     console.log("")
@@ -184,7 +184,6 @@ export default class Db extends Command {
       console.log("No pages found")
       return
     }
-
     // Get filtered page IDs
     console.log("Filtered Pages:")
     const filteredPageIDs = []
@@ -205,43 +204,49 @@ export default class Db extends Command {
     }
     console.log("")
 
-    const promptConfirmUpdatePropResult = await prompts([{
-      type: 'confirm',
-      name: 'value',
-      message: 'update a property of those pages?',
-      initial: true
-    }], { onCancel })
-    if (!promptConfirmUpdatePropResult.value) {
-      return
-    }
+    let updateParams
+    if (flags.update_json_path != undefined) {
+      const up = path.join('./', flags.update_json_path)
+      const uj = fs.readFileSync(up, { encoding: 'utf-8' })
+      updateParams = JSON.parse(uj)
+    } else {
+      const promptConfirmUpdatePropResult = await prompts([{
+        type: 'confirm',
+        name: 'value',
+        message: 'update a property of those pages?',
+        initial: true
+      }], { onCancel })
+      if (!promptConfirmUpdatePropResult.value) {
+        return
+      }
+      // Select a update property
+      const promptSelectUpdatePropResult = await prompts([{
+        type: 'autocomplete',
+        name: 'property',
+        message: 'select an update property',
+        choices: filterPropChoices
+      }], { onCancel })
+      const updateTargetProp = Object.entries(selectedDb.properties)
+        .find(([_, prop]) => {
+          // prompt result => "prperty_name <property_type>"
+          return prop.name == promptSelectUpdatePropResult.property.split(" <")[0]
+        })
+      if (updateTargetProp[1].type == undefined) {
+        console.log(`${updateTargetProp} is not found`)
+        return
+      }
 
-    // Select a update property
-    const promptSelectUpdatePropResult = await prompts([{
-      type: 'autocomplete',
-      name: 'property',
-      message: 'select an update property',
-      choices: filterPropChoices
-    }], { onCancel })
-    const updateTargetProp = Object.entries(selectedDb.properties)
-      .find(([_, prop]) => {
-        // prompt result => "prperty_name <property_type>"
-        return prop.name == promptSelectUpdatePropResult.property.split(" <")[0]
-      })
-    if (updateTargetProp[1].type == undefined) {
-      console.log(`${updateTargetProp} is not found`)
-      return
+      // Input/Select update value(s)
+      const upp = await buildFilterPagePrompt(updateTargetProp[1])
+      const promptUpdatePropValueResult = await prompts([upp], { onCancel })
+      updateParams = await buildPagePropUpdateData(
+        updateTargetProp[1].name,
+        updateTargetProp[1].type,
+        promptUpdatePropValueResult.value
+      )
     }
-
-    // Input/Select update value(s)
-    const upp = await buildFilterPagePrompt(updateTargetProp[1])
-    const promptUpdatePropValueResult = await prompts([upp], { onCancel })
-    const updateData = await buildPagePropUpdateData(
-      updateTargetProp[1].name,
-      updateTargetProp[1].type,
-      promptUpdatePropValueResult.value
-    )
     console.log("Update params:")
-    console.dir(updateData, {depth: null})
+    console.dir(updateParams, {depth: null})
     console.log("")
 
     const promptReconfirmUpdatePropResult = await prompts([{
@@ -257,9 +262,8 @@ export default class Db extends Command {
     // Update property
     console.log("Start update pages")
     for (const pageId of filteredPageIDs) {
-      console.log(`page_id: ${pageId}, updateData:`)
-      console.dir(updateData, {depth: null})
-      await notion.updatePage(pageId, updateData)
+      console.log(`page_id: ${pageId}`)
+      await notion.updatePage(pageId, updateParams)
     }
     console.log("End update pages")
   }
