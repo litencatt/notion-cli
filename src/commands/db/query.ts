@@ -2,6 +2,8 @@ import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../notion'
 import * as fs from 'fs'
 import * as path from 'path'
+import { buildOneDepthJson } from '../../helper'
+import { Parser } from '@json2csv/plainjs';
 
 export default class DbQuery extends Command {
   static description = 'Query a database'
@@ -28,11 +30,15 @@ export default class DbQuery extends Command {
     let filter: object | undefined
     try {
       filter = flags.filter ? JSON.parse(fj) : undefined
+      // console.dir(filter, {depth: null})
     } catch(e) {
       console.log(e)
       filter = undefined
     }
     const res = await notion.queryDb(args.database_id, filter)
-    console.dir(res, { depth: null })
+    const oneDepthJson = await buildOneDepthJson(res)
+    const parser = new Parser()
+    const csv = parser.parse(oneDepthJson)
+    console.log(csv)
   }
 }
