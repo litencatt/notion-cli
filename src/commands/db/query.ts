@@ -1,5 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../notion'
+import * as fs from 'fs'
+import * as path from 'path'
 
 export default class DbQuery extends Command {
   static description = 'Query a database'
@@ -20,9 +22,12 @@ export default class DbQuery extends Command {
   public async run(): Promise<void> {
     const { flags, args } = await this.parse(DbQuery)
 
+    const fp = path.join('./', flags.filter)
+    const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
+
     let filter: object | undefined
     try {
-      filter = flags.filter ? JSON.parse(flags.filter) : undefined
+      filter = flags.filter ? JSON.parse(fj) : undefined
     } catch(e) {
       console.log(e)
       filter = undefined
