@@ -17,6 +17,7 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
+    "@json2csv/plainjs": "^7.0.1",
     "@notionhq/client": "^2.2.4",
     "@oclif/core": "^2",
     "@oclif/plugin-help": "^5",
