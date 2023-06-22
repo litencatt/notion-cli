@@ -346,50 +346,6 @@ export const buildOneDepthJson = async (
           }
           pageData[key] = richTexts.join(",")
           break
-        case "rollup":
-          switch (prop.rollup.type) {
-            case "number":
-              pageData[key] = prop.rollup.number
-              break
-            case "date":
-              pageData[key] = prop.rollup.date.start
-              break
-            case "array":
-              const rollupArray = []
-              for (const rollup of prop.rollup.array) {
-                rollupArray.push(rollup.name)
-              }
-              pageData[key] = rollupArray.join(",")
-              break
-            case "relation":
-              const rollupRelation = []
-              for (const rollup of prop.rollup.relation) {
-                rollupRelation.push(rollup.id)
-              }
-              pageData[key] = rollupRelation.join(",")
-              break
-            case "formula":
-              switch (prop.rollup.formula.type) {
-                case "string":
-                  pageData[key] = prop.rollup.formula.string
-                  break
-                case "number":
-                  pageData[key] = prop.rollup.formula.number
-                  break
-                case "boolean":
-                  pageData[key] = prop.rollup.formula.boolean
-                  break
-                case "date":
-                  pageData[key] = prop.rollup.formula.date.start
-                  break
-              }
-              break
-            default:
-              // @ts-ignore
-              console.log(`${prop.rollup.type} is not supported`)
-              break
-            }
-          break
         default:
           console.log(`${prop.type} is not supported`)
       }
