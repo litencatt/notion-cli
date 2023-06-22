@@ -335,7 +335,7 @@ export const buildOneDepthJson = async (
         // @ts-ignore
         case "unique_id":
           // @ts-ignore
-          pageData[key] = `{prop.unique_id.prefix}-${prop.unique_id.number}`
+          pageData[key] = `${prop.unique_id.prefix}-${prop.unique_id.number}`
           break
         case "title":
           pageData[key] = prop.title[0].plain_text
