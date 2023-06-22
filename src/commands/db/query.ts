@@ -26,12 +26,13 @@ export default class DbQuery extends Command {
   public async run(): Promise<void> {
     const { flags, args } = await this.parse(DbQuery)
 
-    const fp = path.join('./', flags.filter)
-    const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
-
     let filter: object | undefined
     try {
-      filter = flags.filter ? JSON.parse(fj) : undefined
+      if (flags.filter) {
+        const fp = path.join('./', flags.filter)
+        const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
+        filter = JSON.parse(fj)
+      }
       // console.dir(filter, {depth: null})
     } catch(e) {
       console.log(e)
