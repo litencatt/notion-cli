@@ -19,6 +19,8 @@ export default class DbQuery extends Command {
 
   static flags = {
     filter: Flags.string({ char: 'f', description: 'JSON stringified filter string' }),
+    csvOutput: Flags.boolean({ char: 'c' }),
+
   }
 
   public async run(): Promise<void> {
@@ -36,9 +38,13 @@ export default class DbQuery extends Command {
       filter = undefined
     }
     const res = await notion.queryDb(args.database_id, filter)
-    const oneDepthJson = await buildOneDepthJson(res)
-    const parser = new Parser()
-    const csv = parser.parse(oneDepthJson)
-    console.log(csv)
+    if (flags.csvOutput) {
+      const oneDepthJson = await buildOneDepthJson(res)
+      const parser = new Parser()
+      const csv = parser.parse(oneDepthJson)
+      console.log(csv)
+    } else {
+      console.dir(res, { depth: null })
+    }
   }
 }
