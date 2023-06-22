@@ -250,6 +250,7 @@ export const buildOneDepthJson = async (
       continue
     }
     const pageData = {}
+    pageData["page_id"] = page.id
     Object.entries(page.properties).forEach(([key, prop]) => {
       switch(prop.type) {
         case "number":
