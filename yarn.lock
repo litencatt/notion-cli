@@ -541,10 +541,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^2", "@oclif/core@^2.8.0", "@oclif/core@^2.8.2":
-  version "2.8.4"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.8.4.tgz#7b453be6d4cd060ff4990bc8e31824a1de308354"
-  integrity sha512-VlFDhoAJ1RDwcpDF46wAlciWTIryapMUViACttY9GwX6Ci6Lud1awe/pC3k4jad5472XshnPQV4bHAl4a/yxpA==
+"@oclif/core@^2", "@oclif/core@^2.8.0", "@oclif/core@^2.8.2", "@oclif/core@^2.8.4":
+  version "2.8.10"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.8.10.tgz#01d2ce3ad9f9f8679e3d4c506f528e9de7de74a5"
+  integrity sha512-coRn9vYDEnoE8Vg20aavts9+Bt5QrHhbdh0cDkImopV0MgT8i/VmgL04D33+qoHQH20XzBOMqrjk+bqQzqyaHg==
   dependencies:
     "@types/cli-progress" "^3.11.0"
     ansi-escapes "^4.3.2"
@@ -4052,11 +4052,11 @@ object-treeify@^1.1.33:
   integrity sha512-EFVjAYfzWqWsBMRHPMAXLCDIJnpMhdWAqR7xG6M6a2cs6PMFpl/+Z20w9zDW4vkxOFfddegBKq9Rehd0bxWE7A==
 
 oclif@^3:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/oclif/-/oclif-3.8.2.tgz#1bc9a4b43b0bfa3e8e991086b0bbec397748b5fe"
-  integrity sha512-PsMPYp3jc0fL4AgZLvMMHfP488Iu1pOoqF0AwglBwBtY9YYSQB5Es8dzWpaDDvUsJeWTBHeted48CT7jRrA4OQ==
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/oclif/-/oclif-3.9.1.tgz#f7ddf8aacd3fd86029b5e66c6cac743459299f4b"
+  integrity sha512-gJ8gJrohFY8qEeVBOw7wgAFdwPt2CTTkEFXDTkfUeXap6URIy6ngP7g/E1A2zFt2I0wH/qQHwcfuTpfBbj1+Uw==
   dependencies:
-    "@oclif/core" "^2.8.0"
+    "@oclif/core" "^2.8.4"
     "@oclif/plugin-help" "^5.1.19"
     "@oclif/plugin-not-found" "^2.3.7"
     "@oclif/plugin-warn-if-update-available" "^2.0.14"
