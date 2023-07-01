@@ -368,10 +368,10 @@
     "@types/node-fetch" "^2.5.10"
     node-fetch "^2.6.1"
 
-"@notionhq/client@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@notionhq/client/-/client-2.2.4.tgz#909e23de7ae8e975ca67cb924afa4f856ff6e5dc"
-  integrity sha512-cr5yW6mIJX1cBDThClklNUY5KfQO0iW3rL/CEpx5gU+7Bv458VqeT9YfM9KIbhuGw0D2a8/+qv0UpveDM6rsOw==
+"@notionhq/client@^2.2.6":
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/@notionhq/client/-/client-2.2.6.tgz#a50da10bfca8318ed89add1dd812106cec484d7b"
+  integrity sha512-QmYN43nOLOBjQ450/nEb98EvTlkDq4t2/F39kiSxaqtse4EG7nctJLeJZrKR1glz9V4K8y2kHmNo8Bz+1XrwYQ==
   dependencies:
     "@types/node-fetch" "^2.5.10"
     node-fetch "^2.6.1"
