@@ -1,5 +1,9 @@
 import {
-    GetDatabaseResponse,
+  QueryDatabaseParameters,
+  QueryDatabaseResponse,
+  GetDatabaseResponse,
+  CreateDatabaseResponse,
+  UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { IPromptChoice } from './interface'
 import * as notion from './notion'
@@ -232,4 +236,132 @@ export const buildPagePropUpdateData = async (
       }
   }
   return null
+}
+
+export const buildOneDepthJson = async (
+  pages: QueryDatabaseResponse['results']
+) => {
+  const oneDepthJson = []
+  const relationJson = []
+  for (const page of pages) {
+    if (page.object != "page") {
+      continue
+    }
+    if (!isFullPage(page)) {
+      continue
+    }
+    const pageData = {}
+    pageData["page_id"] = page.id
+    Object.entries(page.properties).forEach(([key, prop]) => {
+      switch(prop.type) {
+        case "number":
+          pageData[key] = prop.number
+          break
+        case "select":
+          pageData[key] = prop.select === null ? "" : prop.select.name
+          break
+        case "multi_select":
+          const multiSelects = []
+          for (const select of prop.multi_select) {
+            multiSelects.push(select.name)
+          }
+          pageData[key] = multiSelects.join(",")
+          break
+        case "relation":
+          const relationPages = []
+          // relationJsonにkeyがなければ作成
+          if (relationJson[key] == null) {
+            relationJson[key] = []
+          }
+          for (const relation of prop.relation) {
+            relationPages.push(relation.id)
+            relationJson[key].push({
+              page_id: page.id,
+              relation_page_id: relation.id
+            })
+          }
+          pageData[key] = relationPages.join(",")
+          break
+        case "created_time":
+          pageData[key] = prop.created_time
+          break
+        case "last_edited_time":
+          pageData[key] = prop.last_edited_time
+          break
+        case "formula":
+          switch (prop.formula.type) {
+            case "string":
+              pageData[key] = prop.formula.string
+              break
+            case "number":
+              pageData[key] = prop.formula.number
+              break
+            case "boolean":
+              pageData[key] = prop.formula.boolean
+              break
+            case "date":
+              pageData[key] = prop.formula.date.start
+              break
+            default:
+              // console.log(`${prop.formula.type} is not supported`)
+          }
+          break
+        case "url":
+          pageData[key] = prop.url
+          break
+        case "date":
+          pageData[key] = prop.date === null ? "" : prop.date.start
+          break
+        case "email":
+          pageData[key] = prop.email
+          break
+        case "phone_number":
+          pageData[key] = prop.phone_number
+          break
+        case "created_by":
+          pageData[key] = prop.created_by.id
+          break
+        case "last_edited_by":
+          pageData[key] = prop.last_edited_by.id
+          break
+        case "people":
+          const people = []
+          for (const person of prop.people) {
+            people.push(person.id)
+          }
+          pageData[key] = people.join(",")
+          break
+        case "files":
+          const files = []
+          for (const file of prop.files) {
+            files.push(file.name)
+          }
+          pageData[key] = files.join(",")
+          break
+        case "checkbox":
+          pageData[key] = prop.checkbox
+          break
+        // @ts-ignore
+        case "unique_id":
+          // @ts-ignore
+          pageData[key] = `${prop.unique_id.prefix}-${prop.unique_id.number}`
+          break
+        case "title":
+          pageData[key] = prop.title[0].plain_text
+          break
+        case "rich_text":
+          const richTexts = []
+          for (const richText of prop.rich_text) {
+            richTexts.push(richText.plain_text)
+          }
+          pageData[key] = richTexts.join(",")
+          break
+        default:
+          console.log(`${prop.type} is not supported`)
+      }
+    })
+    oneDepthJson.push(pageData)
+  }
+
+  return {oneDepthJson, relationJson}
 }
