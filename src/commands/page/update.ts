@@ -9,16 +9,16 @@ export default class PageUpdate extends Command {
   ]
 
   static flags = {
-    file_path: Flags.string({ char: 'f' }),
+    filePath: Flags.string({ char: 'f' }),
   }
 
   static args = {
-    page_id: Args.string({ required: true }),
+    pageId: Args.string({ required: true }),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageUpdate)
-    const res = await notion.updatePageProps(args.page_id, {})
+    const res = await notion.updatePageProps(args.pageId, {})
     console.dir(res, { depth: null })
   }
 }
