@@ -73,7 +73,7 @@ export default class Db extends Command {
 
     // Get DB properties
     // FIXME: Increase support types
-    const selectedDb = await notion.retrieveDb(databaseId, {})
+    const selectedDb = await notion.retrieveDb(databaseId)
     // console.dir(selectedDb, {depth: null})
     const filterPropChoices = await getPromptChoices(selectedDb)
 
