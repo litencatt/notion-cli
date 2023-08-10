@@ -1,5 +1,12 @@
 import {Args, Command} from '@oclif/core'
+import {
+  CreateDatabaseParameters,
+} from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
+import {
+  onCancel,
+} from '../../helper'
+const  prompts  = require('prompts')
 
 export default class DbCreate extends Command {
   static description = 'Create a database'
@@ -14,7 +21,35 @@ export default class DbCreate extends Command {
 
   public async run(): Promise<void> {
     const { args } = await this.parse(DbCreate)
-    const res = await notion.createDb(args.pageId)
+
+    const dbPropPromptResult = await prompts([{
+      type: 'text',
+      name: 'title',
+      message: 'Please input database title',
+    }], { onCancel })
+
+    const dbProps: CreateDatabaseParameters = {
+      parent: {
+        type: 'page_id',
+        page_id: args.pageId,
+      },
+      title: [
+        {
+          type: 'text',
+          text: {
+            content: dbPropPromptResult.title,
+          }
+        }
+      ],
+      // TODO: add properties
+      properties: {
+        Name: {
+          title: {}
+        }
+      },
+    }
+
+    const res = await notion.createDb(dbProps)
     console.dir(res, { depth: null })
   }
 }

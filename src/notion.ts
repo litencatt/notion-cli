@@ -1,5 +1,6 @@
 import { Client, LogLevel } from '@notionhq/client'
 import {
+  CreateDatabaseParameters,
   QueryDatabaseParameters,
   QueryDatabaseResponse,
   GetDatabaseResponse,
@@ -37,24 +38,10 @@ export const queryDb = async (
   return pages
 }
 
-// TODO
-// - Support title
-// - Support properties
 export const createDb = async (
-  pageId: string
+  dbProps: CreateDatabaseParameters
 ): Promise<CreateDatabaseResponse> => {
-  return await notion.databases.create({
-    parent: {
-      type: 'page_id',
-      page_id: pageId,
-    },
-    // title: [] => Untitled
-    properties: {
-      Name: {
-        title: {},
-      },
-    },
-  })
+  return await notion.databases.create(dbProps)
 }
 
 // TODO
