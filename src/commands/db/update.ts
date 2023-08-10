@@ -6,6 +6,7 @@ import {
 import * as notion from '../../notion'
 import {
   onCancel,
+  getDbChoices,
 } from '../../helper'
 const  prompts  = require('prompts')
 
@@ -27,32 +28,12 @@ export default class DbUpdate extends Command {
 
     let databaseId = args.databaseId
     if (databaseId == undefined) {
-      const dbs = await notion.searchDb()
-      const dbChoices = []
-      for (const db of dbs) {
-        if (db.object != "database") {
-          continue
-        }
-        if (!isFullDatabase(db)) {
-          continue
-        }
-        if (db.title[0] == null) {
-          continue
-        }
-        dbChoices.push({
-          title: db.title[0].plain_text,
-          value: db.id,
-        })
-      }
-      const sortedDbChoices = dbChoices.sort((a,b)=> {
-        return a.title.localeCompare(b.title)
-      })
-
+      const dbChoices = await getDbChoices()
       const promptSelectedDbResult = await prompts([{
         type: 'autocomplete',
         name: 'database_id',
         message: 'Select a database to update',
-        choices: sortedDbChoices
+        choices: dbChoices
       }], { onCancel })
       console.log(promptSelectedDbResult)
 
