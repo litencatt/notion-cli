@@ -22,6 +22,7 @@ export default class DbCreate extends Command {
   public async run(): Promise<void> {
     const { args } = await this.parse(DbCreate)
 
+    // TODO: support other properties
     const dbPropPromptResult = await prompts([{
       type: 'text',
       name: 'title',
@@ -41,7 +42,6 @@ export default class DbCreate extends Command {
           }
         }
       ],
-      // TODO: add properties
       properties: {
         Name: {
           title: {}

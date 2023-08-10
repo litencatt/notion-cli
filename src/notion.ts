@@ -5,7 +5,7 @@ import {
   QueryDatabaseResponse,
   GetDatabaseResponse,
   CreateDatabaseResponse,
-  UpdatePageParameters,
+  UpdateDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { markdownToBlocks } from '@tryfabric/martian'
 type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
@@ -44,26 +44,10 @@ export const createDb = async (
   return await notion.databases.create(dbProps)
 }
 
-// TODO
-// - Support title
-// - Support properties
 export const updateDb = async (
-  databaseId: string
+  dbProps: UpdateDatabaseParameters
 ): Promise<GetDatabaseResponse> => {
-  return await notion.databases.update({
-    database_id: databaseId,
-    properties: {
-      Tags: {
-        multi_select: {
-          options: [
-            {
-              name: 'aaa',
-            },
-          ],
-        },
-      },
-    },
-  })
+  return await notion.databases.update(dbProps)
 }
 
 export const retrieveDb = async (
