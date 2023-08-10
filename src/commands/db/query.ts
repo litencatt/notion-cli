@@ -44,6 +44,13 @@ export default class DbQuery extends Command {
       const parser = new Parser()
       const csv = parser.parse(oneDepthJson)
       console.log(csv)
+
+      // あるページに対してリレーション関係にあるページIDの情報のみCSV出力したければ、
+      // 以下property_nameを指定すれば出力可能
+      // page_id, relation_page_id
+      // const parser2 = new Parser()
+      // const rel = parser2.parse(relationJson["property_name"])
+      // console.log(rel)
     } else {
       console.dir(res, { depth: null })
     }
