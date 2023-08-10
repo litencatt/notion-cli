@@ -1,5 +1,12 @@
 import {Args, Command, Flags} from '@oclif/core'
+import {
+  UpdateDatabaseParameters,
+} from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
+import {
+  onCancel,
+} from '../../helper'
+const  prompts  = require('prompts')
 
 export default class DbUpdate extends Command {
   static description = 'Update a database'
@@ -16,7 +23,26 @@ export default class DbUpdate extends Command {
 
   public async run(): Promise<void> {
     const { args } = await this.parse(DbUpdate)
-    const res = await notion.updateDb(args.databaseId)
+
+    // TODO: support other properties
+    const dbPropPromptResult = await prompts([{
+      type: 'text',
+      name: 'title',
+      message: 'Please input new database title',
+    }], { onCancel })
+
+    const dbProps: UpdateDatabaseParameters = {
+      database_id: args.databaseId,
+      title: [
+        {
+          type: 'text',
+          text: {
+            content: dbPropPromptResult.title,
+          }
+        }
+      ]
+    }
+    const res = await notion.updateDb(dbProps)
     console.dir(res, { depth: null })
   }
 }
