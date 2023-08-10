@@ -16,7 +16,7 @@ export default class DbQuery extends Command {
   ]
 
   static args = {
-    database_id: Args.string({required: true}),
+    databaseId: Args.string({required: true}),
   }
 
   static flags = {
@@ -45,7 +45,7 @@ export default class DbQuery extends Command {
       console.log(e)
       filter = undefined
     }
-    const res = await notion.queryDb(args.database_id, filter)
+    const res = await notion.queryDb(args.databaseId, filter)
     if (flags.csvOutput) {
       const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
       const parser = new Parser()

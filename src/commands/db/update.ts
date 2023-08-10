@@ -15,7 +15,7 @@ export default class DbUpdate extends Command {
   static flags = {}
 
   public async run(): Promise<void> {
-    const { flags, args } = await this.parse(DbUpdate)
+    const { args } = await this.parse(DbUpdate)
     const res = await notion.updateDb(args.databaseId)
     console.dir(res, { depth: null })
   }
