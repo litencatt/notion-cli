@@ -242,6 +242,7 @@ export const buildOneDepthJson = async (
   pages: QueryDatabaseResponse['results']
 ) => {
   const oneDepthJson = []
+  const relationJson = []
   for (const page of pages) {
     if (page.object != "page") {
       continue
@@ -268,8 +269,16 @@ export const buildOneDepthJson = async (
           break
         case "relation":
           const relationPages = []
+          // relationJsonにkeyがなければ作成
+          if (relationJson[key] == null) {
+            relationJson[key] = []
+          }
           for (const relation of prop.relation) {
             relationPages.push(relation.id)
+            relationJson[key].push({
+              page_id: page.id,
+              relation_page_id: relation.id
+            })
           }
           pageData[key] = relationPages.join(",")
           break
@@ -353,5 +362,6 @@ export const buildOneDepthJson = async (
     })
     oneDepthJson.push(pageData)
   }
-  return oneDepthJson
+
+  return {oneDepthJson, relationJson}
 }

@@ -40,7 +40,7 @@ export default class DbQuery extends Command {
     }
     const res = await notion.queryDb(args.database_id, filter)
     if (flags.csvOutput) {
-      const oneDepthJson = await buildOneDepthJson(res)
+      const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
       const parser = new Parser()
       const csv = parser.parse(oneDepthJson)
       console.log(csv)
