@@ -3,26 +3,19 @@
 
 Archive a page
 
-* [`notion-cli page archive [FILE]`](#notion-cli-page-archive-file)
+* [`notion-cli page archive PAGE_ID`](#notion-cli-page-archive-page_id)
 * [`notion-cli page create [PARENT_ID]`](#notion-cli-page-create-parent_id)
 * [`notion-cli page retrieve PAGE_ID`](#notion-cli-page-retrieve-page_id)
 * [`notion-cli page retrieve property_item PAGE_ID PROPERTY_ID`](#notion-cli-page-retrieve-property_item-page_id-property_id)
 * [`notion-cli page update PAGE_ID`](#notion-cli-page-update-page_id)
 
-## `notion-cli page archive [FILE]`
+## `notion-cli page archive PAGE_ID`
 
 Archive a page
 
 ```
 USAGE
-  $ notion-cli page archive [FILE] [-n <value>] [-f]
-
-ARGUMENTS
-  FILE  file to read
-
-FLAGS
-  -f, --force
-  -n, --name=<value>  name to print
+  $ notion-cli page archive PAGE_ID
 
 DESCRIPTION
   Archive a page
@@ -37,16 +30,19 @@ Create a page
 
 ```
 USAGE
-  $ notion-cli page create [PARENT_ID] [-f <value>]
+  $ notion-cli page create [PARENT_ID] [-f <value>] [-t <value>]
 
 FLAGS
-  -f, --file_path=<value>
+  -f, --file_path=<value>   path/to/***.md
+  -t, --title_name=<value>  title property name(default: Name)
 
 DESCRIPTION
   Create a page
 
 EXAMPLES
-  $ notion-cli page create
+  $ notion-cli page create 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/file.md
+
+  $ notion-cli page create 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/file.md -t Title
 ```
 
 ## `notion-cli page retrieve PAGE_ID`
