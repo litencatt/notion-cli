@@ -6,10 +6,10 @@
   "bin": {
     "notion-cli": "./bin/run"
   },
-  "homepage": "https://github.com/litencatt/notion-cli-ts",
+  "homepage": "https://github.com/litencatt/notion-cli",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "litencatt/notion-cli-ts",
+  "repository": "litencatt/notion-cli",
   "files": [
     "/bin",
     "/dist",
@@ -75,7 +75,7 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "bugs": "https://github.com/litencatt/notion-cli-ts/issues",
+  "bugs": "https://github.com/litencatt/notion-cli/issues",
   "keywords": [
     "oclif"
   ],
