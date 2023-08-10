@@ -35,7 +35,7 @@ EXAMPLES
   $ notion-cli db -d 84ea0d76-51aa-4615-95e4-1fb8db40072c -f path/to/filter.json -u path/to/update.json
 ```
 
-_See code: [dist/commands/db/index.ts](https://github.com/litencatt/notion-cli-ts/blob/v0.9.0/dist/commands/db/index.ts)_
+_See code: [dist/commands/db/index.ts](https://github.com/litencatt/notion-cli/blob/v0.9.0/dist/commands/db/index.ts)_
 
 ## `notion-cli db create PAGE_ID`
 

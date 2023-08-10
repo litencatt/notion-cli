@@ -3,10 +3,10 @@
 Notion CLI tool written by TypeScript.
 
 <!-- toc -->
-- [@litencatt/notion-cli](#litencattnotion-cli)
-- [Usage](#usage)
-- [Commands](#commands)
-- [Command Topics](#command-topics)
+* [@litencatt/notion-cli](#litencattnotion-cli)
+* [Usage](#usage)
+* [Commands](#commands)
+* [Command Topics](#command-topics)
 <!-- tocstop -->
 
 # Usage
