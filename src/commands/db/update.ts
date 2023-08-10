@@ -1,4 +1,5 @@
 import {Args, Command, Flags} from '@oclif/core'
+import { isFullDatabase } from '@notionhq/client'
 import {
   UpdateDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
@@ -16,13 +17,47 @@ export default class DbUpdate extends Command {
   ]
 
   static args = {
-    databaseId: Args.string({required: true}),
+    databaseId: Args.string(),
   }
 
   static flags = {}
 
   public async run(): Promise<void> {
     const { args } = await this.parse(DbUpdate)
+
+    let databaseId = args.databaseId
+    if (databaseId == undefined) {
+      const dbs = await notion.searchDb()
+      const dbChoices = []
+      for (const db of dbs) {
+        if (db.object != "database") {
+          continue
+        }
+        if (!isFullDatabase(db)) {
+          continue
+        }
+        if (db.title[0] == null) {
+          continue
+        }
+        dbChoices.push({
+          title: db.title[0].plain_text,
+          value: db.id,
+        })
+      }
+      const sortedDbChoices = dbChoices.sort((a,b)=> {
+        return a.title.localeCompare(b.title)
+      })
+
+      const promptSelectedDbResult = await prompts([{
+        type: 'autocomplete',
+        name: 'database_id',
+        message: 'Select a database to update',
+        choices: sortedDbChoices
+      }], { onCancel })
+      console.log(promptSelectedDbResult)
+
+      databaseId = promptSelectedDbResult.database_id
+    }
 
     // TODO: support other properties
     const dbPropPromptResult = await prompts([{
@@ -32,7 +67,7 @@ export default class DbUpdate extends Command {
     }], { onCancel })
 
     const dbProps: UpdateDatabaseParameters = {
-      database_id: args.databaseId,
+      database_id: databaseId,
       title: [
         {
           type: 'text',
