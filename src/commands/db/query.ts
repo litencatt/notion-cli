@@ -9,8 +9,10 @@ export default class DbQuery extends Command {
   static description = 'Query a database'
 
   static examples = [
+    `$ notion-cli db query DATABASE_ID`,
+    `$ notion-cli db query DATABASE_ID -f '{"and":[]}'`,
     `$ notion-cli db query DATABASE_ID -f ./path/to/filter.json`,
-    `$ notion-cli db query DATABASE_ID -f ./path/to/filter.json -c`,
+    `$ notion-cli db query DATABASE_ID -c`,
   ]
 
   static args = {
@@ -18,7 +20,7 @@ export default class DbQuery extends Command {
   }
 
   static flags = {
-    filter: Flags.string({ char: 'f', description: 'JSON stringified filter string' }),
+    filter: Flags.string({ char: 'f', description: 'JSON stringified filter string or json file path' }),
     csvOutput: Flags.boolean({ char: 'c' }),
 
   }
@@ -29,11 +31,16 @@ export default class DbQuery extends Command {
     let filter: object | undefined
     try {
       if (flags.filter) {
-        const fp = path.join('./', flags.filter)
-        const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
-        filter = JSON.parse(fj)
+        // JSONにパース可能な場合は、JSONとしてパースしてfilterに代入
+        // JSONにパース不可能な場合は、ファイルとして読み込んでJSONとしてパースしてfilterに代入
+        try {
+          filter = JSON.parse(flags.filter)
+        } catch(e) {
+          const fp = path.join('./', flags.filter)
+          const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
+          filter = JSON.parse(fj)
+        }
       }
-      // console.dir(filter, {depth: null})
     } catch(e) {
       console.log(e)
       filter = undefined
