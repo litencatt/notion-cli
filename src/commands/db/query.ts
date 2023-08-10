@@ -9,8 +9,8 @@ export default class DbQuery extends Command {
   static description = 'Query a database'
 
   static examples = [
-    `$ notion-cli db query f929e92f257c4d8bb9d0c176ce24814d`,
-    `$ notion-cli db query f929e92f257c4d8bb9d0c176ce24814d -f "{\"property\":\"Number\",\"number\":{\"equals\":2}}"`,
+    `$ notion-cli db query DATABASE_ID -f ./path/to/filter.json`,
+    `$ notion-cli db query DATABASE_ID -f ./path/to/filter.json -c`,
   ]
 
   static args = {
