@@ -9,12 +9,12 @@ export default class PageArchive extends Command {
   ]
 
   static args = {
-    page_id: Args.string({ required: true }),
+    pageId: Args.string({ required: true }),
   }
 
   public async run(): Promise<void> {
     const { args } = await this.parse(PageArchive)
-    const res = await notion.archivePage(args.page_id)
+    const res = await notion.archivePage(args.pageId)
     console.dir(res, { depth: null })
   }
 }

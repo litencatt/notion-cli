@@ -16,7 +16,7 @@ export default class PageCreate extends Command {
   }
 
   static args = {
-    parent_id: Args.string({ char: 'p' }),
+    parentId: Args.string({ char: 'p' }),
   }
 
   public async run(): Promise<void> {
@@ -26,7 +26,7 @@ export default class PageCreate extends Command {
     const fn = path.basename(flags.file_path)
     const md = fs.readFileSync(fp, { encoding: 'utf-8' })
     const blocks = markdownToBlocks(md)
-    const res = await notion.createPage(args.parent_id, fn, blocks)
+    const res = await notion.createPage(args.parentId, fn, blocks)
     console.dir(res, { depth: null })
   }
 }

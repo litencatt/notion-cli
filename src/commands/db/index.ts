@@ -25,9 +25,9 @@ export default class Db extends Command {
   ]
 
   static flags = {
-    database_id: Flags.string({ char: 'd' }),
-    filter_json_path: Flags.string({ char: 'f' }),
-    update_json_path: Flags.string({ char: 'u' }),
+    databaseId: Flags.string({ char: 'd' }),
+    filterJsonPath: Flags.string({ char: 'f' }),
+    updateJsonPath: Flags.string({ char: 'u' }),
   }
 
   public async run(): Promise<void> {
@@ -35,7 +35,7 @@ export default class Db extends Command {
 
     // Search all accessible DBs
     let databaseId: string
-    if (flags.database_id == undefined) {
+    if (flags.databaseId == undefined) {
       const dbs = await notion.searchDb()
       const dbChoices = []
       for (const db of dbs) {
@@ -68,7 +68,7 @@ export default class Db extends Command {
 
       databaseId = promptSelectedDbResult.database_id
     } else {
-      databaseId = flags.database_id
+      databaseId = flags.databaseId
     }
 
     // Get DB properties
@@ -79,8 +79,8 @@ export default class Db extends Command {
 
     // Build a filter
     let filter: object | undefined
-    if (flags.filter_json_path != undefined) {
-      const fp = path.join('./', flags.filter_json_path)
+    if (flags.filterJsonPath != undefined) {
+      const fp = path.join('./', flags.filterJsonPath)
       const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
       filter = JSON.parse(fj)
     } else {
@@ -234,8 +234,8 @@ export default class Db extends Command {
     console.log("")
 
     let updateParams
-    if (flags.update_json_path != undefined) {
-      const up = path.join('./', flags.update_json_path)
+    if (flags.updateJsonPath != undefined) {
+      const up = path.join('./', flags.updateJsonPath)
       const uj = fs.readFileSync(up, { encoding: 'utf-8' })
       updateParams = JSON.parse(uj)
     } else {

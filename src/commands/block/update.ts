@@ -16,13 +16,13 @@ export default class BlockUpdate extends Command {
   }
 
   static args = {
-    block_id: Args.string({descriptin: 'block_id', required: true}),
+    blockId: Args.string({descriptin: 'block_id', required: true}),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockUpdate)
 
-    const res = await notion.updateBlock(args.block_id)
+    const res = await notion.updateBlock(args.blockId)
     console.dir(res, { depth: null })
   }
 }
