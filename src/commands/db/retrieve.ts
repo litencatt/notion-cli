@@ -12,18 +12,9 @@ export default class DbRetrieve extends Command {
     databaseId: Args.string({required: true}),
   }
 
-  static flags = {
-    propertyList: Flags.string({ char: 'p' }),
-    onlyValue: Flags.boolean({ char: 'P' }),
-  }
-
   public async run(): Promise<void> {
-    const { flags, args } = await this.parse(DbRetrieve)
-    const options = {
-      propertyList: flags.propertyList,
-      onlyValue: flags.onlyValue,
-    }
-    const res = await notion.retrieveDb(args.databaseId, options)
+    const { args } = await this.parse(DbRetrieve)
+    const res = await notion.retrieveDb(args.databaseId)
     console.dir(res, { depth: null })
   }
 }
