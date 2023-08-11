@@ -128,6 +128,11 @@ export default class DbQuery extends Command {
           }
 
           const fieldChoices = await getFilterFields(selectedProp[1].type)
+          if (fieldChoices == null) {
+            this.logToStderr("selected property is not supported to filter")
+            continue
+          }
+
           const promptFieldResult = await prompts([{
             message: 'Select a field of filter',
             type: 'autocomplete',
