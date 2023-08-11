@@ -61,7 +61,7 @@ export default class DbQuery extends Command {
         name: 'database_id',
         choices: dbChoices
       }], { onCancel })
-      console.log(promptSelectedDbResult)
+      // console.log(promptSelectedDbResult)
       databaseId = promptSelectedDbResult.database_id
     }
 
@@ -181,9 +181,11 @@ export default class DbQuery extends Command {
     } catch(e) {
       this.error(e, {exit: 1})
     }
-    console.log("Filter:")
-    console.dir(filter, {depth: null})
-    console.log("")
+    if (filter != undefined) {
+      console.log("Filter:")
+      console.dir(filter, {depth: null})
+      console.log("")
+    }
 
     const res = await notion.queryDb(databaseId, filter)
     switch (flags.output) {
