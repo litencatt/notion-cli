@@ -207,6 +207,11 @@ export default class DbQuery extends Command {
     }
 
     const res = await notion.queryDb(databaseId, filter)
+    if (res.length == 0) {
+      console.log("No pages found")
+      this.exit(0)
+    }
+
     switch (flags.output) {
       case 'csv':
         const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
