@@ -17,7 +17,7 @@ export const SupportTypes = [
 ]
 
 export const onCancel = () => {
-  console.log('prompt is canceled');
+  console.error('prompt is canceled');
   process.exit(0)
 }
 
@@ -52,7 +52,7 @@ export const getFilterFields = async (
         { title: 'is_not_empty' },
       ]
     default:
-      console.log(`${type} is not support type`)
+      console.error(`${type} is not support type`)
       return null
   }
 }
@@ -99,7 +99,7 @@ export const buildFilterPagePrompt = async (
       break
     case 'multi_select':
       if (prop.multi_select.options == null) {
-        console.log("selected column options is null")
+        console.error("selected column options is null")
         return
       }
       const multiSelectChoices = prop.multi_select.options.map((o) => {
@@ -142,7 +142,7 @@ export const buildFilterPagePrompt = async (
         choices: relationChoices
       }
     default:
-      console.log(`${prop.type} is not supported`)
+      console.error(`${prop.type} is not supported`)
   }
 }
 
@@ -303,7 +303,7 @@ export const buildOneDepthJson = async (
               pageData[key] = prop.formula.date.start
               break
             default:
-              // console.log(`${prop.formula.type} is not supported`)
+              console.error(`${prop.formula.type} is not supported`)
           }
           break
         case "url":
@@ -357,7 +357,7 @@ export const buildOneDepthJson = async (
           pageData[key] = richTexts.join(",")
           break
         default:
-          console.log(`${prop.type} is not supported`)
+          console.error(`${prop.type} is not supported`)
       }
     })
     oneDepthJson.push(pageData)
