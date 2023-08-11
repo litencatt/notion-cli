@@ -182,7 +182,8 @@ export default class DbQuery extends Command {
     } catch(e) {
       this.error(e, {exit: 1})
     }
-    if (filter != undefined) {
+    if (filter != undefined && (flags.rowFilter == undefined && flags.fileFilter == undefined)) {
+      console.log("")
       console.log("Filter:")
       console.dir(filter, {depth: null})
       console.log("")
