@@ -6,6 +6,7 @@ import {
   GetDatabaseResponse,
   CreateDatabaseResponse,
   UpdateDatabaseParameters,
+  GetPageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { markdownToBlocks } from '@tryfabric/martian'
 type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
@@ -57,11 +58,8 @@ export const retrieveDb = async (
   return res
 }
 
-export const retrievePage = async (pageId: string) => {
-  const res = notion.pages.retrieve({
-    page_id: pageId,
-  })
-  return res
+export const retrievePage = async (pageProp: GetPageParameters) => {
+  return notion.pages.retrieve(pageProp)
 }
 
 export const retrievePageProperty = async (pageId: string, propId: string) => {
