@@ -150,8 +150,8 @@ export default class DbQuery extends Command {
             filterValue
           )
           if (filterObj == null) {
-            console.log("Error buildFilter")
-            return
+            this.logToStderr("buildDatabaseQueryFilter error")
+            this.exit(1)
           }
 
           // set or push a build filter
