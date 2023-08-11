@@ -62,6 +62,7 @@ export const getFilterFields = async (
         { title: 'is_not_empty' },
       ]
     case 'rich_text':
+    case 'title':
       return [
         { title: 'contains' },
         { title: 'does_not_contain' },
@@ -213,6 +214,7 @@ export const buildFilterPagePrompt = async (
       }
       break
     case 'rich_text':
+    case 'title':
       prompt = {
         type: 'text',
         name: 'value',
@@ -274,6 +276,8 @@ export const buildDatabaseQueryFilter = async (
       }
       break
     case 'date':
+    case 'created_time':
+    case 'last_edited_time':
     case 'files':
     case 'formula':
     case 'people':
@@ -282,8 +286,7 @@ export const buildDatabaseQueryFilter = async (
     case 'number':
     case 'select':
     case 'status':
-    case 'created_time':
-    case 'last_edited_time':
+    case 'title':
       filter = {
         property: name,
         [type]: {
