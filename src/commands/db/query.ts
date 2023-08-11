@@ -41,7 +41,12 @@ export default class DbQuery extends Command {
       char: 'f',
       description: 'JSON stringified filter file path'
     }),
-    csvOutput: Flags.boolean({ char: 'c' }),
+    output: Flags.string({
+      char: 'o',
+      description: 'Output format',
+      options: ['csv', 'json'],
+      default: 'json',
+    }),
   }
 
   public async run(): Promise<void> {
@@ -181,20 +186,22 @@ export default class DbQuery extends Command {
     console.log("")
 
     const res = await notion.queryDb(databaseId, filter)
-    if (flags.csvOutput) {
-      const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
-      const parser = new Parser()
-      const csv = parser.parse(oneDepthJson)
-      console.log(csv)
+    switch (flags.output) {
+      case 'csv':
+        const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
+        const parser = new Parser()
+        const csv = parser.parse(oneDepthJson)
+        console.log(csv)
 
-      // あるページに対してリレーション関係にあるページIDの情報のみCSV出力したければ、
-      // 以下property_nameを指定すれば出力可能
-      // page_id, relation_page_id
-      // const parser2 = new Parser()
-      // const rel = parser2.parse(relationJson["property_name"])
-      // console.log(rel)
-    } else {
-      console.dir(res, { depth: null })
+        // あるページに対してリレーション関係にあるページIDの情報のみCSV出力したければ、
+        // 以下property_nameを指定すれば出力可能
+        // page_id, relation_page_id
+        // const parser2 = new Parser()
+        // const rel = parser2.parse(relationJson["property_name"])
+        // console.log(rel)
+        break
+      default:
+        console.dir(res, { depth: null })
     }
   }
 }
