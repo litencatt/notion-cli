@@ -87,7 +87,7 @@ export default class DbQuery extends Command {
 
         const selectedDb = await notion.retrieveDb(databaseId)
         const dbPropsChoices = await getPromptChoices(selectedDb)
-        console.dir(dbPropsChoices, {depth: null})
+        // console.dir(dbPropsChoices, {depth: null})
 
         while (promptAddFilterResult.value) {
           // Choice the operator first time and keep using it.
