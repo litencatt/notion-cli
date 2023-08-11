@@ -5,6 +5,7 @@ import {
 } from '@notionhq/client/build/src/api-endpoints'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as dayjs from 'dayjs'
 import {
     buildOneDepthJson,
     buildFilterPagePrompt,
@@ -185,6 +186,24 @@ export default class DbQuery extends Command {
       console.log("Filter:")
       console.dir(filter, {depth: null})
       console.log("")
+
+      const promptConfirmSaveFilterResult = await prompts([{
+        message: 'Save this filter to a file?',
+        type: 'confirm',
+        name: 'value',
+        initial: false
+      }], { onCancel })
+      if (promptConfirmSaveFilterResult.value) {
+        const promptFileNameResult = await prompts({
+          message: 'Filename',
+          type: 'text',
+          name: 'filename',
+          initial: dayjs().format('YYYYMMDD_HHmmss')
+        });
+        const fileName = `${promptFileNameResult.filename}.json`
+        fs.writeFileSync(fileName, JSON.stringify(filter, null, 2))
+        console.log(`Saved to ${fileName}\n`)
+      }
     }
 
     const res = await notion.queryDb(databaseId, filter)
