@@ -2,8 +2,14 @@ import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../notion'
 import * as fs from 'fs'
 import * as path from 'path'
-import { buildOneDepthJson } from '../../helper'
+import {
+    buildOneDepthJson,
+    getDbChoices,
+    onCancel,
+  } from '../../helper'
 import { Parser } from '@json2csv/plainjs';
+
+const  prompts  = require('prompts')
 
 export default class DbQuery extends Command {
   static description = 'Query a database'
@@ -16,17 +22,33 @@ export default class DbQuery extends Command {
   ]
 
   static args = {
-    databaseId: Args.string({required: true}),
+    databaseId: Args.string(),
   }
 
   static flags = {
-    filter: Flags.string({ char: 'f', description: 'JSON stringified filter string or json file path' }),
+    filter: Flags.string({
+      char: 'f',
+      description: 'JSON stringified filter string or json file path'
+    }),
     csvOutput: Flags.boolean({ char: 'c' }),
-
   }
 
   public async run(): Promise<void> {
     const { flags, args } = await this.parse(DbQuery)
+
+    let databaseId = args.databaseId
+    if (databaseId == undefined) {
+      const dbChoices = await getDbChoices()
+      const promptSelectedDbResult = await prompts([{
+        type: 'autocomplete',
+        name: 'database_id',
+        message: 'Select a database to query',
+        choices: dbChoices
+      }], { onCancel })
+      console.log(promptSelectedDbResult)
+
+      databaseId = promptSelectedDbResult.database_id
+    }
 
     let filter: object | undefined
     try {
@@ -45,7 +67,7 @@ export default class DbQuery extends Command {
       console.log(e)
       filter = undefined
     }
-    const res = await notion.queryDb(args.databaseId, filter)
+    const res = await notion.queryDb(databaseId, filter)
     if (flags.csvOutput) {
       const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
       const parser = new Parser()
