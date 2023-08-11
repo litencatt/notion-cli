@@ -52,7 +52,7 @@ export const getFilterFields = async (
         { title: 'is_not_empty' },
       ]
     default:
-      console.error(`${type} is not support type`)
+      console.error(`type: ${type} is not support type`)
       return null
   }
 }
@@ -142,7 +142,7 @@ export const buildFilterPagePrompt = async (
         choices: relationChoices
       }
     default:
-      console.error(`${prop.type} is not supported`)
+      console.error(`type: ${prop.type} is not supported`)
   }
 }
 
@@ -303,7 +303,7 @@ export const buildOneDepthJson = async (
               pageData[key] = prop.formula.date.start
               break
             default:
-              console.error(`${prop.formula.type} is not supported`)
+              // console.error(`${prop.formula.type} is not supported`)
           }
           break
         case "url":
@@ -357,7 +357,7 @@ export const buildOneDepthJson = async (
           pageData[key] = richTexts.join(",")
           break
         default:
-          console.error(`${prop.type} is not supported`)
+          console.error(`${key}(type: ${prop.type}) is not supported`)
       }
     })
     oneDepthJson.push(pageData)
