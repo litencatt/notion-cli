@@ -105,8 +105,8 @@ export default class DbQuery extends Command {
             const tmp = filter
             CombineOperator = promptAndOrPropResult.operator
             filter = {[CombineOperator]: [tmp]}
+            console.dir(filter, {depth: null})
           }
-          console.dir(filter, {depth: null})
 
           const promptSelectFilterPropResult = await prompts([{
             message: 'Select a property for filter by',
