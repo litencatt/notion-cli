@@ -62,7 +62,9 @@ export default class DbQuery extends Command {
         name: 'database_id',
         choices: dbChoices
       }], { onCancel })
-      // console.log(promptSelectedDbResult)
+      if (process.env.DEBUG) {
+        this.log(promptSelectedDbResult)
+      }
       databaseId = promptSelectedDbResult.database_id
     }
 
@@ -87,7 +89,9 @@ export default class DbQuery extends Command {
 
         const selectedDb = await notion.retrieveDb(databaseId)
         const dbPropsChoices = await getPromptChoices(selectedDb)
-        // console.dir(dbPropsChoices, {depth: null})
+        if (process.env.DEBUG) {
+          console.dir(dbPropsChoices, {depth: null})
+        }
 
         while (promptAddFilterResult.value) {
           // Choice the operator first time and keep using it.
@@ -105,7 +109,9 @@ export default class DbQuery extends Command {
             const tmp = filter
             CombineOperator = promptAndOrPropResult.operator
             filter = {[CombineOperator]: [tmp]}
-            console.dir(filter, {depth: null})
+            if (process.env.DEBUG) {
+              console.dir(filter, {depth: null})
+            }
           }
 
           const promptSelectFilterPropResult = await prompts([{
@@ -121,9 +127,11 @@ export default class DbQuery extends Command {
               // prompt result => "prperty_name <property_type>"
               return prop.name == promptSelectFilterPropResult.property.split(" <")[0]
             })
-          // console.log(selectedProp2)
+          if (process.env.DEBUG) {
+            console.dir(selectedProp[1], {depth: null})
+          }
           if (selectedProp[1].type == undefined) {
-            console.log("selectedProp.type is undefined")
+            this.logToStderr("selectedProp.type is undefined")
             return
           }
 
@@ -140,6 +148,9 @@ export default class DbQuery extends Command {
             choices: fieldChoices
           }], { onCancel })
           const filterField = promptFieldResult.value
+          if (process.env.DEBUG) {
+            console.log(`filterField: ${filterField}`)
+          }
 
           let filterValue: string | string[] | boolean = true
           if (!['is_empty', 'is_not_empty'].includes(filterField)) {
@@ -147,7 +158,9 @@ export default class DbQuery extends Command {
             const promptFilterPropResult = await prompts([fpp], { onCancel })
             filterValue = promptFilterPropResult.value
           }
-          console.log(filterValue)
+          if (process.env.DEBUG) {
+            console.log(`filterValue: ${filterValue}`)
+          }
           const filterObj = await buildDatabaseQueryFilter(
             selectedProp[1].name,
             selectedProp[1].type,
@@ -165,7 +178,9 @@ export default class DbQuery extends Command {
           } else {
             filter[CombineOperator].push(filterObj)
           }
-          console.log(filter)
+          if (process.env.DEBUG) {
+            console.log(filter)
+          }
 
           const promptConfirmAddFilterFinishResult = await prompts([{
             message: 'Finish add filter?',
@@ -202,13 +217,13 @@ export default class DbQuery extends Command {
         });
         const fileName = `${promptFileNameResult.filename}.json`
         fs.writeFileSync(fileName, JSON.stringify(filter, null, 2))
-        console.log(`Saved to ${fileName}\n`)
+        this.logToStderr(`Saved to ${fileName}\n`)
       }
     }
 
     const res = await notion.queryDb(databaseId, filter)
     if (res.length == 0) {
-      console.log("No pages found")
+      this.logToStderr("No pages found")
       this.exit(0)
     }
 
