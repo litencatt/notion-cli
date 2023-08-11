@@ -70,9 +70,9 @@ export default class DbQuery extends Command {
     let filter: object | undefined
     try {
       if (flags.rowFilter != undefined) {
-        filter = JSON.parse(flags.filter)
+        filter = JSON.parse(flags.rowFilter)
       } else if (flags.fileFilter != undefined) {
-        const fp = path.join('./', flags.filter)
+        const fp = path.join('./', flags.fileFilter)
         const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
         filter = JSON.parse(fj)
       } else {
