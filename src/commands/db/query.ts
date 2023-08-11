@@ -23,8 +23,9 @@ export default class DbQuery extends Command {
   static description = 'Query a database'
 
   static examples = [
+    `$ notion-cli db query`,
     `$ notion-cli db query DATABASE_ID`,
-    `$ notion-cli db query DATABASE_ID -f '{"and":[]}'`,
+    `$ notion-cli db query DATABASE_ID -r '{"and":[]}'`,
     `$ notion-cli db query DATABASE_ID -f ./path/to/filter.json`,
     `$ notion-cli db query DATABASE_ID -c`,
   ]
