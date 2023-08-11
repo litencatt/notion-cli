@@ -1,23 +1,13 @@
 import {
-  QueryDatabaseParameters,
   QueryDatabaseResponse,
   GetDatabaseResponse,
-  CreateDatabaseResponse,
-  UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { IPromptChoice } from './interface'
 import * as notion from './notion'
 import { isFullPage, isFullDatabase } from '@notionhq/client'
 
-export const SupportTypes = [
-  'number',
-  'select',
-  'multi_select',
-  'relation'
-]
-
 export const onCancel = () => {
-  console.log('prompt is canceled');
+  console.error('prompt is canceled');
   process.exit(0)
 }
 
@@ -25,6 +15,42 @@ export const getFilterFields = async (
   type: string
 ) => {
   switch (type) {
+    case 'checkbox':
+      return [
+        { title: 'equals' },
+        { title: 'does_not_equal' },
+      ]
+    case 'created_time':
+    case 'last_edited_time':
+    case 'date':
+      return [
+        { title: 'after' },
+        { title: 'before' },
+        { title: 'equals' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+        { title: 'next_month' },
+        { title: 'next_week' },
+        { title: 'next_year' },
+        { title: 'on_or_after' },
+        { title: 'on_or_before' },
+        { title: 'past_month' },
+        { title: 'past_week' },
+        { title: 'past_year' },
+        { title: 'this_week' },
+      ]
+    case 'rich_text':
+    case 'title':
+      return [
+        { title: 'contains' },
+        { title: 'does_not_contain' },
+        { title: 'does_not_equal' },
+        { title: 'ends_with' },
+        { title: 'equals' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+        { title: 'starts_with' },
+      ]
     case 'number':
       return [
         { title: 'equals' },
@@ -51,8 +77,19 @@ export const getFilterFields = async (
         { title: 'is_empty' },
         { title: 'is_not_empty' },
       ]
+    case 'status':
+      return [
+        { title: 'equals' },
+        { title: 'does_not_equal' },
+        { title: 'is_empty' },
+        { title: 'is_not_empty' },
+      ]
+    case 'files':
+    case 'formula':
+    case 'people':
+    case 'rollup':
     default:
-      console.log(`${type} is not support type`)
+      console.error(`type: ${type} is not support type`)
       return null
   }
 }
@@ -62,11 +99,6 @@ export const getPromptChoices = async (
 ): Promise<IPromptChoice[]> => {
   const propChoices: IPromptChoice[] = []
   Object.entries(selectedDb.properties).forEach(([_, prop]) => {
-    // Skip not support property
-    if (!SupportTypes.includes(prop.type)) {
-      return
-    }
-
     propChoices.push({
       title: `${prop.name} <${prop.type}>`,
     })
@@ -77,43 +109,58 @@ export const getPromptChoices = async (
 export const buildFilterPagePrompt = async (
   prop: any // DatabasePropertyConfigResponse
 ) => {
+  let prompt = {}
   switch (prop.type) {
+    case 'checkbox':
+      prompt = {
+        type: 'autocomplete',
+        name: 'value',
+        message: 'select items',
+        choices: [
+          { title: 'true' },
+          { title: 'false' },
+        ]
+      }
+      break
+    case 'date':
+    case 'created_time':
+    case 'last_edited_time':
+      const today = new Date()
+      const todayYear = today.getFullYear()
+      const todayMonth = today.getMonth()
+      const todayDate = today.getDate()
+      prompt = {
+        type: 'date',
+        name: 'value',
+        message: 'input a date',
+        initial: new Date(todayYear, todayMonth, todayDate, 0, 0, 0, 0),
+      }
+      break
+      case 'multi_select':
+        if (prop.multi_select.options == null) {
+          console.error("selected column options is null")
+          return
+        }
+        const multiSelectChoices = prop.multi_select.options.map((o) => {
+          return {
+            title: o.name,
+            value: o.name
+          }
+        })
+        prompt = {
+          type: 'autocompleteMultiselect',
+          name: 'value',
+          message: 'select items',
+          choices: multiSelectChoices
+        }
+        break
     case 'number':
-      return {
+      prompt = {
         type: 'number',
         name: 'value',
         message: 'input a number',
       }
-    case 'select':
-      const selectChoices = prop.select.options.map(o => {
-        return {
-          title: o.name,
-        }
-      })
-      return {
-        type: 'autocomplete',
-        name: 'value',
-        message: 'select an item',
-        choices: selectChoices
-      }
       break
-    case 'multi_select':
-      if (prop.multi_select.options == null) {
-        console.log("selected column options is null")
-        return
-      }
-      const multiSelectChoices = prop.multi_select.options.map((o) => {
-        return {
-          title: o.name,
-          value: o.name
-        }
-      })
-      return {
-        type: 'autocompleteMultiselect',
-        name: 'value',
-        message: 'select items',
-        choices: multiSelectChoices
-      }
     case 'relation':
       const relationPages = await notion.queryDb(prop.relation.database_id)
       // console.log(relationPages)
@@ -135,15 +182,56 @@ export const buildFilterPagePrompt = async (
           }
         })
       }
-      return {
+      prompt = {
         type: 'autocompleteMultiselect',
         name: 'value',
         message: 'select relation pages',
         choices: relationChoices
       }
+      break
+    case 'rich_text':
+    case 'title':
+      prompt = {
+        type: 'text',
+        name: 'value',
+        message: 'input a text',
+      }
+      break
+    case 'select':
+      const selectChoices = prop.select.options.map(o => {
+        return {
+          title: o.name,
+        }
+      })
+      prompt = {
+        type: 'autocomplete',
+        name: 'value',
+        message: 'select an item',
+        choices: selectChoices
+      }
+      break
+    case 'status':
+      const statusChoices = prop.status.options.map(o => {
+        return {
+          title: o.name,
+        }
+      })
+      prompt = {
+        type: 'autocomplete',
+        name: 'value',
+        message: 'select an item',
+        choices: statusChoices
+      }
+      break
+
+    case 'files':
+    case 'formula':
+    case 'people':
+    case 'rolleup':
     default:
-      console.log(`${prop.type} is not supported`)
+      console.error(`type: ${prop.type} is not supported`)
   }
+  return prompt
 }
 
 export const buildDatabaseQueryFilter = async (
@@ -152,10 +240,25 @@ export const buildDatabaseQueryFilter = async (
   field: string,
   value: string | string[] | boolean
 ): Promise<object|null> =>  {
-  let filter
+  let filter = null
   switch (type) {
+    case 'checkbox':
+      filter = {
+        property: name,
+        [type]: {
+          // boolean value
+          [field]: value == 'true'
+        }
+      }
+      break
+    case 'date':
+    case 'created_time':
+    case 'last_edited_time':
+    case 'rich_text':
     case 'number':
     case 'select':
+    case 'status':
+    case 'title':
       filter = {
         property: name,
         [type]: {
@@ -185,10 +288,14 @@ export const buildDatabaseQueryFilter = async (
         }
       }
       break
+
+    case 'files':
+    case 'formula':
+    case 'people':
+    case 'rollup':
     default:
-      filter = null
+      console.error(`type: ${type} is not support type`)
   }
-  // console.log(filter)
   return filter
 }
 
@@ -239,7 +346,7 @@ export const buildPagePropUpdateData = async (
 }
 
 export const buildOneDepthJson = async (
-  pages: QueryDatabaseResponse['results']
+  pages: QueryDatabaseResponse['results'],
 ) => {
   const oneDepthJson = []
   const relationJson = []
@@ -303,7 +410,7 @@ export const buildOneDepthJson = async (
               pageData[key] = prop.formula.date.start
               break
             default:
-              // console.log(`${prop.formula.type} is not supported`)
+              // console.error(`${prop.formula.type} is not supported`)
           }
           break
         case "url":
@@ -356,8 +463,11 @@ export const buildOneDepthJson = async (
           }
           pageData[key] = richTexts.join(",")
           break
+        case "status":
+          pageData[key] = prop.status === null ? "" : prop.status.name
+          break
         default:
-          console.log(`${prop.type} is not supported`)
+          console.error(`${key}(type: ${prop.type}) is not supported`)
       }
     })
     oneDepthJson.push(pageData)
