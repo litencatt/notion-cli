@@ -1,10 +1,17 @@
 import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../notion'
+import {
+  QueryDatabaseParameters,
+} from '@notionhq/client/build/src/api-endpoints'
 import * as fs from 'fs'
 import * as path from 'path'
 import {
     buildOneDepthJson,
+    buildFilterPagePrompt,
+    buildDatabaseQueryFilter,
     getDbChoices,
+    getPromptChoices,
+    getFilterFields,
     onCancel,
   } from '../../helper'
 import { Parser } from '@json2csv/plainjs';
@@ -26,9 +33,13 @@ export default class DbQuery extends Command {
   }
 
   static flags = {
-    filter: Flags.string({
+    rowFilter: Flags.string({
+      char: 'r',
+      description: 'JSON stringified filter string'
+    }),
+    fileFilter: Flags.string({
       char: 'f',
-      description: 'JSON stringified filter string or json file path'
+      description: 'JSON stringified filter file path'
     }),
     csvOutput: Flags.boolean({ char: 'c' }),
   }
@@ -40,33 +51,135 @@ export default class DbQuery extends Command {
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
       const promptSelectedDbResult = await prompts([{
+        message: 'Select a database to query',
         type: 'autocomplete',
         name: 'database_id',
-        message: 'Select a database to query',
         choices: dbChoices
       }], { onCancel })
       console.log(promptSelectedDbResult)
-
       databaseId = promptSelectedDbResult.database_id
     }
 
+    // Set a filter
     let filter: object | undefined
     try {
-      if (flags.filter) {
-        // JSONにパース可能な場合は、JSONとしてパースしてfilterに代入
-        // JSONにパース不可能な場合は、ファイルとして読み込んでJSONとしてパースしてfilterに代入
-        try {
-          filter = JSON.parse(flags.filter)
-        } catch(e) {
-          const fp = path.join('./', flags.filter)
-          const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
-          filter = JSON.parse(fj)
+      if (flags.rowFilter != undefined) {
+        filter = JSON.parse(flags.filter)
+      } else if (flags.fileFilter != undefined) {
+        const fp = path.join('./', flags.filter)
+        const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
+        filter = JSON.parse(fj)
+      } else {
+        let CombineOperator = undefined
+
+        const promptAddFilterResult = await prompts([{
+          message: 'Add filter?',
+          type: 'confirm',
+          name: 'value',
+          initial: true
+        }], { onCancel })
+
+        const selectedDb = await notion.retrieveDb(databaseId)
+        const dbPropsChoices = await getPromptChoices(selectedDb)
+        console.dir(dbPropsChoices, {depth: null})
+
+        while (promptAddFilterResult.value) {
+          // Choice the operator first time and keep using it.
+          if (filter != undefined && CombineOperator == undefined) {
+            const promptAndOrPropResult = await prompts([{
+              message: 'Select and/or',
+              type: 'autocomplete',
+              name: 'operator',
+              choices: [
+                { title: 'and'},
+                { title: 'or'},
+              ]
+            }], { onCancel })
+            // rebuild filter object with choose operator
+            const tmp = filter
+            CombineOperator = promptAndOrPropResult.operator
+            filter = {[CombineOperator]: [tmp]}
+          }
+          console.dir(filter, {depth: null})
+
+          const promptSelectFilterPropResult = await prompts([{
+            message: 'Select a property for filter by',
+            type: 'autocomplete',
+            name: 'property',
+            choices: dbPropsChoices
+          }], { onCancel })
+          // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
+          // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
+          const selectedProp = Object.entries(selectedDb.properties)
+            .find(([_, prop]) => {
+              // prompt result => "prperty_name <property_type>"
+              return prop.name == promptSelectFilterPropResult.property.split(" <")[0]
+            })
+          // console.log(selectedProp2)
+          if (selectedProp[1].type == undefined) {
+            console.log("selectedProp.type is undefined")
+            return
+          }
+
+          // Support only filter fields of the following types
+          // - Number
+          // - Select
+          // - Multi-select
+          // - Relation
+          const fieldChoices = await getFilterFields(selectedProp[1].type)
+          const promptFieldResult = await prompts([{
+            message: 'Select a field of filter',
+            type: 'autocomplete',
+            name: 'value',
+            choices: fieldChoices
+          }], { onCancel })
+          const filterField = promptFieldResult.value
+
+          let filterValue: string | string[] | boolean = true
+          if (!['is_empty', 'is_not_empty'].includes(filterField)) {
+          // Select/Input a value for filtering
+            const fpp = await buildFilterPagePrompt(selectedProp[1])
+            const promptFilterPropResult = await prompts([fpp], { onCancel })
+            filterValue = promptFilterPropResult.value
+          }
+          console.log(filterValue)
+          const filterObj = await buildDatabaseQueryFilter(
+            selectedProp[1].name,
+            selectedProp[1].type,
+            filterField,
+            filterValue
+          )
+          if (filterObj == null) {
+            console.log("Error buildFilter")
+            return
+          }
+
+          // set or push a build filter
+          if (filter == undefined) {
+            filter = filterObj
+          } else {
+            filter[CombineOperator].push(filterObj)
+          }
+          console.log(filter)
+
+          const promptConfirmAddFilterFinishResult = await prompts([{
+            message: 'Finish add filter?',
+            type: 'confirm',
+            name: 'value',
+            initial: true
+          }], { onCancel })
+          if (promptConfirmAddFilterFinishResult.value) {
+            break
+          }
         }
       }
     } catch(e) {
-      console.log(e)
-      filter = undefined
+      this.error(e, {exit: 1})
     }
+    console.log("Filter:")
+    console.dir(filter, {depth: null})
+    console.log("")
+
     const res = await notion.queryDb(databaseId, filter)
     if (flags.csvOutput) {
       const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
