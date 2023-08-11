@@ -127,11 +127,6 @@ export default class DbQuery extends Command {
             return
           }
 
-          // Support only filter fields of the following types
-          // - Number
-          // - Select
-          // - Multi-select
-          // - Relation
           const fieldChoices = await getFilterFields(selectedProp[1].type)
           const promptFieldResult = await prompts([{
             message: 'Select a field of filter',
@@ -143,7 +138,6 @@ export default class DbQuery extends Command {
 
           let filterValue: string | string[] | boolean = true
           if (!['is_empty', 'is_not_empty'].includes(filterField)) {
-          // Select/Input a value for filtering
             const fpp = await buildFilterPagePrompt(selectedProp[1])
             const promptFilterPropResult = await prompts([fpp], { onCancel })
             filterValue = promptFilterPropResult.value
