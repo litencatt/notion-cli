@@ -1,9 +1,6 @@
 import {
-  QueryDatabaseParameters,
   QueryDatabaseResponse,
   GetDatabaseResponse,
-  CreateDatabaseResponse,
-  UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import { IPromptChoice } from './interface'
 import * as notion from './notion'
@@ -42,25 +39,6 @@ export const getFilterFields = async (
         { title: 'past_year' },
         { title: 'this_week' },
       ]
-    case 'files':
-      return [
-        { title: 'is_empty' },
-        { title: 'is_not_empty' },
-      ]
-    case 'formula':
-      return [
-        { title: 'checkbox' },
-        { title: 'date' },
-        { title: 'number' },
-        { title: 'string' },
-      ]
-    case 'people':
-      return [
-        { title: 'contains' },
-        { title: 'does_not_contain' },
-        { title: 'is_empty' },
-        { title: 'is_not_empty' },
-      ]
     case 'rich_text':
     case 'title':
       return [
@@ -72,12 +50,6 @@ export const getFilterFields = async (
         { title: 'is_empty' },
         { title: 'is_not_empty' },
         { title: 'starts_with' },
-      ]
-    case 'rolleup':
-      return [
-        { title: 'any' },
-        { title: 'every' },
-        { title: 'none' },
       ]
     case 'number':
       return [
@@ -112,6 +84,10 @@ export const getFilterFields = async (
         { title: 'is_empty' },
         { title: 'is_not_empty' },
       ]
+    case 'files':
+    case 'formula':
+    case 'people':
+    case 'rollup':
     default:
       console.error(`type: ${type} is not support type`)
       return null
@@ -278,11 +254,7 @@ export const buildDatabaseQueryFilter = async (
     case 'date':
     case 'created_time':
     case 'last_edited_time':
-    case 'files':
-    case 'formula':
-    case 'people':
     case 'rich_text':
-    case 'rollup':
     case 'number':
     case 'select':
     case 'status':
@@ -316,6 +288,11 @@ export const buildDatabaseQueryFilter = async (
         }
       }
       break
+
+    case 'files':
+    case 'formula':
+    case 'people':
+    case 'rollup':
     default:
       console.error(`type: ${type} is not support type`)
   }
