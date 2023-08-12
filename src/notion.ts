@@ -6,13 +6,15 @@ import {
   GetDatabaseResponse,
   CreateDatabaseResponse,
   UpdateDatabaseParameters,
+  GetPageParameters,
+  CreatePageParameters,
+  BlockObjectRequest,
+  UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
-import { markdownToBlocks } from '@tryfabric/martian'
-type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
-  // logLevel: LogLevel.DEBUG
+  logLevel: process.env.DEBUG ? LogLevel.DEBUG : null,
 })
 
 export const queryDb = async (
@@ -57,13 +59,11 @@ export const retrieveDb = async (
   return res
 }
 
-export const retrievePage = async (pageId: string) => {
-  const res = notion.pages.retrieve({
-    page_id: pageId,
-  })
-  return res
+export const retrievePage = async (pageProp: GetPageParameters) => {
+  return notion.pages.retrieve(pageProp)
 }
 
+// TODO: support page_size, start_cursor
 export const retrievePageProperty = async (pageId: string, propId: string) => {
   const res = notion.pages.properties.retrieve({
     page_id: pageId,
@@ -73,33 +73,15 @@ export const retrievePageProperty = async (pageId: string, propId: string) => {
 }
 
 export const createPage = async (
-  databaseId: string,
-  title: string,
-  blocks: BlockObjectRequest[]
+  pageProps: CreatePageParameters,
 ) => {
-  const props = {
-    Name: {
-      title: [{ text: { content: title } }],
-    },
-  }
-  const res = notion.pages.create({
-    parent: { database_id: databaseId },
-    properties: props,
-    // @ts-ignore
-    children: blocks,
-  })
-  return res
+  return notion.pages.create(pageProps)
 }
 
 export const updatePageProps = async (
-  pageId: string,
-  properties: any
+  pageParams: UpdatePageParameters,
 ) => {
-  const res = notion.pages.update({
-    page_id: pageId,
-    properties: properties,
-  })
-  return res
+  return notion.pages.update(pageParams)
 }
 
 // To keep the same page URL,
@@ -124,15 +106,6 @@ export const updatePage = async (
   });
 
   return res
-};
-
-export const archivePage = async (
-  pageId: string
-) => {
-  notion.pages.update({
-    page_id: pageId,
-    archived: true,
-  });
 };
 
 export const retrieveBlock = async (blockId: string) => {

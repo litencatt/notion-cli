@@ -5,7 +5,7 @@ export default class PageRetrievePropertyItem extends Command {
   static description = 'Retrieve a page property item'
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    '<%= config.bin %> <%= command.id %> <page_id> <page_property_id>',
   ]
 
   static args = {
