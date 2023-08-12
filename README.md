@@ -1,27 +1,46 @@
 ## @litencatt/notion-cli
 
-Notion CLI tool written by TypeScript.
+Notion CLI tool written by TypeScript. And some commands can be executed in interactive mode.
 
 ## Quick Start
+
 Retrieves a page object using the ID specified.
-```sh-session
+
+```sh
 $ export NOTION_TOKEN=secret_xxx...
 $ notion-cli page retrieve xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ```
 
 Using docker image:
-```sh-session
-$ docker run --rm -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli page retrieve  xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+```sh
+# -it flag is required to run interactive mode
+$ docker run -it -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli page retrieve  xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+### Interactive mode
+
+In some commands, start interactive mode when execute without args.
+
+```sh
+$ notion-cli db retrieve
+? Select a database ›
+❯   database 1
+    database 2
+    ...
 ```
 
 ## Install
+
 npm:
-```
+
+```sh
 $ npm install -g @litencatt/notion-cli
 ```
 
 docker:
-```
+
+```sh
 $ docker pull ghcr.io/litencatt/notion-cli
 ```
 
