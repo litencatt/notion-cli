@@ -9,7 +9,7 @@ export default class PageRetrieve extends Command {
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
-    '<%= config.bin %> <%= command.id %> -p title',
+    '<%= config.bin %> <%= command.id %> -p title,Z%3ESr',
   ]
 
   static args = {
