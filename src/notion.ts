@@ -108,15 +108,6 @@ export const updatePage = async (
   return res
 };
 
-export const archivePage = async (
-  pageId: string
-) => {
-  notion.pages.update({
-    page_id: pageId,
-    archived: true,
-  });
-};
-
 export const retrieveBlock = async (blockId: string) => {
   const res = notion.blocks.retrieve({
     block_id: blockId,
