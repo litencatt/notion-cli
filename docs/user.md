@@ -22,7 +22,7 @@ EXAMPLES
   $ notion-cli user list
 ```
 
-_See code: [dist/commands/user/list.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/user/list.ts)_
+_See code: [src/commands/user/list.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/user/list.ts)_
 
 ## `notion-cli user retrieve [USER_ID]`
 
@@ -39,7 +39,7 @@ EXAMPLES
   $ notion-cli user retrieve
 ```
 
-_See code: [dist/commands/user/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/user/retrieve.ts)_
+_See code: [src/commands/user/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/user/retrieve.ts)_
 
 ## `notion-cli user retrieve bot`
 
@@ -56,4 +56,4 @@ EXAMPLES
   $ notion-cli user retrieve bot
 ```
 
-_See code: [dist/commands/user/retrieve/bot.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/user/retrieve/bot.ts)_
+_See code: [src/commands/user/retrieve/bot.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/user/retrieve/bot.ts)_
