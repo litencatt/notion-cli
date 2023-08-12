@@ -14,7 +14,10 @@ Create a database
 
 ```
 USAGE
-  $ notion-cli db create PAGE_ID
+  $ notion-cli db create PAGE_ID [-t <value>]
+
+FLAGS
+  -t, --title=<value>
 
 DESCRIPTION
   Create a database
@@ -101,7 +104,10 @@ Update a database
 
 ```
 USAGE
-  $ notion-cli db update [DATABASE_ID]
+  $ notion-cli db update [DATABASE_ID] [-t <value>]
+
+FLAGS
+  -t, --title=<value>  New database title
 
 DESCRIPTION
   Update a database

@@ -1,4 +1,4 @@
-import {Args, Command} from '@oclif/core'
+import {Args, Command, Flags} from '@oclif/core'
 import {
   CreateDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
@@ -26,16 +26,27 @@ export default class DbCreate extends Command {
     page_id: Args.string({required: true}),
   }
 
+  static flags = {
+    title: Flags.string({char: 't'}),
+  }
+
   public async run(): Promise<void> {
-    const { args } = await this.parse(DbCreate)
+    const { args, flags } = await this.parse(DbCreate)
+    console.log(`Creating a database in page ${args.page_id}`)
+
+    let dbTitle = flags.title
+    if (dbTitle == undefined) {
+      const dbPropPromptResult = await prompts([{
+        type: 'text',
+        name: 'title',
+        message: 'Please input database title',
+      }], { onCancel })
+      console.log(dbPropPromptResult)
+
+      dbTitle = dbPropPromptResult.title
+    }
 
     // TODO: support other properties
-    const dbPropPromptResult = await prompts([{
-      type: 'text',
-      name: 'title',
-      message: 'Please input database title',
-    }], { onCancel })
-
     const dbProps: CreateDatabaseParameters = {
       parent: {
         type: 'page_id',
@@ -45,7 +56,7 @@ export default class DbCreate extends Command {
         {
           type: 'text',
           text: {
-            content: dbPropPromptResult.title,
+            content: dbTitle,
           }
         }
       ],
