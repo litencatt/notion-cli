@@ -2,23 +2,27 @@
 
 Notion CLI tool written by TypeScript.
 
-## Usage
-
+## Quick Start
+Retrieves a page object using the ID specified.
 ```sh-session
 $ export NOTION_TOKEN=secret_xxx...
+$ notion-cli page retrieve xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
 
+Using docker image:
+```sh-session
+$ docker run --rm -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli page retrieve  xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+## Install
+npm:
+```
 $ npm install -g @litencatt/notion-cli
+```
 
-$ notion-cli COMMAND
-running command...
-
-$ notion-cli (--version)
-@litencatt/notion-cli/0.9.0 linux-arm64 node-v19.8.1
-
-$ notion-cli --help [COMMAND]
-USAGE
-  $ notion-cli COMMAND
-...
+docker:
+```
+$ docker pull ghcr.io/litencatt/notion-cli
 ```
 
 ## Commands
