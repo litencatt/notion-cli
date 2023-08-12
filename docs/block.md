@@ -3,19 +3,19 @@
 
 Append block children
 
-* [`notion-cli block append BLOCK_ID`](#notion-cli-block-append-block_id)
-* [`notion-cli block delete BLOCK_ID`](#notion-cli-block-delete-block_id)
-* [`notion-cli block retrieve BLOCK_ID`](#notion-cli-block-retrieve-block_id)
-* [`notion-cli block retrieve children BLOCK_ID`](#notion-cli-block-retrieve-children-block_id)
-* [`notion-cli block update BLOCK_ID`](#notion-cli-block-update-block_id)
+* [`notion-cli block append BLOCKID`](#notion-cli-block-append-blockid)
+* [`notion-cli block delete BLOCKID`](#notion-cli-block-delete-blockid)
+* [`notion-cli block retrieve BLOCKID`](#notion-cli-block-retrieve-blockid)
+* [`notion-cli block retrieve children BLOCKID`](#notion-cli-block-retrieve-children-blockid)
+* [`notion-cli block update BLOCKID`](#notion-cli-block-update-blockid)
 
-## `notion-cli block append BLOCK_ID`
+## `notion-cli block append BLOCKID`
 
 Append block children
 
 ```
 USAGE
-  $ notion-cli block append BLOCK_ID [-n <value>] [-f]
+  $ notion-cli block append BLOCKID [-n <value>] [-f]
 
 FLAGS
   -f, --force
@@ -28,13 +28,15 @@ EXAMPLES
   $ notion-cli block append
 ```
 
-## `notion-cli block delete BLOCK_ID`
+_See code: [dist/commands/block/append.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/block/append.ts)_
+
+## `notion-cli block delete BLOCKID`
 
 Delete a block
 
 ```
 USAGE
-  $ notion-cli block delete BLOCK_ID [-n <value>] [-f]
+  $ notion-cli block delete BLOCKID [-n <value>] [-f]
 
 FLAGS
   -f, --force
@@ -47,13 +49,15 @@ EXAMPLES
   $ notion-cli block delete
 ```
 
-## `notion-cli block retrieve BLOCK_ID`
+_See code: [dist/commands/block/delete.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/block/delete.ts)_
+
+## `notion-cli block retrieve BLOCKID`
 
 Retrieve a block
 
 ```
 USAGE
-  $ notion-cli block retrieve BLOCK_ID [-n <value>] [-f]
+  $ notion-cli block retrieve BLOCKID [-n <value>] [-f]
 
 FLAGS
   -f, --force
@@ -66,13 +70,15 @@ EXAMPLES
   $ notion-cli block retrieve
 ```
 
-## `notion-cli block retrieve children BLOCK_ID`
+_See code: [dist/commands/block/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/block/retrieve.ts)_
+
+## `notion-cli block retrieve children BLOCKID`
 
 Retrieve block children
 
 ```
 USAGE
-  $ notion-cli block retrieve children BLOCK_ID [-n <value>] [-f]
+  $ notion-cli block retrieve children BLOCKID [-n <value>] [-f]
 
 FLAGS
   -f, --force
@@ -85,13 +91,15 @@ EXAMPLES
   $ notion-cli block retrieve children
 ```
 
-## `notion-cli block update BLOCK_ID`
+_See code: [dist/commands/block/retrieve/children.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/block/retrieve/children.ts)_
+
+## `notion-cli block update BLOCKID`
 
 Update a block
 
 ```
 USAGE
-  $ notion-cli block update BLOCK_ID [-n <value>] [-f]
+  $ notion-cli block update BLOCKID [-n <value>] [-f]
 
 FLAGS
   -f, --force
@@ -103,3 +111,5 @@ DESCRIPTION
 EXAMPLES
   $ notion-cli block update
 ```
+
+_See code: [dist/commands/block/update.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/block/update.ts)_

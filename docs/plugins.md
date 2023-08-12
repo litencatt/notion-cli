@@ -96,6 +96,8 @@ EXAMPLES
   $ notion-cli plugins:inspect myplugin
 ```
 
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/inspect.ts)_
+
 ## `notion-cli plugins:install PLUGIN...`
 
 Installs a plugin into the CLI.
@@ -134,6 +136,8 @@ EXAMPLES
   $ notion-cli plugins:install someuser/someplugin
 ```
 
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/install.ts)_
+
 ## `notion-cli plugins:link PLUGIN`
 
 Links a plugin into the CLI for development.
@@ -161,28 +165,7 @@ EXAMPLES
   $ notion-cli plugins:link myplugin
 ```
 
-## `notion-cli plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ notion-cli plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ notion-cli plugins unlink
-  $ notion-cli plugins remove
-```
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/link.ts)_
 
 ## `notion-cli plugins:uninstall PLUGIN...`
 
@@ -206,6 +189,31 @@ ALIASES
   $ notion-cli plugins unlink
   $ notion-cli plugins remove
 ```
+
+## `notion-cli plugins:uninstall PLUGIN...`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ notion-cli plugins:uninstall PLUGIN...
+
+ARGUMENTS
+  PLUGIN  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ notion-cli plugins unlink
+  $ notion-cli plugins remove
+```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/uninstall.ts)_
 
 ## `notion-cli plugins:uninstall PLUGIN...`
 
@@ -245,3 +253,5 @@ FLAGS
 DESCRIPTION
   Update installed plugins.
 ```
+
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/update.ts)_

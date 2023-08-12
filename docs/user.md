@@ -4,7 +4,7 @@
 List all users
 
 * [`notion-cli user list`](#notion-cli-user-list)
-* [`notion-cli user retrieve [USER_ID]`](#notion-cli-user-retrieve-user_id)
+* [`notion-cli user retrieve [USERID]`](#notion-cli-user-retrieve-userid)
 * [`notion-cli user retrieve bot`](#notion-cli-user-retrieve-bot)
 
 ## `notion-cli user list`
@@ -22,13 +22,15 @@ EXAMPLES
   $ notion-cli user list
 ```
 
-## `notion-cli user retrieve [USER_ID]`
+_See code: [dist/commands/user/list.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/user/list.ts)_
+
+## `notion-cli user retrieve [USERID]`
 
 Retrieve a user
 
 ```
 USAGE
-  $ notion-cli user retrieve [USER_ID]
+  $ notion-cli user retrieve [USERID]
 
 DESCRIPTION
   Retrieve a user
@@ -36,6 +38,8 @@ DESCRIPTION
 EXAMPLES
   $ notion-cli user retrieve
 ```
+
+_See code: [dist/commands/user/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/user/retrieve.ts)_
 
 ## `notion-cli user retrieve bot`
 
@@ -51,3 +55,5 @@ DESCRIPTION
 EXAMPLES
   $ notion-cli user retrieve bot
 ```
+
+_See code: [dist/commands/user/retrieve/bot.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/user/retrieve/bot.ts)_

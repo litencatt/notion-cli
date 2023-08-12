@@ -33,9 +33,9 @@ USAGE
 # Command Topics
 
 * [`notion-cli block`](docs/block.md) - Append block children
-* [`notion-cli db`](docs/db.md) - database operation on prompt
+* [`notion-cli db`](docs/db.md) - Create a database
 * [`notion-cli help`](docs/help.md) - Display help for notion-cli.
-* [`notion-cli page`](docs/page.md) - Archive a page
+* [`notion-cli page`](docs/page.md) - Create a page
 * [`notion-cli plugins`](docs/plugins.md) - List installed plugins.
 * [`notion-cli user`](docs/user.md) - List all users
 
