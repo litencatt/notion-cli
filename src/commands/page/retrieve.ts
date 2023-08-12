@@ -14,7 +14,6 @@ export default class PageRetrieve extends Command {
 
   static args = {
     pageId: Args.string({ required: true }),
-    filterProperties: Args.string(),
   }
 
   static flags = {
@@ -28,7 +27,9 @@ export default class PageRetrieve extends Command {
     const {args, flags} = await this.parse(PageRetrieve)
     const pageProps: GetPageParameters = {
       page_id: args.pageId,
-      filter_properties: flags.filterProperties.split(','),
+    }
+    if (flags.filterProperties) {
+      pageProps.filter_properties = flags.filterProperties.split(',')
     }
     const res = await notion.retrievePage(pageProps)
     console.dir(res, { depth: null })
