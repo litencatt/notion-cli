@@ -1,15 +1,8 @@
-# @litencatt/notion-cli
+## @litencatt/notion-cli
 
 Notion CLI tool written by TypeScript.
 
-<!-- toc -->
-* [@litencatt/notion-cli](#litencattnotion-cli)
-* [Usage](#usage)
-* [Commands](#commands)
-* [Command Topics](#command-topics)
-<!-- tocstop -->
-
-# Usage
+## Usage
 
 ```sh-session
 $ export NOTION_TOKEN=secret_xxx...
@@ -28,7 +21,7 @@ USAGE
 ...
 ```
 
-# Commands
+## Commands
 <!-- commands -->
 # Command Topics
 
@@ -40,3 +33,46 @@ USAGE
 * [`notion-cli user`](docs/user.md) - List all users
 
 <!-- commandsstop -->
+
+## API Support status
+
+### Authentication
+
+- [ ] Create a token
+
+### Blocks
+
+- [ ] Append block children
+- [ ] Retrieve a block
+- [ ] Retrieve block children
+- [ ] Update a block
+- [ ] Delete a block
+
+### Pages
+
+- [x] Create a page
+- [x] Retrieve a page
+- [x] Retrieve a page property item
+- [x] Update page properties
+
+### Databases
+
+- [x] Create a database
+- [x] Query a database
+- [x] Retrieve a database
+- [x] Update database properties
+
+### Users
+
+- [ ] List all users
+- [ ] Retrive a user
+- [ ] Retrieve your token's bot user
+
+### Comments
+
+- [ ] Create comment
+- [ ] Retrieve comments
+
+### Search
+
+- [ ] Search by title
