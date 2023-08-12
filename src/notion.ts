@@ -13,7 +13,7 @@ import {
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
-  logLevel: process.env.DEBUG ? LogLevel.DEBUG : LogLevel.INFO,
+  logLevel: process.env.DEBUG ? LogLevel.DEBUG : null,
 })
 
 export const queryDb = async (
