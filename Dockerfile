@@ -25,7 +25,7 @@ COPY --from=desp-stage /app/node_modules ./node_modules
 COPY --from=build-stage /work/dist ./dist
 COPY --from=build-stage /work/bin ./bin
 
-# ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 
 COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
