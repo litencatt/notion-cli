@@ -23,11 +23,26 @@ export default class DbQuery extends Command {
   static description = 'Query a database'
 
   static examples = [
-    `$ notion-cli db query`,
-    `$ notion-cli db query DATABASE_ID`,
-    `$ notion-cli db query DATABASE_ID -r '{"and":[]}'`,
-    `$ notion-cli db query DATABASE_ID -f ./path/to/filter.json`,
-    `$ notion-cli db query DATABASE_ID -c`,
+    {
+      description: 'Query a db via interactive mode',
+      command: `$ notion-cli db query`,
+    },
+    {
+      description: 'Query a db via interactive mode with a specific database_id',
+      command: `$ notion-cli db query DATABASE_ID`,
+    },
+    {
+      description: 'Query a db with a specific database_id and row filter string',
+      command: `$ notion-cli db query -r='{"and": ...}' DATABASE_ID`,
+    },
+    {
+      description: 'Query a db with a specific database_id and filter file',
+      command: `$ notion-cli db query -f ./path/to/filter.json DATABASE_ID`,
+    },
+    {
+      description: 'Query a db with a specific database_id and output format',
+      command: `$ notion-cli db query -o csv DATABASE_ID`,
+    },
   ]
 
   static args = {

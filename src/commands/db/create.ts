@@ -12,7 +12,14 @@ export default class DbCreate extends Command {
   static description = 'Create a database'
 
   static examples = [
-    `$ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d`,
+    {
+      description: 'Create a database via interactive mode',
+      command: `$ notion-cli db create`,
+    },
+    {
+      description: 'Create a database with a specific page_id',
+      command: `$ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d`,
+    },
   ]
 
   static args = {
