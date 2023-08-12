@@ -1,5 +1,4 @@
 import {Args, Command, Flags} from '@oclif/core'
-import { isFullDatabase } from '@notionhq/client'
 import {
   UpdateDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
@@ -28,10 +27,15 @@ export default class DbUpdate extends Command {
     database_id: Args.string(),
   }
 
-  static flags = {}
+  static flags = {
+    title: Flags.string({
+      char: 't',
+      description: 'New database title'
+    }),
+  }
 
   public async run(): Promise<void> {
-    const { args } = await this.parse(DbUpdate)
+    const { args, flags } = await this.parse(DbUpdate)
 
     let databaseId = args.database_id
     if (databaseId == undefined) {
@@ -43,24 +47,27 @@ export default class DbUpdate extends Command {
         choices: dbChoices
       }], { onCancel })
       console.log(promptSelectedDbResult)
-
       databaseId = promptSelectedDbResult.database_id
     }
 
-    // TODO: support other properties
-    const dbPropPromptResult = await prompts([{
-      type: 'text',
-      name: 'title',
-      message: 'Please input new database title',
-    }], { onCancel })
+    let dbTitle = flags.title
+    if (dbTitle == undefined) {
+      const dbPropPromptResult = await prompts([{
+        type: 'text',
+        name: 'title',
+        message: 'Please input new database title',
+      }], { onCancel })
+      dbTitle = dbPropPromptResult.title
+    }
 
+    // TODO: support other properties
     const dbProps: UpdateDatabaseParameters = {
       database_id: databaseId,
       title: [
         {
           type: 'text',
           text: {
-            content: dbPropPromptResult.title,
+            content: dbTitle,
           }
         }
       ]
