@@ -25,7 +25,7 @@ export default class DbUpdate extends Command {
   ]
 
   static args = {
-    databaseId: Args.string(),
+    database_id: Args.string(),
   }
 
   static flags = {}
@@ -33,7 +33,7 @@ export default class DbUpdate extends Command {
   public async run(): Promise<void> {
     const { args } = await this.parse(DbUpdate)
 
-    let databaseId = args.databaseId
+    let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
       const promptSelectedDbResult = await prompts([{

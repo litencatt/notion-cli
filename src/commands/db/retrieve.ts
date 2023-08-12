@@ -21,13 +21,13 @@ export default class DbRetrieve extends Command {
   ]
 
   static args = {
-    databaseId: Args.string(),
+    database_id: Args.string(),
   }
 
   public async run(): Promise<void> {
     const { args } = await this.parse(DbRetrieve)
 
-    let databaseId = args.databaseId
+    let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
       const promptSelectedDbResult = await prompts([{
@@ -36,7 +36,9 @@ export default class DbRetrieve extends Command {
         message: 'Select a database',
         choices: dbChoices
       }], { onCancel })
-      console.log(promptSelectedDbResult)
+      if (process.env.DEBUG) {
+        console.log(promptSelectedDbResult)
+      }
 
       databaseId = promptSelectedDbResult.database_id
     }

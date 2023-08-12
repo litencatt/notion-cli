@@ -9,14 +9,14 @@ export default class PageRetrievePropertyItem extends Command {
   ]
 
   static args = {
-    pageId: Args.string({ required: true }),
-    propertyId: Args.string({ required: true }),
+    page_id: Args.string({ required: true }),
+    property_id: Args.string({ required: true }),
   }
 
   public async run(): Promise<void> {
     const {args} = await this.parse(PageRetrievePropertyItem)
 
-    const res = await notion.retrievePageProperty(args.pageId, args.propertyId)
+    const res = await notion.retrievePageProperty(args.page_id, args.property_id)
     console.dir(res, { depth: null })
   }
 }

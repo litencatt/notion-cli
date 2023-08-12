@@ -23,7 +23,7 @@ export default class DbCreate extends Command {
   ]
 
   static args = {
-    pageId: Args.string({required: true}),
+    page_id: Args.string({required: true}),
   }
 
   public async run(): Promise<void> {
@@ -39,7 +39,7 @@ export default class DbCreate extends Command {
     const dbProps: CreateDatabaseParameters = {
       parent: {
         type: 'page_id',
-        page_id: args.pageId,
+        page_id: args.page_id,
       },
       title: [
         {

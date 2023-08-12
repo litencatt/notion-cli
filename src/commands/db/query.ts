@@ -46,7 +46,7 @@ export default class DbQuery extends Command {
   ]
 
   static args = {
-    databaseId: Args.string(),
+    database_id: Args.string(),
   }
 
   static flags = {
@@ -56,7 +56,7 @@ export default class DbQuery extends Command {
     }),
     fileFilter: Flags.string({
       char: 'f',
-      description: 'JSON stringified filter file path'
+      description: 'JSON filter file path'
     }),
     output: Flags.string({
       char: 'o',
@@ -69,7 +69,7 @@ export default class DbQuery extends Command {
   public async run(): Promise<void> {
     const { flags, args } = await this.parse(DbQuery)
 
-    let databaseId = args.databaseId
+    let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
       const promptSelectedDbResult = await prompts([{

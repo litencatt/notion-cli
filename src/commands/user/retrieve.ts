@@ -9,12 +9,12 @@ export default class UserRetrieve extends Command {
   ]
 
   static args = {
-    userId: Args.string(),
+    user_id: Args.string(),
   }
 
   public async run(): Promise<void> {
     const {args} = await this.parse(UserRetrieve)
-    const res = await notion.retrieveUser(args.userId)
+    const res = await notion.retrieveUser(args.user_id)
     console.dir(res, { depth: null })
   }
 }

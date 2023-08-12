@@ -16,13 +16,13 @@ export default class BlockDelete extends Command {
   }
 
   static args = {
-    blockId: Args.string({descriptin: 'block_id', required: true}),
+    block_id: Args.string({descriptin: 'block_id', required: true}),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockDelete)
 
-    const res = await notion.deleteBlock(args.blockId)
+    const res = await notion.deleteBlock(args.block_id)
     console.dir(res, { depth: null })
   }
 }
