@@ -7,9 +7,9 @@ import {
   CreateDatabaseResponse,
   UpdateDatabaseParameters,
   GetPageParameters,
+  CreatePageParameters,
+  BlockObjectRequest,
 } from '@notionhq/client/build/src/api-endpoints'
-import { markdownToBlocks } from '@tryfabric/martian'
-type BlockObjectRequest = ReturnType<typeof markdownToBlocks>[number]
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -71,22 +71,9 @@ export const retrievePageProperty = async (pageId: string, propId: string) => {
 }
 
 export const createPage = async (
-  databaseId: string,
-  title: string,
-  blocks: BlockObjectRequest[]
+  pageProps: CreatePageParameters,
 ) => {
-  const props = {
-    Name: {
-      title: [{ text: { content: title } }],
-    },
-  }
-  const res = notion.pages.create({
-    parent: { database_id: databaseId },
-    properties: props,
-    // @ts-ignore
-    children: blocks,
-  })
-  return res
+  return notion.pages.create(pageProps)
 }
 
 export const updatePageProps = async (
