@@ -26,7 +26,7 @@ EXAMPLES
   $ notion-cli page create -f ./path/to/source.md -p <parent_page_id>
 ```
 
-_See code: [dist/commands/page/create.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/page/create.ts)_
+_See code: [src/commands/page/create.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/page/create.ts)_
 
 ## `notion-cli page retrieve PAGE_ID`
 
@@ -48,7 +48,7 @@ EXAMPLES
   $ notion-cli page retrieve -p title,Z%3ESr
 ```
 
-_See code: [dist/commands/page/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/page/retrieve.ts)_
+_See code: [src/commands/page/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/page/retrieve.ts)_
 
 ## `notion-cli page retrieve property_item PAGE_ID PROPERTY_ID`
 
@@ -65,7 +65,7 @@ EXAMPLES
   $ notion-cli page retrieve property_item <page_id> <page_property_id>
 ```
 
-_See code: [dist/commands/page/retrieve/property_item.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/page/retrieve/property_item.ts)_
+_See code: [src/commands/page/retrieve/property_item.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/page/retrieve/property_item.ts)_
 
 ## `notion-cli page update PAGE_ID`
 
@@ -90,4 +90,4 @@ EXAMPLES
   $ notion-cli page update <page_id> -u
 ```
 
-_See code: [dist/commands/page/update.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/page/update.ts)_
+_See code: [src/commands/page/update.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/page/update.ts)_
