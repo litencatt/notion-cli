@@ -55,8 +55,7 @@ export const updateDb = async (
 export const retrieveDb = async (
   databaseId: string,
 ): Promise<GetDatabaseResponse> => {
-  const res = await notion.databases.retrieve({ database_id: databaseId })
-  return res
+  return await notion.databases.retrieve({ database_id: databaseId })
 }
 
 export const retrievePage = async (pageProp: GetPageParameters) => {
