@@ -9,6 +9,7 @@ import {
   GetPageParameters,
   CreatePageParameters,
   BlockObjectRequest,
+  UpdatePageParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 
 const notion = new Client({
@@ -78,14 +79,9 @@ export const createPage = async (
 }
 
 export const updatePageProps = async (
-  pageId: string,
-  properties: any
+  pageParams: UpdatePageParameters,
 ) => {
-  const res = notion.pages.update({
-    page_id: pageId,
-    properties: properties,
-  })
-  return res
+  return notion.pages.update(pageParams)
 }
 
 // To keep the same page URL,
