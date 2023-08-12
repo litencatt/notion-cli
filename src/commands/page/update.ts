@@ -23,7 +23,7 @@ export default class PageUpdate extends Command {
     un_archive: Flags.boolean({ char: 'u'}),
   }
 
-  // TODO: Add support for updating a page property
+  // TODO: Add support for updating a page properties, icon, cover
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageUpdate)
     const pageProps: UpdatePageParameters = {
