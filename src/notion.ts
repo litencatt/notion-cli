@@ -62,6 +62,7 @@ export const retrievePage = async (pageProp: GetPageParameters) => {
   return notion.pages.retrieve(pageProp)
 }
 
+// TODO: support page_size, start_cursor
 export const retrievePageProperty = async (pageId: string, propId: string) => {
   const res = notion.pages.properties.retrieve({
     page_id: pageId,
