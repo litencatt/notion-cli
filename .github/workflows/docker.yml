@@ -43,8 +43,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/$GITHUB_ACTOR/notion-cli:latest
-            ghcr.io/$GITHUB_ACTOR/notion-cli:${{ steps.latest_version.outputs.version }}
+            ghcr.io/${{ github.actor }}/notion-cli:latest
+            ghcr.io/${{ github.actor }}/notion-cli:${{ steps.latest_version.outputs.version }}
           labels: |
             org.opencontainers.image.name=notion-cli
             org.opencontainers.image.revision=${{ github.sha }}
