@@ -13,11 +13,11 @@ export default class PageRetrieve extends Command {
   ]
 
   static args = {
-    pageId: Args.string({ required: true }),
+    page_id: Args.string({ required: true }),
   }
 
   static flags = {
-    filterProperties: Flags.string({
+    filter_properties: Flags.string({
       char: 'p',
       description: 'Comma separated property id string'
     }),
@@ -26,10 +26,10 @@ export default class PageRetrieve extends Command {
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageRetrieve)
     const pageProps: GetPageParameters = {
-      page_id: args.pageId,
+      page_id: args.page_id,
     }
     if (flags.filterProperties) {
-      pageProps.filter_properties = flags.filterProperties.split(',')
+      pageProps.filter_properties = flags.filter_properties.split(',')
     }
     const res = await notion.retrievePage(pageProps)
     console.dir(res, { depth: null })

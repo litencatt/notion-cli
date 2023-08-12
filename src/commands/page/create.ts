@@ -16,11 +16,14 @@ export default class PageCreate extends Command {
   ]
 
   static args = {
-    parentId: Args.string({ char: 'p', required: true }),
+    parent_id: Args.string({ char: 'p', required: true }),
   }
 
   static flags = {
-    filePath: Flags.string({ char: 'f' }),
+    file_path: Flags.string({
+      char: 'f',
+      description: 'Path to a source markdown file',
+    }),
   }
 
   public async run(): Promise<void> {
@@ -31,20 +34,20 @@ export default class PageCreate extends Command {
       pageProps = {
         // TODO: Add support for creating a page in a page
         parent: {
-          database_id: args.parentId,
+          database_id: args.parent_id,
         },
         properties: {}
       }
     } else {
-      const p = path.join('./', flags.filePath)
-      const title = path.basename(flags.filePath)
+      const p = path.join('./', flags.file_path)
+      const title = path.basename(flags.file_path)
       const md = fs.readFileSync(p, { encoding: 'utf-8' })
       const blocks = markdownToBlocks(md)
 
       // TODO: Add support for creating a page from a template
       pageProps = {
         parent: {
-          database_id: args.parentId,
+          database_id: args.parent_id,
         },
         properties: {
           Name: {

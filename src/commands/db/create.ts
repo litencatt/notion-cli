@@ -12,11 +12,18 @@ export default class DbCreate extends Command {
   static description = 'Create a database'
 
   static examples = [
-    `$ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d`,
+    {
+      description: 'Create a database via interactive mode',
+      command: `$ notion-cli db create`,
+    },
+    {
+      description: 'Create a database with a specific page_id',
+      command: `$ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d`,
+    },
   ]
 
   static args = {
-    pageId: Args.string({required: true}),
+    page_id: Args.string({required: true}),
   }
 
   public async run(): Promise<void> {
@@ -32,7 +39,7 @@ export default class DbCreate extends Command {
     const dbProps: CreateDatabaseParameters = {
       parent: {
         type: 'page_id',
-        page_id: args.pageId,
+        page_id: args.page_id,
       },
       title: [
         {

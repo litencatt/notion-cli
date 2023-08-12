@@ -14,7 +14,7 @@ export default class PageUpdate extends Command {
   ]
 
   static args = {
-    pageId: Args.string({ required: true }),
+    page_id: Args.string({ required: true }),
   }
 
   // TODO: Add support icon, cover
@@ -26,9 +26,8 @@ export default class PageUpdate extends Command {
   // TODO: Add support for updating a page property
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageUpdate)
-    const archiveFlag = flags.archived || !flags.un_archive
     const pageProps: UpdatePageParameters = {
-      page_id: args.pageId,
+      page_id: args.page_id,
     }
     if (flags.archived) {
       pageProps.archived = true

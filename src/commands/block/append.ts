@@ -16,13 +16,13 @@ export default class BlockAppend extends Command {
   }
 
   static args = {
-    blockId: Args.string({required: true}),
+    block_id: Args.string({required: true}),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockAppend)
 
-    const res = await notion.appendBlockChildren(args.blockId)
+    const res = await notion.appendBlockChildren(args.block_id)
     console.dir(res, { depth: null })
   }
 }

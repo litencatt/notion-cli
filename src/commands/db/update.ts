@@ -14,11 +14,18 @@ export default class DbUpdate extends Command {
   static description = 'Update a database'
 
   static examples = [
-    `$ notion-cli db update f929e92f257c4d8bb9d0c176ce24814d`,
+    {
+      description: 'Update a database via interactive mode',
+      command: `$ notion-cli db update`,
+    },
+    {
+      description: 'Update a database with a specific database_id',
+      command: `$ notion-cli db update DATABASE_ID`,
+    },
   ]
 
   static args = {
-    databaseId: Args.string(),
+    database_id: Args.string(),
   }
 
   static flags = {}
@@ -26,7 +33,7 @@ export default class DbUpdate extends Command {
   public async run(): Promise<void> {
     const { args } = await this.parse(DbUpdate)
 
-    let databaseId = args.databaseId
+    let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
       const promptSelectedDbResult = await prompts([{

@@ -10,17 +10,24 @@ export default class DbRetrieve extends Command {
   static description = 'Retrieve a database'
 
   static examples = [
-    `$ notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d`,
+    {
+      description: 'Retrieve a database via interactive mode',
+      command: 'notion-cli db retrieve',
+    },
+    {
+      description: 'Retrieve a database via database_id',
+      command: 'notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d',
+    }
   ]
 
   static args = {
-    databaseId: Args.string(),
+    database_id: Args.string(),
   }
 
   public async run(): Promise<void> {
     const { args } = await this.parse(DbRetrieve)
 
-    let databaseId = args.databaseId
+    let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
       const promptSelectedDbResult = await prompts([{
@@ -29,7 +36,9 @@ export default class DbRetrieve extends Command {
         message: 'Select a database',
         choices: dbChoices
       }], { onCancel })
-      console.log(promptSelectedDbResult)
+      if (process.env.DEBUG) {
+        console.log(promptSelectedDbResult)
+      }
 
       databaseId = promptSelectedDbResult.database_id
     }

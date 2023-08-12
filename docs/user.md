@@ -4,7 +4,7 @@
 List all users
 
 * [`notion-cli user list`](#notion-cli-user-list)
-* [`notion-cli user retrieve [USERID]`](#notion-cli-user-retrieve-userid)
+* [`notion-cli user retrieve [USER_ID]`](#notion-cli-user-retrieve-user_id)
 * [`notion-cli user retrieve bot`](#notion-cli-user-retrieve-bot)
 
 ## `notion-cli user list`
@@ -24,13 +24,13 @@ EXAMPLES
 
 _See code: [dist/commands/user/list.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/user/list.ts)_
 
-## `notion-cli user retrieve [USERID]`
+## `notion-cli user retrieve [USER_ID]`
 
 Retrieve a user
 
 ```
 USAGE
-  $ notion-cli user retrieve [USERID]
+  $ notion-cli user retrieve [USER_ID]
 
 DESCRIPTION
   Retrieve a user

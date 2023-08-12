@@ -3,21 +3,21 @@
 
 Create a page
 
-* [`notion-cli page create PARENTID`](#notion-cli-page-create-parentid)
-* [`notion-cli page retrieve PAGEID`](#notion-cli-page-retrieve-pageid)
-* [`notion-cli page retrieve property_item PAGEID PROPERTYID`](#notion-cli-page-retrieve-property_item-pageid-propertyid)
-* [`notion-cli page update PAGEID`](#notion-cli-page-update-pageid)
+* [`notion-cli page create PARENT_ID`](#notion-cli-page-create-parent_id)
+* [`notion-cli page retrieve PAGE_ID`](#notion-cli-page-retrieve-page_id)
+* [`notion-cli page retrieve property_item PAGE_ID PROPERTY_ID`](#notion-cli-page-retrieve-property_item-page_id-property_id)
+* [`notion-cli page update PAGE_ID`](#notion-cli-page-update-page_id)
 
-## `notion-cli page create PARENTID`
+## `notion-cli page create PARENT_ID`
 
 Create a page
 
 ```
 USAGE
-  $ notion-cli page create PARENTID [-f <value>]
+  $ notion-cli page create PARENT_ID [-f <value>]
 
 FLAGS
-  -f, --filePath=<value>
+  -f, --file_path=<value>  Path to a source markdown file
 
 DESCRIPTION
   Create a page
@@ -28,16 +28,16 @@ EXAMPLES
 
 _See code: [dist/commands/page/create.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/page/create.ts)_
 
-## `notion-cli page retrieve PAGEID`
+## `notion-cli page retrieve PAGE_ID`
 
 Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page retrieve PAGEID [-p <value>]
+  $ notion-cli page retrieve PAGE_ID [-p <value>]
 
 FLAGS
-  -p, --filterProperties=<value>  Comma separated property id string
+  -p, --filter_properties=<value>  Comma separated property id string
 
 DESCRIPTION
   Retrieve a page
@@ -50,13 +50,13 @@ EXAMPLES
 
 _See code: [dist/commands/page/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/page/retrieve.ts)_
 
-## `notion-cli page retrieve property_item PAGEID PROPERTYID`
+## `notion-cli page retrieve property_item PAGE_ID PROPERTY_ID`
 
 Retrieve a page property item
 
 ```
 USAGE
-  $ notion-cli page retrieve property_item PAGEID PROPERTYID
+  $ notion-cli page retrieve property_item PAGE_ID PROPERTY_ID
 
 DESCRIPTION
   Retrieve a page property item
@@ -67,13 +67,13 @@ EXAMPLES
 
 _See code: [dist/commands/page/retrieve/property_item.ts](https://github.com/litencatt/notion-cli/blob/v0.10.0/dist/commands/page/retrieve/property_item.ts)_
 
-## `notion-cli page update PAGEID`
+## `notion-cli page update PAGE_ID`
 
 Update a page
 
 ```
 USAGE
-  $ notion-cli page update PAGEID [-a] [-u]
+  $ notion-cli page update PAGE_ID [-a] [-u]
 
 FLAGS
   -a, --archived

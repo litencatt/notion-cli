@@ -16,13 +16,13 @@ export default class BlockRetrieveChildren extends Command {
   }
 
   static args = {
-    blockId: Args.string({descriptin: 'block_id', required: true}),
+    block_id: Args.string({descriptin: 'block_id', required: true}),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockRetrieveChildren)
 
-    const res = await notion.retrieveBlockChildren(args.blockId)
+    const res = await notion.retrieveBlockChildren(args.block_id)
     console.dir(res, { depth: null })
   }
 }
