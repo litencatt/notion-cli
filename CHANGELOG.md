@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.11.2](https://github.com/litencatt/notion-cli/compare/v0.11.1...v0.11.2) - 2023-08-13
+- Do not regist unknown/unknown image to registry by @litencatt in https://github.com/litencatt/notion-cli/pull/191
+
 ## [v0.11.1](https://github.com/litencatt/notion-cli/compare/v0.11.0...v0.11.1) - 2023-08-13
 - Start tagpr by @litencatt in https://github.com/litencatt/notion-cli/pull/188
 - Add alias command by @litencatt in https://github.com/litencatt/notion-cli/pull/190
