@@ -32,7 +32,7 @@ EXAMPLES
     $ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d
 ```
 
-_See code: [src/commands/db/create.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/db/create.ts)_
+_See code: [src/commands/db/create.ts](https://github.com/litencatt/notion-cli/blob/v0.11.0/src/commands/db/create.ts)_
 
 ## `notion-cli db query [DATABASE_ID]`
 
@@ -73,7 +73,7 @@ EXAMPLES
     $ notion-cli db query -o csv DATABASE_ID
 ```
 
-_See code: [src/commands/db/query.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/db/query.ts)_
+_See code: [src/commands/db/query.ts](https://github.com/litencatt/notion-cli/blob/v0.11.0/src/commands/db/query.ts)_
 
 ## `notion-cli db retrieve [DATABASE_ID]`
 
@@ -96,7 +96,7 @@ EXAMPLES
     $ notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d
 ```
 
-_See code: [src/commands/db/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/db/retrieve.ts)_
+_See code: [src/commands/db/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.11.0/src/commands/db/retrieve.ts)_
 
 ## `notion-cli db update [DATABASE_ID]`
 
@@ -122,4 +122,4 @@ EXAMPLES
     $ notion-cli db update DATABASE_ID
 ```
 
-_See code: [src/commands/db/update.ts](https://github.com/litencatt/notion-cli/blob/v0.10.1/src/commands/db/update.ts)_
+_See code: [src/commands/db/update.ts](https://github.com/litencatt/notion-cli/blob/v0.11.0/src/commands/db/update.ts)_
