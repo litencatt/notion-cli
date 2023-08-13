@@ -65,10 +65,10 @@ $ docker pull ghcr.io/litencatt/notion-cli
 ### Blocks
 
 - [ ] Append block children
-- [ ] Retrieve a block
-- [ ] Retrieve block children
+- [x] Retrieve a block
+- [x] Retrieve block children
 - [ ] Update a block
-- [ ] Delete a block
+- [x] Delete a block
 
 ### Pages
 
@@ -86,9 +86,9 @@ $ docker pull ghcr.io/litencatt/notion-cli
 
 ### Users
 
-- [ ] List all users
-- [ ] Retrive a user
-- [ ] Retrieve your token's bot user
+- [x] List all users
+- [x] Retrive a user
+- [x] Retrieve your token's bot user
 
 ### Comments
 
