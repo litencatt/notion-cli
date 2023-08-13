@@ -4,6 +4,8 @@ import * as notion from '../../notion'
 export default class UserList extends Command {
   static description = 'List all users'
 
+  static aliases: string[] = ['user:l']
+
   static examples = [
     '<%= config.bin %> <%= command.id %>',
   ]

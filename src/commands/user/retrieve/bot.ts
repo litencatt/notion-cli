@@ -4,6 +4,8 @@ import * as notion from '../../../notion'
 export default class UserRetrieveBot extends Command {
   static description = 'Retrieve a bot user'
 
+  static aliases: string[] = ['user:r:b']
+
   static examples = [
     '<%= config.bin %> <%= command.id %>',
   ]

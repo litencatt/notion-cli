@@ -4,6 +4,8 @@ import * as notion from '../../notion'
 export default class BlockDelete extends Command {
   static description = 'Delete a block'
 
+  static aliases: string[] = ['block:d']
+
   static examples = [
     '<%= config.bin %> <%= command.id %>',
   ]

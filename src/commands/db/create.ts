@@ -6,10 +6,13 @@ import * as notion from '../../notion'
 import {
   onCancel,
 } from '../../helper'
+
 const  prompts  = require('prompts')
 
 export default class DbCreate extends Command {
   static description = 'Create a database'
+
+  static aliases: string[] = ['db:c']
 
   static examples = [
     {

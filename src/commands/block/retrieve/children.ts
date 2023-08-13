@@ -4,6 +4,8 @@ import * as notion from '../../../notion'
 export default class BlockRetrieveChildren extends Command {
   static description = 'Retrieve block children'
 
+  static aliases: string[] = ['block:r:c']
+
   static examples = [
     '<%= config.bin %> <%= command.id %> BLOCK_ID',
   ]

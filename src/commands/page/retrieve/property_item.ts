@@ -4,6 +4,8 @@ import * as notion from '../../../notion'
 export default class PageRetrievePropertyItem extends Command {
   static description = 'Retrieve a page property item'
 
+  static aliases: string[] = ['page:r:pi']
+
   static examples = [
     '<%= config.bin %> <%= command.id %> <page_id> <page_property_id>',
   ]

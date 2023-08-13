@@ -11,6 +11,8 @@ import {
 export default class PageCreate extends Command {
   static description = 'Create a page'
 
+  static aliases: string[] = ['page:c']
+
   static examples = [
     '<%= config.bin %> <%= command.id %> -f ./path/to/source.md -p <parent_page_id>',
   ]

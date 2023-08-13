@@ -22,6 +22,8 @@ const  prompts  = require('prompts')
 export default class DbQuery extends Command {
   static description = 'Query a database'
 
+  static aliases: string[] = ['db:q']
+
   static examples = [
     {
       description: 'Query a db via interactive mode',
