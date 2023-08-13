@@ -10,6 +10,8 @@ import {
   CreatePageParameters,
   BlockObjectRequest,
   UpdatePageParameters,
+  AppendBlockChildrenParameters,
+  UpdateBlockParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 
 const notion = new Client({
@@ -114,14 +116,8 @@ export const retrieveBlock = async (blockId: string) => {
   return res
 }
 
-// TODO
-// - support {type} params
-// - support archived params
-export const updateBlock = async (blockId: string) => {
-  const res = notion.blocks.update({
-    block_id: blockId,
-  })
-  return res
+export const updateBlock = async (params: UpdateBlockParameters) => {
+  return notion.blocks.update(params)
 }
 
 export const retrieveBlockChildren = async (blockId: string) => {
@@ -131,14 +127,10 @@ export const retrieveBlockChildren = async (blockId: string) => {
   return res
 }
 
-// TODO
-// - support children params
-export const appendBlockChildren = async (blockId: string) => {
-  const res = notion.blocks.children.append({
-    block_id: blockId,
-    children: [],
-  })
-  return res
+export const appendBlockChildren = async (
+  params: AppendBlockChildrenParameters
+) => {
+  return notion.blocks.children.append(params)
 }
 
 export const deleteBlock = async (blockId: string) => {
