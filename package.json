@@ -67,7 +67,7 @@
     "lint": "eslint . --ext .ts --config .eslintrc.json",
     "postpack": "shx rm -f oclif.manifest.json",
     "prepack": "yarn build && oclif manifest && oclif readme --multi",
-    "test": "mocha --forbid-only \"test/commands/db/**/*.test.ts\" \"test/commands/page/**/*.test.ts\"",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif readme --multi && git add README.md"
   },
   "engines": {
