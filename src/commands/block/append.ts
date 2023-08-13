@@ -7,6 +7,8 @@ import {
 export default class BlockAppend extends Command {
   static description = 'Append block children'
 
+  static aliases: string[] = ['block:a']
+
   static examples = [
     '<%= config.bin %> <%= command.id %> BLOCK_ID CHILDREN AFTER',
   ]

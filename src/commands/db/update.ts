@@ -12,6 +12,8 @@ const  prompts  = require('prompts')
 export default class DbUpdate extends Command {
   static description = 'Update a database'
 
+  static aliases: string[] = ['db:u']
+
   static examples = [
     {
       description: 'Update a database via interactive mode',

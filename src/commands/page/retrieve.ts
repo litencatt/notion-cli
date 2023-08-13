@@ -7,6 +7,8 @@ import {
 export default class PageRetrieve extends Command {
   static description = 'Retrieve a page'
 
+  static aliases: string[] = ['page:r']
+
   static examples = [
     '<%= config.bin %> <%= command.id %>',
     '<%= config.bin %> <%= command.id %> -p title,Z%3ESr',

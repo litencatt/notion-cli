@@ -5,6 +5,8 @@ import { UpdateBlockParameters } from '@notionhq/client/build/src/api-endpoints'
 export default class BlockUpdate extends Command {
   static description = 'Update a block'
 
+  static aliases: string[] = ['block:u']
+
   static examples = [
     '<%= config.bin %> <%= command.id %>',
   ]

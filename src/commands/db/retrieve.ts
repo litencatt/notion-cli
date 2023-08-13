@@ -9,6 +9,8 @@ const  prompts  = require('prompts')
 export default class DbRetrieve extends Command {
   static description = 'Retrieve a database'
 
+  static aliases: string[] = ['db:r']
+
   static examples = [
     {
       description: 'Retrieve a database via interactive mode',

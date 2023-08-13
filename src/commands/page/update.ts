@@ -7,6 +7,8 @@ import {
 export default class PageUpdate extends Command {
   static description = 'Update a page'
 
+  static aliases: string[] = ['page:u']
+
   static examples = [
     '<%= config.bin %> <%= command.id %> <page_id>',
     '<%= config.bin %> <%= command.id %> <page_id> -a',
