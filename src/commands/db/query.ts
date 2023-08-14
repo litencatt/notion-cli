@@ -1,7 +1,8 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../notion'
 import {
-  QueryDatabaseParameters,
+  PageObjectResponse,
+  PartialPageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -16,6 +17,7 @@ import {
     onCancel,
   } from '../../helper'
 import { Parser } from '@json2csv/plainjs';
+import { isFullPage } from '@notionhq/client'
 
 const  prompts  = require('prompts')
 
@@ -60,12 +62,8 @@ export default class DbQuery extends Command {
       char: 'f',
       description: 'JSON filter file path'
     }),
-    output: Flags.string({
-      char: 'o',
-      description: 'Output format',
-      options: ['csv', 'json'],
-      default: 'json',
-    }),
+    row: Flags.boolean(),
+    ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
@@ -240,28 +238,36 @@ export default class DbQuery extends Command {
     }
 
     const res = await notion.queryDb(databaseId, filter)
-    if (res.length == 0) {
-      this.logToStderr("No pages found")
+
+    if (flags.row) {
+      console.dir(res, { depth: null })
       this.exit(0)
     }
 
-    switch (flags.output) {
-      case 'csv':
-        const {oneDepthJson, relationJson} = await buildOneDepthJson(res)
-        const parser = new Parser()
-        const csv = parser.parse(oneDepthJson)
-        console.log(csv)
-
-        // TODO:
-        // あるページに対してリレーション関係にあるページIDの情報のみCSV出力したければ、
-        // 以下property_nameを指定すれば出力可能にはなるがまだ未実装
-        // page_id, relation_page_id
-        // const parser2 = new Parser()
-        // const rel = parser2.parse(relationJson["property_name"])
-        // console.log(rel)
-        break
-      default:
-        console.dir(res, { depth: null })
+    const columns = {
+      title: {
+        get: (row: PageObjectResponse | PartialPageObjectResponse) => {
+          if (isFullPage(row)) {
+            let title: string
+            Object.entries(row.properties).find(([_, prop]) => {
+              if (prop.type === 'title') {
+                title = prop.title[0] && prop.title[0].plain_text
+              }
+            })
+            return title
+          } else {
+            return 'untitled'
+          }
+        },
+      },
+      object: {},
+      id: {},
+      url: {},
     }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table(res, columns, options)
   }
 }

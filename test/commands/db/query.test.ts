@@ -6,28 +6,57 @@ describe('db:query', () => {
     results: [
       {
         object: 'page',
-        id: 'dummy-database-id',
-        title: [
-          {
-            type: 'text',
-            text: {
-              content: 'dummy database title',
-            }
+        id: 'dummy-page-id',
+        properties: {
+          Name: {
+            id: 'title',
+            type: 'title',
+            title: [
+              {
+                type: 'text',
+                text: {
+                  content: 'dummy page title',
+                },
+                plain_text: 'dummy page title',
+              }
+            ],
           }
-        ],
+        },
+        url: 'https://www.notion.so/dummy-page-id',
       }
     ],
   }
 
-  test
-  .nock('https://api.notion.com', api => api
+  const apiMock = test.nock('https://api.notion.com', api => api
     .post('/v1/databases/dummy-database-id/query')
     .reply(200, response)
-  )
-  .stdout()
-  .command(['db:query', 'dummy-database-id', '-r', '{"property":"title","text":{"equals":"dummy database title"}}'])
-  .it('shows queried database object when success with title flags', ctx => {
-    expect(ctx.stdout).to.contain("dummy-database-id")
-    expect(ctx.stdout).to.contain("dummy database title")
+  ).stdout({print: process.env.TEST_DEBUG ? true : false})
+
+  describe('with row query flags', () => {
+    apiMock
+    .command([
+      'db:query',
+      'dummy-database-id',
+      '-r', '{"and": []}',
+    ])
+    .it('shows query result table', ctx => {
+      expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
+      expect(ctx.stdout).to.match(/dummy page title.*page.*dummy-page-id.*https:\/\/www\.notion\.so\/dummy-page-id/)
+    })
+  })
+
+  describe('with --row flags', () => {
+    apiMock
+    .command([
+      'db:query',
+      'dummy-database-id',
+      '-r', '{"and": []}',
+      '--row',
+    ])
+    .exit(0)
+    .it('shows query result page objects', ctx => {
+      expect(ctx.stdout).to.contain("dummy-page-id")
+      expect(ctx.stdout).to.contain("dummy page title")
+    })
   })
 })
