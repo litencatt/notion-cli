@@ -1,6 +1,11 @@
-import {Command, Flags} from '@oclif/core'
+import {Command, Flags, ux} from '@oclif/core'
 import * as notion from '../notion'
-import { SearchParameters } from '@notionhq/client/build/src/api-endpoints';
+import {
+  GetPageResponse,
+  SearchParameters,
+  GetDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints';
+import { isFullDatabase, isFullPage } from '@notionhq/client';
 
 export default class Search extends Command {
   static description = 'Search by title'
@@ -20,8 +25,8 @@ export default class Search extends Command {
       description: 'The direction to sort results. The only supported timestamp value is "last_edited_time"',
       default: 'desc',
     }),
-    filter: Flags.string({
-      char: 'f',
+    property: Flags.string({
+      char: 'p',
       options: ['database', 'page'],
     }),
     start_cursor: Flags.string({
@@ -34,6 +39,12 @@ export default class Search extends Command {
       max: 100,
       default: 5,
     }),
+    row: Flags.boolean({
+      name: 'row-output',
+      char: 'r',
+      description: 'Output JSON row result',
+    }),
+    ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
@@ -54,9 +65,9 @@ export default class Search extends Command {
         timestamp: 'last_edited_time',
       }
     }
-    if (flags.filter == 'database' || flags.filter == 'page') {
+    if (flags.property == 'database' || flags.property == 'page') {
       params.filter = {
-        value: flags.filter,
+        value: flags.property,
         property: 'object',
       }
     }
@@ -66,7 +77,42 @@ export default class Search extends Command {
     if (flags.page_size) {
       params.page_size = flags.page_size
     }
+
+    if (process.env.DEBUG) {
+      console.log(params)
+    }
     const res = await notion.search(params)
-    console.dir(res, { depth: null })
+
+    if (flags.row) {
+      console.dir(res, { depth: null })
+    } else {
+      const columns = {
+        title: {
+          get: (row: GetDatabaseResponse | GetPageResponse) => {
+            if (row.object == 'database' && isFullDatabase(row)) {
+              return row.title && row.title[0].plain_text
+            } else if (row.object == 'page' && isFullPage(row)) {
+              let title: string
+              Object.entries(row.properties).find(([_, prop]) => {
+                if (prop.type === 'title') {
+                  title = prop.title[0].plain_text
+                }
+              })
+              return title
+            } else {
+              return 'untitled'
+            }
+          },
+        },
+        object: {},
+        id: {},
+        url: {},
+      }
+      const options = {
+        printLine: this.log.bind(this),
+        ...flags
+      }
+      ux.table(res.results, columns, options)
+    }
   }
 }
