@@ -11,12 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - uses: actions/setup-node@v3
         with:
           node-version: "20.x"
           registry-url: "https://registry.npmjs.org"
 
-      - run: yarn && yarn test
+      - run: |
+          yarn
+          yarn prepack
+
+      - name: Add & Commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+
+      - run: yarn test

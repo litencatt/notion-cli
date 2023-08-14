@@ -3,8 +3,8 @@
 
 Create a page
 
-* [`notion-cli page c PARENT_ID`](#notion-cli-page-c-parent_id)
-* [`notion-cli page create PARENT_ID`](#notion-cli-page-create-parent_id)
+* [`notion-cli page c`](#notion-cli-page-c)
+* [`notion-cli page create`](#notion-cli-page-create)
 * [`notion-cli page r PAGE_ID`](#notion-cli-page-r-page_id)
 * [`notion-cli page r pi PAGE_ID PROPERTY_ID`](#notion-cli-page-r-pi-page_id-property_id)
 * [`notion-cli page retrieve PAGE_ID`](#notion-cli-page-retrieve-page_id)
@@ -12,16 +12,29 @@ Create a page
 * [`notion-cli page u PAGE_ID`](#notion-cli-page-u-page_id)
 * [`notion-cli page update PAGE_ID`](#notion-cli-page-update-page_id)
 
-## `notion-cli page c PARENT_ID`
+## `notion-cli page c`
 
 Create a page
 
 ```
 USAGE
-  $ notion-cli page c PARENT_ID [-f <value>]
+  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
+    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
-  -f, --file_path=<value>  Path to a source markdown file
+  -d, --parent_db_id=<value>
+  -f, --file_path=<value>       Path to a source markdown file
+  -p, --parent_page_id=<value>
+  -x, --extended                show extra columns
+  --columns=<value>             only show provided columns (comma-separated)
+  --csv                         output is csv format [alias: --output=csv]
+  --filter=<value>              filter property by partial string matching, ex: name=foo
+  --no-header                   hide table header from output
+  --no-truncate                 do not truncate output to fit screen
+  --output=<option>             output in a more machine friendly format
+                                <options: csv|json|yaml>
+  --row
+  --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Create a page
@@ -33,16 +46,29 @@ EXAMPLES
   $ notion-cli page c -f ./path/to/source.md -p <parent_page_id>
 ```
 
-## `notion-cli page create PARENT_ID`
+## `notion-cli page create`
 
 Create a page
 
 ```
 USAGE
-  $ notion-cli page create PARENT_ID [-f <value>]
+  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
+    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
-  -f, --file_path=<value>  Path to a source markdown file
+  -d, --parent_db_id=<value>
+  -f, --file_path=<value>       Path to a source markdown file
+  -p, --parent_page_id=<value>
+  -x, --extended                show extra columns
+  --columns=<value>             only show provided columns (comma-separated)
+  --csv                         output is csv format [alias: --output=csv]
+  --filter=<value>              filter property by partial string matching, ex: name=foo
+  --no-header                   hide table header from output
+  --no-truncate                 do not truncate output to fit screen
+  --output=<option>             output in a more machine friendly format
+                                <options: csv|json|yaml>
+  --row
+  --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Create a page
@@ -62,10 +88,21 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page r PAGE_ID [-p <value>]
+  $ notion-cli page r PAGE_ID [-p <value>] [--row] [--columns <value> | -x] [--sort <value>] [--filter
+    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -p, --filter_properties=<value>  Comma separated property id string
+  -x, --extended                   show extra columns
+  --columns=<value>                only show provided columns (comma-separated)
+  --csv                            output is csv format [alias: --output=csv]
+  --filter=<value>                 filter property by partial string matching, ex: name=foo
+  --no-header                      hide table header from output
+  --no-truncate                    do not truncate output to fit screen
+  --output=<option>                output in a more machine friendly format
+                                   <options: csv|json|yaml>
+  --row
+  --sort=<value>                   property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Retrieve a page
@@ -103,10 +140,21 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page retrieve PAGE_ID [-p <value>]
+  $ notion-cli page retrieve PAGE_ID [-p <value>] [--row] [--columns <value> | -x] [--sort <value>] [--filter
+    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -p, --filter_properties=<value>  Comma separated property id string
+  -x, --extended                   show extra columns
+  --columns=<value>                only show provided columns (comma-separated)
+  --csv                            output is csv format [alias: --output=csv]
+  --filter=<value>                 filter property by partial string matching, ex: name=foo
+  --no-header                      hide table header from output
+  --no-truncate                    do not truncate output to fit screen
+  --output=<option>                output in a more machine friendly format
+                                   <options: csv|json|yaml>
+  --row
+  --sort=<value>                   property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Retrieve a page
@@ -148,11 +196,22 @@ Update a page
 
 ```
 USAGE
-  $ notion-cli page u PAGE_ID [-a] [-u]
+  $ notion-cli page u PAGE_ID [-a] [-u] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -a, --archived
   -u, --un_archive
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --row
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Update a page
@@ -174,11 +233,22 @@ Update a page
 
 ```
 USAGE
-  $ notion-cli page update PAGE_ID [-a] [-u]
+  $ notion-cli page update PAGE_ID [-a] [-u] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -a, --archived
   -u, --un_archive
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --row
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Update a page

@@ -1,8 +1,10 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../notion'
 import {
   UpdatePageParameters,
+  UpdatePageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import { isFullPage } from '@notionhq/client'
 
 export default class PageUpdate extends Command {
   static description = 'Update a page'
@@ -19,12 +21,14 @@ export default class PageUpdate extends Command {
     page_id: Args.string({ required: true }),
   }
 
-  // TODO: Add support icon, cover
   static flags = {
     archived: Flags.boolean({ char: 'a'}),
     un_archive: Flags.boolean({ char: 'u'}),
+    row: Flags.boolean(),
+    ...ux.table.flags(),
   }
 
+  // NOTE: Support only archived or un archive property for now
   // TODO: Add support for updating a page properties, icon, cover
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageUpdate)
@@ -38,6 +42,35 @@ export default class PageUpdate extends Command {
       pageProps.archived = false
     }
     const res = await notion.updatePageProps(pageProps)
-    console.dir(res, { depth: null })
+    if (flags.row) {
+      console.dir(res, { depth: null })
+      this.exit(0)
+    }
+
+    const columns = {
+      title: {
+        get: (row: UpdatePageResponse) => {
+          if (isFullPage(row)) {
+            let title: string
+            Object.entries(row.properties).find(([_, prop]) => {
+              if (prop.type === 'title') {
+                title = prop.title[0] && prop.title[0].plain_text
+              }
+            })
+            return title
+          } else {
+            return 'untitled'
+          }
+        },
+      },
+      object: {},
+      id: {},
+      url: {},
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table([res], columns, options)
   }
 }
