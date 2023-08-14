@@ -48,7 +48,12 @@ $ docker pull ghcr.io/litencatt/notion-cli
 <!-- commands -->
 # Command Topics
 
+* [`notion-cli block`](docs/block.md) - Append block children
+* [`notion-cli db`](docs/db.md) - Create a database
 * [`notion-cli help`](docs/help.md) - Display help for notion-cli.
+* [`notion-cli page`](docs/page.md) - Create a page
+* [`notion-cli search`](docs/search.md) - Search by title
+* [`notion-cli user`](docs/user.md) - List all users
 
 <!-- commandsstop -->
 
