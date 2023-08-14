@@ -31,7 +31,7 @@ EXAMPLES
   $ notion-cli plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/index.ts)_
+
 
 ## `notion-cli plugins:install PLUGIN...`
 
@@ -96,7 +96,7 @@ EXAMPLES
   $ notion-cli plugins:inspect myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/inspect.ts)_
+
 
 ## `notion-cli plugins:install PLUGIN...`
 
@@ -136,7 +136,7 @@ EXAMPLES
   $ notion-cli plugins:install someuser/someplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/install.ts)_
+
 
 ## `notion-cli plugins:link PLUGIN`
 
@@ -165,7 +165,7 @@ EXAMPLES
   $ notion-cli plugins:link myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/link.ts)_
+
 
 ## `notion-cli plugins:uninstall PLUGIN...`
 
@@ -213,7 +213,7 @@ ALIASES
   $ notion-cli plugins remove
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/uninstall.ts)_
+
 
 ## `notion-cli plugins:uninstall PLUGIN...`
 
@@ -254,4 +254,4 @@ DESCRIPTION
   Update installed plugins.
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v2.4.7/src/commands/plugins/update.ts)_
+
