@@ -1,12 +1,15 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
 import {
   UpdateDatabaseParameters,
+  GetDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import { isFullDatabase } from '@notionhq/client';
 import * as notion from '../../notion'
 import {
   onCancel,
   getDbChoices,
 } from '../../helper'
+
 const  prompts  = require('prompts')
 
 export default class DbUpdate extends Command {
@@ -34,6 +37,8 @@ export default class DbUpdate extends Command {
       char: 't',
       description: 'New database title'
     }),
+    row: Flags.boolean(),
+    ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
@@ -74,7 +79,30 @@ export default class DbUpdate extends Command {
         }
       ]
     }
+
     const res = await notion.updateDb(dbProps)
-    console.dir(res, { depth: null })
+
+    if (flags.row) {
+      console.dir(res, { depth: null })
+      this.exit(0)
+    }
+
+    const columns = {
+      title: {
+        get: (row: GetDatabaseResponse) => {
+          if (isFullDatabase(row)) {
+            return row.title && row.title[0].plain_text
+          }
+        },
+      },
+      object: {},
+      id: {},
+      url: {},
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table([res], columns, options)
   }
 }
