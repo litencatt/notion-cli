@@ -1,7 +1,9 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
 import {
   CreateDatabaseParameters,
+  CreateDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import { isFullDatabase } from '@notionhq/client';
 import * as notion from '../../notion'
 import {
   onCancel,
@@ -31,6 +33,8 @@ export default class DbCreate extends Command {
 
   static flags = {
     title: Flags.string({char: 't'}),
+    row: Flags.boolean(),
+    ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
@@ -71,6 +75,27 @@ export default class DbCreate extends Command {
     }
 
     const res = await notion.createDb(dbProps)
-    console.dir(res, { depth: null })
+    if (flags.row) {
+      console.dir(res, { depth: null })
+      this.exit(0)
+    }
+
+    const columns = {
+      title: {
+        get: (row: CreateDatabaseResponse) => {
+          if (isFullDatabase(row)) {
+            return row.title && row.title[0].plain_text
+          }
+        },
+      },
+      object: {},
+      id: {},
+      url: {},
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table([res], columns, options)
   }
 }
