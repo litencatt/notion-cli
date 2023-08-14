@@ -15,11 +15,6 @@ export default class Search extends Command {
   ]
 
   static flags = {
-    output: Flags.string({
-      description: 'Output format',
-      options: ['json', 'table'],
-      default: 'table',
-    }),
     query: Flags.string({
       char: 'q',
       description: 'The text that the API compares page and database titles against',
@@ -83,40 +78,32 @@ export default class Search extends Command {
     }
     const res = await notion.search(params)
 
-    switch (flags.output) {
-      case 'json':
-        console.dir(res, { depth: null })
-        break
-
-      case 'table':
-      default:
-        const columns = {
-          title: {
-            get: (row: GetDatabaseResponse | GetPageResponse) => {
-              if (row.object == 'database' && isFullDatabase(row)) {
-                return row.title && row.title[0].plain_text
-              } else if (row.object == 'page' && isFullPage(row)) {
-                let title: string
-                Object.entries(row.properties).find(([_, prop]) => {
-                  if (prop.type === 'title') {
-                    title = prop.title[0].plain_text
-                  }
-                })
-                return title
-              } else {
-                return 'untitled'
+    const columns = {
+      title: {
+        get: (row: GetDatabaseResponse | GetPageResponse) => {
+          if (row.object == 'database' && isFullDatabase(row)) {
+            return row.title && row.title[0].plain_text
+          } else if (row.object == 'page' && isFullPage(row)) {
+            let title: string
+            Object.entries(row.properties).find(([_, prop]) => {
+              if (prop.type === 'title') {
+                title = prop.title[0].plain_text
               }
-            },
-          },
-          object: {},
-          id: {},
-          url: {},
-        }
-        const options = {
-          printLine: this.log.bind(this),
-          ...flags
-        }
-        ux.table(res.results, columns, options)
+            })
+            return title
+          } else {
+            return 'untitled'
+          }
+        },
+      },
+      object: {},
+      id: {},
+      url: {},
     }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table(res.results, columns, options)
   }
 }
