@@ -22,6 +22,6 @@ jobs:
           yarn prepack
 
       - name: Add & Commit
-        uses: EndBug/add-and-commit@v9
+        uses: stefanzweifel/git-auto-commit-action@v4
 
       - run: yarn test
