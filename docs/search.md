@@ -28,4 +28,4 @@ EXAMPLES
   $ notion-cli search
 ```
 
-_See code: [dist/commands/search.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/search.ts)_
+

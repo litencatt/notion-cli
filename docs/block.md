@@ -50,7 +50,7 @@ EXAMPLES
   $ notion-cli block append BLOCK_ID CHILDREN AFTER
 ```
 
-_See code: [dist/commands/block/append.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/block/append.ts)_
+
 
 ## `notion-cli block d BLOCK_ID`
 
@@ -88,7 +88,7 @@ EXAMPLES
   $ notion-cli block delete
 ```
 
-_See code: [dist/commands/block/delete.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/block/delete.ts)_
+
 
 ## `notion-cli block r BLOCK_ID`
 
@@ -147,7 +147,7 @@ EXAMPLES
   $ notion-cli block retrieve BLOCK_ID
 ```
 
-_See code: [dist/commands/block/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/block/retrieve.ts)_
+
 
 ## `notion-cli block retrieve children BLOCK_ID`
 
@@ -170,7 +170,7 @@ EXAMPLES
   $ notion-cli block retrieve children BLOCK_ID
 ```
 
-_See code: [dist/commands/block/retrieve/children.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/block/retrieve/children.ts)_
+
 
 ## `notion-cli block u BLOCK_ID`
 
@@ -214,4 +214,4 @@ EXAMPLES
   $ notion-cli block update
 ```
 
-_See code: [dist/commands/block/update.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/block/update.ts)_
+

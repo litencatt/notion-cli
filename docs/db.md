@@ -66,7 +66,7 @@ EXAMPLES
     $ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d
 ```
 
-_See code: [dist/commands/db/create.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/db/create.ts)_
+
 
 ## `notion-cli db q [DATABASE_ID]`
 
@@ -152,7 +152,7 @@ EXAMPLES
     $ notion-cli db query -o csv DATABASE_ID
 ```
 
-_See code: [dist/commands/db/query.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/db/query.ts)_
+
 
 ## `notion-cli db r [DATABASE_ID]`
 
@@ -202,7 +202,7 @@ EXAMPLES
     $ notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d
 ```
 
-_See code: [dist/commands/db/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/db/retrieve.ts)_
+
 
 ## `notion-cli db u [DATABASE_ID]`
 
@@ -258,4 +258,4 @@ EXAMPLES
     $ notion-cli db update DATABASE_ID
 ```
 
-_See code: [dist/commands/db/update.ts](https://github.com/litencatt/notion-cli/blob/v0.11.2/dist/commands/db/update.ts)_
+
