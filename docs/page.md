@@ -18,12 +18,23 @@ Create a page
 
 ```
 USAGE
-  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>]
+  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
+    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -d, --parent_db_id=<value>
   -f, --file_path=<value>       Path to a source markdown file
   -p, --parent_page_id=<value>
+  -x, --extended                show extra columns
+  --columns=<value>             only show provided columns (comma-separated)
+  --csv                         output is csv format [alias: --output=csv]
+  --filter=<value>              filter property by partial string matching, ex: name=foo
+  --no-header                   hide table header from output
+  --no-truncate                 do not truncate output to fit screen
+  --output=<option>             output in a more machine friendly format
+                                <options: csv|json|yaml>
+  --row
+  --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Create a page
@@ -41,12 +52,23 @@ Create a page
 
 ```
 USAGE
-  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>]
+  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
+    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -d, --parent_db_id=<value>
   -f, --file_path=<value>       Path to a source markdown file
   -p, --parent_page_id=<value>
+  -x, --extended                show extra columns
+  --columns=<value>             only show provided columns (comma-separated)
+  --csv                         output is csv format [alias: --output=csv]
+  --filter=<value>              filter property by partial string matching, ex: name=foo
+  --no-header                   hide table header from output
+  --no-truncate                 do not truncate output to fit screen
+  --output=<option>             output in a more machine friendly format
+                                <options: csv|json|yaml>
+  --row
+  --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Create a page
