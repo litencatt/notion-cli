@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.12.0](https://github.com/litencatt/notion-cli/compare/v0.11.2...v0.12.0) - 2023-08-14
+- Support search by @litencatt in https://github.com/litencatt/notion-cli/pull/193
+- Add readme auto update action by @litencatt in https://github.com/litencatt/notion-cli/pull/195
+
 ## [v0.11.2](https://github.com/litencatt/notion-cli/compare/v0.11.1...v0.11.2) - 2023-08-13
 - Do not regist unknown/unknown image to registry by @litencatt in https://github.com/litencatt/notion-cli/pull/191
 
