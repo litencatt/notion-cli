@@ -2,8 +2,6 @@ import {Command, Flags} from '@oclif/core'
 import * as notion from '../notion'
 import { SearchParameters } from '@notionhq/client/build/src/api-endpoints';
 
-const defaultSearchPageSize = 5
-
 export default class Search extends Command {
   static description = 'Search by title'
 
@@ -20,6 +18,7 @@ export default class Search extends Command {
       char: 'd',
       options: ['asc', 'desc'],
       description: 'The direction to sort results. The only supported timestamp value is "last_edited_time"',
+      default: 'desc',
     }),
     filter: Flags.string({
       char: 'f',
@@ -30,8 +29,10 @@ export default class Search extends Command {
     }),
     page_size: Flags.integer({
       char: 's',
+      description: 'The number of results to return. The default is 5, with a minimum of 1 and a maximum of 100.',
       min: 1,
       max: 100,
+      default: 5,
     }),
   }
 
@@ -64,8 +65,6 @@ export default class Search extends Command {
     }
     if (flags.page_size) {
       params.page_size = flags.page_size
-    } else {
-      params.page_size = defaultSearchPageSize
     }
     const res = await notion.search(params)
     console.dir(res, { depth: null })
