@@ -98,4 +98,4 @@ $ docker pull ghcr.io/litencatt/notion-cli
 
 ### Search
 
-- [ ] Search by title
+- [x] Search by title
