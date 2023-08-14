@@ -76,7 +76,7 @@ $ docker pull ghcr.io/litencatt/notion-cli
 - [x] Create a page
 - [x] Retrieve a page
 - [x] Retrieve a page property item
-- [x] Update page properties
+- [ ] Update page properties
 
 ### Databases
 
