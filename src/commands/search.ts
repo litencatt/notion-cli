@@ -25,8 +25,8 @@ export default class Search extends Command {
       description: 'The direction to sort results. The only supported timestamp value is "last_edited_time"',
       default: 'desc',
     }),
-    filter: Flags.string({
-      char: 'f',
+    property: Flags.string({
+      char: 'p',
       options: ['database', 'page'],
     }),
     start_cursor: Flags.string({
@@ -60,9 +60,9 @@ export default class Search extends Command {
         timestamp: 'last_edited_time',
       }
     }
-    if (flags.filter == 'database' || flags.filter == 'page') {
+    if (flags.property == 'database' || flags.property == 'page') {
       params.filter = {
-        value: flags.filter,
+        value: flags.property,
         property: 'object',
       }
     }
