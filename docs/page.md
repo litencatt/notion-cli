@@ -3,8 +3,8 @@
 
 Create a page
 
-* [`notion-cli page c PARENT_ID`](#notion-cli-page-c-parent_id)
-* [`notion-cli page create PARENT_ID`](#notion-cli-page-create-parent_id)
+* [`notion-cli page c`](#notion-cli-page-c)
+* [`notion-cli page create`](#notion-cli-page-create)
 * [`notion-cli page r PAGE_ID`](#notion-cli-page-r-page_id)
 * [`notion-cli page r pi PAGE_ID PROPERTY_ID`](#notion-cli-page-r-pi-page_id-property_id)
 * [`notion-cli page retrieve PAGE_ID`](#notion-cli-page-retrieve-page_id)
@@ -12,16 +12,18 @@ Create a page
 * [`notion-cli page u PAGE_ID`](#notion-cli-page-u-page_id)
 * [`notion-cli page update PAGE_ID`](#notion-cli-page-update-page_id)
 
-## `notion-cli page c PARENT_ID`
+## `notion-cli page c`
 
 Create a page
 
 ```
 USAGE
-  $ notion-cli page c PARENT_ID [-f <value>]
+  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>]
 
 FLAGS
-  -f, --file_path=<value>  Path to a source markdown file
+  -d, --parent_db_id=<value>
+  -f, --file_path=<value>       Path to a source markdown file
+  -p, --parent_page_id=<value>
 
 DESCRIPTION
   Create a page
@@ -33,16 +35,18 @@ EXAMPLES
   $ notion-cli page c -f ./path/to/source.md -p <parent_page_id>
 ```
 
-## `notion-cli page create PARENT_ID`
+## `notion-cli page create`
 
 Create a page
 
 ```
 USAGE
-  $ notion-cli page create PARENT_ID [-f <value>]
+  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>]
 
 FLAGS
-  -f, --file_path=<value>  Path to a source markdown file
+  -d, --parent_db_id=<value>
+  -f, --file_path=<value>       Path to a source markdown file
+  -p, --parent_page_id=<value>
 
 DESCRIPTION
   Create a page
