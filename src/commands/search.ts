@@ -1,6 +1,11 @@
 import {Command, Flags, ux} from '@oclif/core'
 import * as notion from '../notion'
-import { SearchParameters } from '@notionhq/client/build/src/api-endpoints';
+import {
+  GetPageResponse,
+  SearchParameters,
+  GetDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints';
+import { isFullDatabase, isFullPage } from '@notionhq/client';
 
 export default class Search extends Command {
   static description = 'Search by title'
@@ -85,18 +90,33 @@ export default class Search extends Command {
 
       case 'table':
       default:
-        ux.table(res.results, {
+        const columns = {
+          title: {
+            get: (row: GetDatabaseResponse | GetPageResponse) => {
+              if (row.object == 'database' && isFullDatabase(row)) {
+                return row.title && row.title[0].plain_text
+              } else if (row.object == 'page' && isFullPage(row)) {
+                let title: string
+                Object.entries(row.properties).find(([_, prop]) => {
+                  if (prop.type === 'title') {
+                    title = prop.title[0].plain_text
+                  }
+                })
+                return title
+              } else {
+                return 'untitled'
+              }
+            },
+          },
           object: {},
           id: {},
-          parent: {
-            header: 'Parent type',
-            get: (row: any) => row.parent.type,
-          },
           url: {},
-        }, {
+        }
+        const options = {
           printLine: this.log.bind(this),
           ...flags
-        })
+        }
+        ux.table(res.results, columns, options)
     }
   }
 }
