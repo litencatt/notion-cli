@@ -59,43 +59,24 @@ $ docker pull ghcr.io/litencatt/notion-cli
 
 ## API Support status
 
-### Authentication
-
-- [ ] Create a token
-
-### Blocks
-
-- [ ] Append block children
-- [x] Retrieve a block
-- [x] Retrieve block children
-- [ ] Update a block
-- [x] Delete a block
-
-### Pages
-
-- [x] Create a page
-- [x] Retrieve a page
-- [x] Retrieve a page property item
-- [ ] Update page properties
-
-### Databases
-
-- [x] Create a database
-- [x] Query a database
-- [x] Retrieve a database
-- [x] Update database properties
-
-### Users
-
-- [x] List all users
-- [x] Retrive a user
-- [x] Retrieve your token's bot user
-
-### Comments
-
-- [ ] Create comment
-- [ ] Retrieve comments
-
-### Search
-
-- [x] Search by title
+Endpoint | API | Support | ux.table | interactive mode
+-- | -- | -- | -- | --
+Authentication | Create a token |   |   |  
+Blocks | Append  a block children | o |   |  
+Blocks | Retrieve  a block | o |   |  
+Blocks | Retrieve a block children | o |   |  
+Blocks | Update a block |   |   |  
+Blocks | Delete a block | o |   |  
+Pages | Create a page | o | o |  
+Pages | Retrieve a page | o | o |  
+Pages | Update a page | o | o |  
+Database | Create a database | o | o | o
+Database | Retrieve a database | o | o | o
+Database | Update a database | o | o | o
+Database | Query a database | o | o | o
+Users | List all users | o |   |  
+Users | Retrieve a user | o |   |  
+Users | Retrieve your token's bot user | o |   |  
+Comments | Create a comment |   |   |  
+Comments | Retrieve a comment |   |   |  
+Search | Search by title | o | o |  
