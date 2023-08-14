@@ -8,21 +8,35 @@ describe('db:update', () => {
       {
         type: 'text',
         text: {
-          content: 'new database title',
-        }
+          content: 'dummy database title',
+        },
+        plain_text: 'dummy database title',
       }
     ],
+    url: 'https://www.notion.so/dummy-database-id',
   }
 
-  test
-  .nock('https://api.notion.com', api => api
+  const apiMock = test.nock('https://api.notion.com', api => api
     .patch('/v1/databases/dummy-database-id')
     .reply(200, response)
-  )
-  .stdout()
-  .command(['db:update', 'dummy-database-id', '-t', 'new database title'])
-  .it('shows updated database object when success with title flags', ctx => {
-    expect(ctx.stdout).to.contain("dummy-database-id")
-    expect(ctx.stdout).to.contain("new database title")
+  ).stdout({print: process.env.TEST_DEBUG ? true : false})
+
+  describe('with no flags', () => {
+    apiMock
+    .command(['db:update', '--no-truncate', '-t dummy database title','dummy-database-id'])
+    .it('shows updated result table', ctx => {
+      expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
+      expect(ctx.stdout).to.match(/dummy database title.*database.*dummy-database-id.*https:\/\/www\.notion\.so\/dummy-database-id/)
+    })
+  })
+
+  describe('with --row flags', () => {
+    apiMock
+    .command(['db:update', '-t', 'dummy database title', 'dummy-database-id', '--row'])
+    .exit(0)
+    .it('shows updated database object', ctx => {
+      expect(ctx.stdout).to.contain("dummy-database-id")
+      expect(ctx.stdout).to.contain("dummy database title")
+    })
   })
 })
