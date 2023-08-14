@@ -12,6 +12,7 @@ import {
   UpdatePageParameters,
   AppendBlockChildrenParameters,
   UpdateBlockParameters,
+  SearchParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 
 const notion = new Client({
@@ -162,4 +163,10 @@ export const searchDb = async () => {
     }
   })
   return results
+}
+
+export const search = async (
+  params: SearchParameters
+) => {
+  return await notion.search(params)
 }
