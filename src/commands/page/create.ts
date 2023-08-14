@@ -17,11 +17,13 @@ export default class PageCreate extends Command {
     '<%= config.bin %> <%= command.id %> -f ./path/to/source.md -p <parent_page_id>',
   ]
 
-  static args = {
-    parent_id: Args.string({ char: 'p', required: true }),
-  }
-
   static flags = {
+    parent_page_id: Flags.string({
+      char: 'p',
+    }),
+    parent_db_id: Flags.string({
+      char: 'd',
+    }),
     file_path: Flags.string({
       char: 'f',
       description: 'Path to a source markdown file',
@@ -32,12 +34,19 @@ export default class PageCreate extends Command {
     const {args, flags} = await this.parse(PageCreate)
 
     let pageProps: CreatePageParameters
+    let parent: CreatePageParameters['parent']
     if (!flags.filePath) {
+      if (flags.parent_page_id) {
+        parent = {
+          page_id: flags.parent_page_id,
+        }
+      } else {
+        parent = {
+          database_id: flags.parent_db_id,
+        }
+      }
       pageProps = {
-        // TODO: Add support for creating a page in a page
-        parent: {
-          database_id: args.parent_id,
-        },
+        parent: parent,
         properties: {}
       }
     } else {
