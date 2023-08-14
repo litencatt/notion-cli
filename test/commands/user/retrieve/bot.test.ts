@@ -1,11 +1,11 @@
 import {expect, test} from '@oclif/test'
 
 describe('user:retrieve:bot', () => {
-  const response = {
+  const responseOwnerUser = {
     object: 'user',
     id: 'dummy-bot-id',
-    name: 'dummy-user-name',
-    avatar_url: null,
+    name: 'dummy-bot-name',
+    avatar_url: 'dummy-bot-avatar-url',
     type: 'bot',
     bot: {
       owner: {
@@ -22,18 +22,72 @@ describe('user:retrieve:bot', () => {
         },
       }
     },
-
   }
 
-  test
-  .nock('https://api.notion.com', api => api
+  const responseOwnerWs = {
+    object: 'user',
+    id: 'dummy-bot-id',
+    name: 'dummy-bot-name',
+    avatar_url: null,
+    type: 'bot',
+    bot: {
+      owner: {
+        type: 'workspace',
+        workspace: true,
+      },
+      workspace_name: 'dummy-workspace-name',
+    },
+  }
+
+  const apiMockUser = test.nock('https://api.notion.com', api => api
     .get('/v1/users/me')
-    .reply(200, response)
-  )
-  .stdout()
-  .command(['user:retrieve:bot'])
-  .it('shows retrieved bot object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'user")
-    expect(ctx.stdout).to.contain("type: \'bot")
+    .reply(200, responseOwnerUser)
+  ).stdout({print: process.env.TEST_DEBUG ? true : false})
+
+  describe('owner is user', () => {
+    describe('with no flags', () => {
+      apiMockUser
+      .command(['user:retrieve:bot', '--no-truncate'])
+      .it('shows retrieved bot table', ctx => {
+        expect(ctx.stdout).to.match(/Id.*Name.*Object.*Type.*person\/bot.*Avatar url/)
+        expect(ctx.stdout).to.match(/dummy-bot-id.*dummy-bot-name.*user.*bot.*dummy-bot-avatar-url/)
+      })
+    })
+
+    describe('with --row flags', () => {
+      apiMockUser
+      .command(['user:retrieve:bot', '--row'])
+      .exit(0)
+      .it('shows a retrieved bot objects', ctx => {
+        expect(ctx.stdout).to.contain("object: \'user")
+        expect(ctx.stdout).to.contain("type: \'bot")
+      })
+    })
+  })
+
+  const apiMockWs = test.nock('https://api.notion.com', api => api
+    .get('/v1/users/me')
+    .reply(200, responseOwnerWs)
+  ).stdout({print: process.env.TEST_DEBUG ? true : false})
+
+  describe('owner is workspace', () => {
+    describe('with no flags', () => {
+      apiMockWs
+      .command(['user:retrieve:bot', '--no-truncate'])
+      .it('shows retrieved bot table', ctx => {
+        expect(ctx.stdout).to.match(/Id.*Name.*Object.*Type.*person\/bot.*Avatar url/)
+        expect(ctx.stdout).to.match(/dummy-bot-id.*dummy-bot-name.*user.*bot.*/)
+      })
+    })
+
+    describe('with --row flags', () => {
+      apiMockWs
+      .command(['user:retrieve:bot', '--row'])
+      .exit(0)
+      .it('shows a retrieved bot objects', ctx => {
+        expect(ctx.stdout).to.contain("object: \'user")
+        expect(ctx.stdout).to.contain("type: \'bot")
+      })
+    })
   })
 })
