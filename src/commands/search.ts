@@ -1,4 +1,4 @@
-import {Command, Flags} from '@oclif/core'
+import {Command, Flags, ux} from '@oclif/core'
 import * as notion from '../notion'
 import { SearchParameters } from '@notionhq/client/build/src/api-endpoints';
 
@@ -10,6 +10,11 @@ export default class Search extends Command {
   ]
 
   static flags = {
+    output: Flags.string({
+      description: 'Output format',
+      options: ['json', 'table'],
+      default: 'table',
+    }),
     query: Flags.string({
       char: 'q',
       description: 'The text that the API compares page and database titles against',
@@ -34,6 +39,7 @@ export default class Search extends Command {
       max: 100,
       default: 5,
     }),
+    ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
@@ -67,6 +73,26 @@ export default class Search extends Command {
       params.page_size = flags.page_size
     }
     const res = await notion.search(params)
-    console.dir(res, { depth: null })
+
+    switch (flags.output) {
+      case 'json':
+        console.dir(res.results, { depth: null })
+        break
+
+      case 'table':
+      default:
+        ux.table(res.results, {
+          object: {},
+          id: {},
+          parent: {
+            header: 'Parent type',
+            get: (row: any) => row.parent.type,
+          },
+          url: {},
+        }, {
+          printLine: this.log.bind(this),
+          ...flags
+        })
+    }
   }
 }
