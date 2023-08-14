@@ -1,9 +1,14 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
+import {
+  GetDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints'
+import { isFullDatabase } from '@notionhq/client';
 import * as notion from '../../notion'
 import {
   onCancel,
   getDbChoices,
 } from '../../helper'
+
 const  prompts  = require('prompts')
 
 export default class DbRetrieve extends Command {
@@ -26,8 +31,13 @@ export default class DbRetrieve extends Command {
     database_id: Args.string(),
   }
 
+  static flags = {
+    row: Flags.boolean(),
+    ...ux.table.flags(),
+  }
+
   public async run(): Promise<void> {
-    const { args } = await this.parse(DbRetrieve)
+    const { args, flags } = await this.parse(DbRetrieve)
 
     let databaseId = args.database_id
     if (databaseId == undefined) {
@@ -44,7 +54,29 @@ export default class DbRetrieve extends Command {
 
       databaseId = promptSelectedDbResult.database_id
     }
+
     const res = await notion.retrieveDb(databaseId)
-    console.dir(res, { depth: null })
+    if (flags.row) {
+      console.dir(res, { depth: null })
+      this.exit(0)
+    }
+
+    const columns = {
+      title: {
+        get: (row: GetDatabaseResponse) => {
+          if (isFullDatabase(row)) {
+            return row.title && row.title[0].plain_text
+          }
+        },
+      },
+      object: {},
+      id: {},
+      url: {},
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table([res], columns, options)
   }
 }
