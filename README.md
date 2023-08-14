@@ -62,21 +62,21 @@ $ docker pull ghcr.io/litencatt/notion-cli
 Endpoint | API | Support | ux.table | interactive mode
 -- | -- | -- | -- | --
 Authentication | Create a token |   |   |  
-Blocks | Append  a block children | o |   |  
+Blocks | Append  a block children |  |   |  
 Blocks | Retrieve  a block | o |   |  
 Blocks | Retrieve a block children | o |   |  
 Blocks | Update a block |   |   |  
 Blocks | Delete a block | o |   |  
 Pages | Create a page | o | o |  
 Pages | Retrieve a page | o | o |  
-Pages | Update a page | o | o |  
+Pages | Update a page |  |  |  
 Database | Create a database | o | o | o
 Database | Retrieve a database | o | o | o
 Database | Update a database | o | o | o
 Database | Query a database | o | o | o
-Users | List all users | o |   |  
-Users | Retrieve a user | o |   |  
-Users | Retrieve your token's bot user | o |   |  
+Users | List all users | o | o |  
+Users | Retrieve a user | o | o |  
+Users | Retrieve your token's bot user | o | o |  
 Comments | Create a comment |   |   |  
 Comments | Retrieve a comment |   |   |  
 Search | Search by title | o | o |
