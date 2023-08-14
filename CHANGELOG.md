@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.13.0](https://github.com/litencatt/notion-cli/compare/v0.12.0...v0.13.0) - 2023-08-14
+- Fix auto update docs paths by @litencatt in https://github.com/litencatt/notion-cli/pull/197
+- FIX: Error: fatal: You are not currently on a branch. by @litencatt in https://github.com/litencatt/notion-cli/pull/199
+- Fix Update docs chekcout option by @litencatt in https://github.com/litencatt/notion-cli/pull/200
+- Support ux table output format to Search by @litencatt in https://github.com/litencatt/notion-cli/pull/201
+- Support ux table to db by @litencatt in https://github.com/litencatt/notion-cli/pull/202
+- Support ux table to page by @litencatt in https://github.com/litencatt/notion-cli/pull/203
+- Support ux table to user by @litencatt in https://github.com/litencatt/notion-cli/pull/204
+
 ## [v0.12.0](https://github.com/litencatt/notion-cli/compare/v0.11.2...v0.12.0) - 2023-08-14
 - Support search by @litencatt in https://github.com/litencatt/notion-cli/pull/193
 - Add readme auto update action by @litencatt in https://github.com/litencatt/notion-cli/pull/195
