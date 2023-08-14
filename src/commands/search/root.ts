@@ -1,5 +1,5 @@
 import {Command, Flags} from '@oclif/core'
-import * as notion from '../notion'
+import * as notion from '../../notion'
 import { SearchParameters } from '@notionhq/client/build/src/api-endpoints';
 
 export default class Search extends Command {
