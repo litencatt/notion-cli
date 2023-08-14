@@ -19,11 +19,10 @@ describe('db:create', () => {
   const apiMock = test.nock('https://api.notion.com', api => api
     .post('/v1/databases')
     .reply(200, response)
-  )
+  ).stdout({print: process.env.TEST_DEBUG ? true : false})
 
   describe('with no flags', () => {
     apiMock
-    .stdout({print: true})
     .command(['db:create', '--no-truncate', '-t', 'dummy database title','dummy-page-id'])
     .it('shows created result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
@@ -33,7 +32,6 @@ describe('db:create', () => {
 
   describe('with --row flags', () => {
     apiMock
-    .stdout()
     .command(['db:create', 'dummy-page-id', '-t', 'dummy database title'])
     .it('shows created database object when success with title flags', ctx => {
       expect(ctx.stdout).to.contain("dummy-database-id")
