@@ -72,6 +72,10 @@ export default class Search extends Command {
     if (flags.page_size) {
       params.page_size = flags.page_size
     }
+
+    if (process.env.DEBUG) {
+      console.log(params)
+    }
     const res = await notion.search(params)
 
     switch (flags.output) {
