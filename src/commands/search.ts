@@ -80,7 +80,7 @@ export default class Search extends Command {
 
     switch (flags.output) {
       case 'json':
-        console.dir(res.results, { depth: null })
+        console.dir(res, { depth: null })
         break
 
       case 'table':
