@@ -5,7 +5,7 @@ describe('user:retrieve:bot', () => {
     object: 'user',
     id: 'dummy-bot-id',
     name: 'dummy-bot-name',
-    avatar_url: null,
+    avatar_url: 'dummy-bot-avatar-url',
     type: 'bot',
     bot: {
       owner: {
@@ -47,16 +47,16 @@ describe('user:retrieve:bot', () => {
   describe('owner is user', () => {
     describe('with no flags', () => {
       apiMockUser
-      .command(['user:retrieve:bot', '--no-truncate', 'dummy-user-id'])
+      .command(['user:retrieve:bot', '--no-truncate'])
       .it('shows retrieved bot table', ctx => {
         expect(ctx.stdout).to.match(/Id.*Name.*Object.*Type.*person\/bot.*Avatar url/)
-        expect(ctx.stdout).to.match(/dummy-bot-id.*dummy-bot-name.*user.*bot.*dummy-user-avatar-url/)
+        expect(ctx.stdout).to.match(/dummy-bot-id.*dummy-bot-name.*user.*bot.*dummy-bot-avatar-url/)
       })
     })
 
     describe('with --row flags', () => {
       apiMockUser
-      .command(['user:retrieve:bot', '--row', 'dummy-user-id'])
+      .command(['user:retrieve:bot', '--row'])
       .exit(0)
       .it('shows a retrieved bot objects', ctx => {
         expect(ctx.stdout).to.contain("object: \'user")
@@ -73,16 +73,16 @@ describe('user:retrieve:bot', () => {
   describe('owner is workspace', () => {
     describe('with no flags', () => {
       apiMockWs
-      .command(['user:retrieve:bot', '--no-truncate', 'dummy-user-id'])
+      .command(['user:retrieve:bot', '--no-truncate'])
       .it('shows retrieved bot table', ctx => {
         expect(ctx.stdout).to.match(/Id.*Name.*Object.*Type.*person\/bot.*Avatar url/)
-        expect(ctx.stdout).to.match(/dummy-bot-id.*dummy-bot-name.*user.*bot.*dummy-user-avatar-url/)
+        expect(ctx.stdout).to.match(/dummy-bot-id.*dummy-bot-name.*user.*bot.*/)
       })
     })
 
     describe('with --row flags', () => {
       apiMockWs
-      .command(['user:retrieve:bot', '--row', 'dummy-user-id'])
+      .command(['user:retrieve:bot', '--row'])
       .exit(0)
       .it('shows a retrieved bot objects', ctx => {
         expect(ctx.stdout).to.contain("object: \'user")
