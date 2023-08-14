@@ -66,9 +66,9 @@
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . --ext .ts --config .eslintrc.json",
     "postpack": "shx rm -f oclif.manifest.json",
-    "prepack": "yarn build && oclif manifest && oclif readme --multi",
+    "prepack": "yarn build && oclif manifest && yarn readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme --multi && git add README.md"
+    "readme": "oclif readme --multi && shx sed -i \"s/^_See code:.*$//g\" docs/*.md"
   },
   "engines": {
     "node": ">=12.0.0"
