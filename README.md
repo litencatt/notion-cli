@@ -79,4 +79,4 @@ Users | Retrieve a user | o |   |  
 Users | Retrieve your token's bot user | o |   |  
 Comments | Create a comment |   |   |  
 Comments | Retrieve a comment |   |   |  
-Search | Search by title | o | o |  
+Search | Search by title | o | o |
