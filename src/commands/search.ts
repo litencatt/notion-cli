@@ -39,6 +39,11 @@ export default class Search extends Command {
       max: 100,
       default: 5,
     }),
+    row: Flags.boolean({
+      name: 'row-output',
+      char: 'r',
+      description: 'Output JSON row result',
+    }),
     ...ux.table.flags(),
   }
 
@@ -78,32 +83,36 @@ export default class Search extends Command {
     }
     const res = await notion.search(params)
 
-    const columns = {
-      title: {
-        get: (row: GetDatabaseResponse | GetPageResponse) => {
-          if (row.object == 'database' && isFullDatabase(row)) {
-            return row.title && row.title[0].plain_text
-          } else if (row.object == 'page' && isFullPage(row)) {
-            let title: string
-            Object.entries(row.properties).find(([_, prop]) => {
-              if (prop.type === 'title') {
-                title = prop.title[0].plain_text
-              }
-            })
-            return title
-          } else {
-            return 'untitled'
-          }
+    if (flags.row) {
+      console.dir(res, { depth: null })
+    } else {
+      const columns = {
+        title: {
+          get: (row: GetDatabaseResponse | GetPageResponse) => {
+            if (row.object == 'database' && isFullDatabase(row)) {
+              return row.title && row.title[0].plain_text
+            } else if (row.object == 'page' && isFullPage(row)) {
+              let title: string
+              Object.entries(row.properties).find(([_, prop]) => {
+                if (prop.type === 'title') {
+                  title = prop.title[0].plain_text
+                }
+              })
+              return title
+            } else {
+              return 'untitled'
+            }
+          },
         },
-      },
-      object: {},
-      id: {},
-      url: {},
+        object: {},
+        id: {},
+        url: {},
+      }
+      const options = {
+        printLine: this.log.bind(this),
+        ...flags
+      }
+      ux.table(res.results, columns, options)
     }
-    const options = {
-      printLine: this.log.bind(this),
-      ...flags
-    }
-    ux.table(res.results, columns, options)
   }
 }
