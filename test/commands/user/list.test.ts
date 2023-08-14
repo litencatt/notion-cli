@@ -18,24 +18,46 @@ describe('user:list', () => {
         object: 'user',
         id: 'dummy-bot-id',
         type: 'bot',
-        bot: {},
+        bot: {
+          owner: {
+            type: 'workspace',
+            workspace: true,
+          }
+        },
         name: 'dummy-bot-name',
         avatar_url: 'dummy-bot-avatar-url',
       }
     ],
     next_cursor: "dummy-next-cursor",
     has_more: false,
+    type: 'user',
+    user: {},
   }
 
-  test
-  .nock('https://api.notion.com', api => api
+  const apiMock = test.nock('https://api.notion.com', api => api
     .get('/v1/users')
     .reply(200, response)
-  )
-  .stdout()
-  .command(['user:list'])
-  .it('shows all user objects when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'list")
-    expect(ctx.stdout).to.contain("object: \'user")
+  ).stdout({print: process.env.TEST_DEBUG ? true : false})
+
+  describe('with no flags', () => {
+    apiMock
+    .command(['user:list', '--no-truncate'])
+    .it('shows user list table', ctx => {
+      expect(ctx.stdout).to.match(/Id.*Name.*Object.*Type.*person\/bot.*Avatar url/)
+      expect(ctx.stdout).to.match(/dummy-user-id.*dummy-user-name.*user.*person.*dummy-user-avatar-url/)
+      expect(ctx.stdout).to.match(/dummy-bot-id.*dummy-bot-name.*user.*bot.*dummy-bot-avatar-url/)
+    })
+  })
+
+  describe('with --row flags', () => {
+    apiMock
+    .command(['user:list', '--row'])
+    .exit(0)
+    .it('shows a user list objects', ctx => {
+      expect(ctx.stdout).to.contain("object: 'list")
+      expect(ctx.stdout).to.contain("object: 'user")
+      expect(ctx.stdout).to.contain("type: 'person")
+      expect(ctx.stdout).to.contain("type: 'bot")
+    })
   })
 })
