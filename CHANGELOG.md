@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.13.2](https://github.com/litencatt/notion-cli/compare/v0.13.1...v0.13.2) - 2023-08-15
+- Remove not used package by @litencatt in https://github.com/litencatt/notion-cli/pull/208
+
 ## [v0.13.1](https://github.com/litencatt/notion-cli/compare/v0.13.0...v0.13.1) - 2023-08-15
 - Fix raw json param and output by @litencatt in https://github.com/litencatt/notion-cli/pull/205
 - Update readme by @litencatt in https://github.com/litencatt/notion-cli/pull/207
