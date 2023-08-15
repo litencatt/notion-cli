@@ -33,7 +33,7 @@ describe('page:retrieve:property_item', () => {
     'dummy-property-id'
   ])
   .it('shows retrieved page object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'list")
-    expect(ctx.stdout).to.contain("type: \'property_item")
+    expect(ctx.stdout).to.contain("object\": \"list")
+    expect(ctx.stdout).to.contain("type\": \"property_item")
   })
 })

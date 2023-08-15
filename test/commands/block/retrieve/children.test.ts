@@ -41,8 +41,8 @@ describe('block:retrieve:children', () => {
   .stdout()
   .command(['block:retrieve:children', 'dummy-block-id'])
   .it('shows retrieved block object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'list")
-    expect(ctx.stdout).to.contain("results: \[")
-    expect(ctx.stdout).to.contain("type: \'block")
+    expect(ctx.stdout).to.contain("object\": \"list")
+    expect(ctx.stdout).to.contain("results\": [")
+    expect(ctx.stdout).to.contain("type\": \"block")
   })
 })

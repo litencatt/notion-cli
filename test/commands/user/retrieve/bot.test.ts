@@ -59,8 +59,8 @@ describe('user:retrieve:bot', () => {
       .command(['user:retrieve:bot', '--raw'])
       .exit(0)
       .it('shows a retrieved bot objects', ctx => {
-        expect(ctx.stdout).to.contain("object: \'user")
-        expect(ctx.stdout).to.contain("type: \'bot")
+        expect(ctx.stdout).to.contain("object\": \"user")
+        expect(ctx.stdout).to.contain("type\": \"bot")
       })
     })
   })
@@ -85,8 +85,8 @@ describe('user:retrieve:bot', () => {
       .command(['user:retrieve:bot', '--raw'])
       .exit(0)
       .it('shows a retrieved bot objects', ctx => {
-        expect(ctx.stdout).to.contain("object: \'user")
-        expect(ctx.stdout).to.contain("type: \'bot")
+        expect(ctx.stdout).to.contain("object\": \"user")
+        expect(ctx.stdout).to.contain("type\": \"bot")
       })
     })
   })
