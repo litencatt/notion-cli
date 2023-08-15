@@ -106,14 +106,6 @@ $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --raw | head
 
 ![interactive-mode](./docs/images/interactive.gif)
 
-```sh
-$ notion-cli db retrieve
-? Select a database ›
-❯   database 1
-    database 2
-    ...
-```
-
 ## Install
 
 npm:
@@ -160,3 +152,5 @@ Users | Retrieve your token's bot user | o | o |  
 Comments | Create a comment |   |   |  
 Comments | Retrieve a comment |   |   |  
 Search | Search by title | o | o |
+
+\* multi-format not supported commands output only raw json response
