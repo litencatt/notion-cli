@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.13.1](https://github.com/litencatt/notion-cli/compare/v0.13.0...v0.13.1) - 2023-08-15
+- Fix raw json param and output by @litencatt in https://github.com/litencatt/notion-cli/pull/205
+- Update readme by @litencatt in https://github.com/litencatt/notion-cli/pull/207
+
 ## [v0.13.0](https://github.com/litencatt/notion-cli/compare/v0.12.0...v0.13.0) - 2023-08-14
 - Fix auto update docs paths by @litencatt in https://github.com/litencatt/notion-cli/pull/197
 - FIX: Error: fatal: You are not currently on a branch. by @litencatt in https://github.com/litencatt/notion-cli/pull/199
