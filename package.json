@@ -17,7 +17,6 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
-    "@json2csv/plainjs": "^7.0.1",
     "@notionhq/client": "^2.2.10",
     "@oclif/core": "^2",
     "@oclif/plugin-help": "^5",
@@ -27,7 +26,6 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@notion-stuff/v4-types": "^5.1.0",
     "@oclif/test": "^2",
     "@types/chai": "^4",
     "@types/mocha": "^9.1.0",
