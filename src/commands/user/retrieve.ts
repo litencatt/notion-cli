@@ -3,6 +3,7 @@ import {
   UserObjectResponse
 } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
+import { outputRawJson } from '../../helper'
 
 export default class UserRetrieve extends Command {
   static description = 'Retrieve a user'
@@ -26,7 +27,7 @@ export default class UserRetrieve extends Command {
     const {args, flags} = await this.parse(UserRetrieve)
     const res = await notion.retrieveUser(args.user_id)
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

@@ -1,6 +1,7 @@
 import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../notion'
 import { UpdateBlockParameters } from '@notionhq/client/build/src/api-endpoints'
+import { outputRawJson } from '../../helper'
 
 export default class BlockUpdate extends Command {
   static description = 'Update a block'
@@ -28,6 +29,6 @@ export default class BlockUpdate extends Command {
       archived: flags.archived,
     }
     const res = await notion.updateBlock(params)
-    console.dir(res, { depth: null })
+    outputRawJson(res)
   }
 }

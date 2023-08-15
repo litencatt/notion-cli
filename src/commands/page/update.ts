@@ -5,6 +5,7 @@ import {
   UpdatePageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { isFullPage } from '@notionhq/client'
+import { outputRawJson } from '../../helper'
 
 export default class PageUpdate extends Command {
   static description = 'Update a page'
@@ -43,7 +44,7 @@ export default class PageUpdate extends Command {
     }
     const res = await notion.updatePageProps(pageProps)
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

@@ -6,6 +6,10 @@ import { IPromptChoice } from './interface'
 import * as notion from './notion'
 import { isFullPage, isFullDatabase } from '@notionhq/client'
 
+export const outputRawJson = async (res: any) => {
+  console.log(JSON.stringify(res, null, 2))
+}
+
 export const onCancel = () => {
   console.error('prompt is canceled');
   process.exit(0)

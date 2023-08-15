@@ -6,6 +6,7 @@ import {
   GetDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import { isFullDatabase, isFullPage } from '@notionhq/client';
+import { outputRawJson } from '../helper'
 
 export default class Search extends Command {
   static description = 'Search by title'
@@ -82,7 +83,7 @@ export default class Search extends Command {
     const res = await notion.search(params)
 
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

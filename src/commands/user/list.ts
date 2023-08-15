@@ -3,6 +3,7 @@ import {
   UserObjectResponse
 } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
+import { outputRawJson } from '../../helper'
 
 export default class UserList extends Command {
   static description = 'List all users'
@@ -22,7 +23,7 @@ export default class UserList extends Command {
     const {args, flags} = await this.parse(UserList)
     const res = await notion.listUser()
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

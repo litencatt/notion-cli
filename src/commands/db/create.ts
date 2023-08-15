@@ -7,6 +7,7 @@ import { isFullDatabase } from '@notionhq/client';
 import * as notion from '../../notion'
 import {
   onCancel,
+  outputRawJson,
 } from '../../helper'
 
 const  prompts  = require('prompts')
@@ -76,7 +77,7 @@ export default class DbCreate extends Command {
 
     const res = await notion.createDb(dbProps)
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

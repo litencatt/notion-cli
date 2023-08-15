@@ -7,6 +7,7 @@ import * as notion from '../../notion'
 import {
   onCancel,
   getDbChoices,
+  outputRawJson,
 } from '../../helper'
 
 const  prompts  = require('prompts')
@@ -57,7 +58,7 @@ export default class DbRetrieve extends Command {
 
     const res = await notion.retrieveDb(databaseId)
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

@@ -5,6 +5,7 @@ import {
   GetPageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { isFullPage } from '@notionhq/client'
+import { outputRawJson } from '../../helper'
 
 export default class PageRetrieve extends Command {
   static description = 'Retrieve a page'
@@ -40,7 +41,7 @@ export default class PageRetrieve extends Command {
     }
     const res = await notion.retrievePage(pageProps)
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

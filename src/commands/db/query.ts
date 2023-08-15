@@ -8,13 +8,13 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as dayjs from 'dayjs'
 import {
-    buildOneDepthJson,
     buildFilterPagePrompt,
     buildDatabaseQueryFilter,
     getDbChoices,
     getPromptChoices,
     getFilterFields,
     onCancel,
+    outputRawJson,
   } from '../../helper'
 import { isFullPage } from '@notionhq/client'
 
@@ -239,7 +239,7 @@ export default class DbQuery extends Command {
     const res = await notion.queryDb(databaseId, filter)
 
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 

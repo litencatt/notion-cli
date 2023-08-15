@@ -9,6 +9,7 @@ import {
   BlockObjectRequest,
 } from '@notionhq/client/build/src/api-endpoints'
 import { isFullPage } from '@notionhq/client'
+import { outputRawJson } from '../../helper'
 
 export default class PageCreate extends Command {
   static description = 'Create a page'
@@ -74,7 +75,7 @@ export default class PageCreate extends Command {
     const res = await notion.createPage(pageProps)
 
     if (flags.raw) {
-      console.dir(res, { depth: null })
+      outputRawJson(res)
       this.exit(0)
     }
 
