@@ -23,16 +23,24 @@ describe('db:retrieve', () => {
 
   describe('with no flags', () => {
     apiMock
-    .command(['db:retrieve', '--no-truncate', 'dummy-database-id'])
+    .command([
+      'db:retrieve',
+      '--no-truncate',
+      'dummy-database-id'
+    ])
     .it('shows retrieved result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
       expect(ctx.stdout).to.match(/dummy database title.*database.*dummy-database-id.*https:\/\/www\.notion\.so\/dummy-database-id/)
     })
   })
 
-  describe('with --row flags', () => {
+  describe('with --raw flags', () => {
     apiMock
-    .command(['db:retrieve', 'dummy-database-id', '--row'])
+    .command([
+      'db:retrieve',
+      'dummy-database-id',
+      '--raw'
+    ])
     .exit(0)
     .it('shows a database object', ctx => {
       expect(ctx.stdout).to.contain("dummy-database-id")

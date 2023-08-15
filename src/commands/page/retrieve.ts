@@ -5,6 +5,7 @@ import {
   GetPageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { isFullPage } from '@notionhq/client'
+import { outputRawJson } from '../../helper'
 
 export default class PageRetrieve extends Command {
   static description = 'Retrieve a page'
@@ -25,7 +26,10 @@ export default class PageRetrieve extends Command {
       char: 'p',
       description: 'Comma separated property id string'
     }),
-    row: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 
@@ -39,8 +43,8 @@ export default class PageRetrieve extends Command {
       pageProps.filter_properties = flags.filter_properties.split(',')
     }
     const res = await notion.retrievePage(pageProps)
-    if (flags.row) {
-      console.dir(res, { depth: null })
+    if (flags.raw) {
+      outputRawJson(res)
       this.exit(0)
     }
 

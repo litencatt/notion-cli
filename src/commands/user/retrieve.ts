@@ -3,6 +3,7 @@ import {
   UserObjectResponse
 } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
+import { outputRawJson } from '../../helper'
 
 export default class UserRetrieve extends Command {
   static description = 'Retrieve a user'
@@ -18,15 +19,18 @@ export default class UserRetrieve extends Command {
   }
 
   static flags = {
-    row: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(UserRetrieve)
     const res = await notion.retrieveUser(args.user_id)
-    if (flags.row) {
-      console.dir(res, { depth: null })
+    if (flags.raw) {
+      outputRawJson(res)
       this.exit(0)
     }
 

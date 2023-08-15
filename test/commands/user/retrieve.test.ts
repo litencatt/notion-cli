@@ -41,13 +41,13 @@ describe('user:retrieve', () => {
       })
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockPerson
-      .command(['user:retrieve', '--row', 'dummy-user-id'])
+      .command(['user:retrieve', '--raw', 'dummy-user-id'])
       .exit(0)
       .it('shows a retrieved user objects', ctx => {
-        expect(ctx.stdout).to.contain("object: \'user")
-        expect(ctx.stdout).to.contain("type: \'person")
+        expect(ctx.stdout).to.contain("object\": \"user")
+        expect(ctx.stdout).to.contain("type\": \"person")
       })
     })
   })
@@ -67,13 +67,13 @@ describe('user:retrieve', () => {
       })
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockBot
-      .command(['user:retrieve', '--row', 'dummy-user-id'])
+      .command(['user:retrieve', '--raw', 'dummy-user-id'])
       .exit(0)
       .it('shows a retrieved user objects', ctx => {
-        expect(ctx.stdout).to.contain("object: \'user")
-        expect(ctx.stdout).to.contain("type: \'bot")
+        expect(ctx.stdout).to.contain("object\": \"user")
+        expect(ctx.stdout).to.contain("type\": \"bot")
       })
     })
   })

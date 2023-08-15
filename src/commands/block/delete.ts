@@ -1,5 +1,6 @@
 import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../notion'
+import { outputRawJson } from '../../helper'
 
 export default class BlockDelete extends Command {
   static description = 'Delete a block'
@@ -17,6 +18,6 @@ export default class BlockDelete extends Command {
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockDelete)
     const res = await notion.deleteBlock(args.block_id)
-    console.dir(res, { depth: null })
+    outputRawJson(res)
   }
 }

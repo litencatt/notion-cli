@@ -44,20 +44,28 @@ describe('page:retrieve', () => {
 
   describe('with page_id on a page flags', () => {
     apiMockPage
-    .command(['page:retrieve', '--no-truncate', 'dummy-page-id'])
+    .command([
+      'page:retrieve',
+      '--no-truncate',
+      'dummy-page-id'
+    ])
     .it('shows retrieve page result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
       expect(ctx.stdout).to.match(/undefined.*page.*dummy-page-id.*https:\/\/www\.notion\.so\/dummy-page-id/)
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockPage
-      .command(['page:retrieve', 'dummy-page-id', '--row'])
+      .command([
+        'page:retrieve',
+        'dummy-page-id',
+        '--raw'
+      ])
       .exit(0)
       .it('shows a page object', ctx => {
-        expect(ctx.stdout).to.contain("object: \'page")
-        expect(ctx.stdout).to.contain("id: \'dummy-page-id")
-        expect(ctx.stdout).to.contain("url: \'https://www.notion.so/dummy-page-id")
+        expect(ctx.stdout).to.contain("object\": \"page")
+        expect(ctx.stdout).to.contain("id\": \"dummy-page-id")
+        expect(ctx.stdout).to.contain("url\": \"https://www.notion.so/dummy-page-id")
       })
     })
   })
@@ -75,14 +83,18 @@ describe('page:retrieve', () => {
       expect(ctx.stdout).to.match(/undefined.*page.*dummy-page-id.*https:\/\/www\.notion\.so\/dummy-page-id/)
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockDb
-      .command(['page:retrieve', 'dummy-page-id', '--row'])
+      .command([
+        'page:retrieve',
+        'dummy-page-id',
+        '--raw'
+      ])
       .exit(0)
       .it('shows a page object', ctx => {
-        expect(ctx.stdout).to.contain("object: \'page")
-        expect(ctx.stdout).to.contain("id: \'dummy-page-id")
-        expect(ctx.stdout).to.contain("url: \'https://www.notion.so/dummy-page-id")
+        expect(ctx.stdout).to.contain("object\": \"page")
+        expect(ctx.stdout).to.contain("id\": \"dummy-page-id")
+        expect(ctx.stdout).to.contain("url\": \"https://www.notion.so/dummy-page-id")
       })
     })
   })

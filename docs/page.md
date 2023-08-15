@@ -18,13 +18,14 @@ Create a page
 
 ```
 USAGE
-  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
-    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>] [-r] [--columns <value> | -x] [--sort <value>]
+    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -d, --parent_db_id=<value>
   -f, --file_path=<value>       Path to a source markdown file
   -p, --parent_page_id=<value>
+  -r, --raw                     output raw json
   -x, --extended                show extra columns
   --columns=<value>             only show provided columns (comma-separated)
   --csv                         output is csv format [alias: --output=csv]
@@ -33,7 +34,6 @@ FLAGS
   --no-truncate                 do not truncate output to fit screen
   --output=<option>             output in a more machine friendly format
                                 <options: csv|json|yaml>
-  --row
   --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -52,13 +52,14 @@ Create a page
 
 ```
 USAGE
-  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
-    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>] [-r] [--columns <value> | -x] [--sort <value>]
+    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -d, --parent_db_id=<value>
   -f, --file_path=<value>       Path to a source markdown file
   -p, --parent_page_id=<value>
+  -r, --raw                     output raw json
   -x, --extended                show extra columns
   --columns=<value>             only show provided columns (comma-separated)
   --csv                         output is csv format [alias: --output=csv]
@@ -67,7 +68,6 @@ FLAGS
   --no-truncate                 do not truncate output to fit screen
   --output=<option>             output in a more machine friendly format
                                 <options: csv|json|yaml>
-  --row
   --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -88,11 +88,12 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page r PAGE_ID [-p <value>] [--row] [--columns <value> | -x] [--sort <value>] [--filter
-    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli page r PAGE_ID [-p <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -p, --filter_properties=<value>  Comma separated property id string
+  -r, --raw                        output raw json
   -x, --extended                   show extra columns
   --columns=<value>                only show provided columns (comma-separated)
   --csv                            output is csv format [alias: --output=csv]
@@ -101,7 +102,6 @@ FLAGS
   --no-truncate                    do not truncate output to fit screen
   --output=<option>                output in a more machine friendly format
                                    <options: csv|json|yaml>
-  --row
   --sort=<value>                   property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -140,11 +140,12 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page retrieve PAGE_ID [-p <value>] [--row] [--columns <value> | -x] [--sort <value>] [--filter
-    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli page retrieve PAGE_ID [-p <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -p, --filter_properties=<value>  Comma separated property id string
+  -r, --raw                        output raw json
   -x, --extended                   show extra columns
   --columns=<value>                only show provided columns (comma-separated)
   --csv                            output is csv format [alias: --output=csv]
@@ -153,7 +154,6 @@ FLAGS
   --no-truncate                    do not truncate output to fit screen
   --output=<option>                output in a more machine friendly format
                                    <options: csv|json|yaml>
-  --row
   --sort=<value>                   property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -196,11 +196,12 @@ Update a page
 
 ```
 USAGE
-  $ notion-cli page u PAGE_ID [-a] [-u] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+  $ notion-cli page u PAGE_ID [-a] [-u] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
     [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -a, --archived
+  -r, --raw          output raw json
   -u, --un_archive
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
@@ -210,7 +211,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -233,11 +233,12 @@ Update a page
 
 ```
 USAGE
-  $ notion-cli page update PAGE_ID [-a] [-u] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+  $ notion-cli page update PAGE_ID [-a] [-u] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
     [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -a, --archived
+  -r, --raw          output raw json
   -u, --un_archive
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
@@ -247,7 +248,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION

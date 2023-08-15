@@ -49,15 +49,15 @@ describe('user:list', () => {
     })
   })
 
-  describe('with --row flags', () => {
+  describe('with --raw flags', () => {
     apiMock
-    .command(['user:list', '--row'])
+    .command(['user:list', '--raw'])
     .exit(0)
     .it('shows a user list objects', ctx => {
-      expect(ctx.stdout).to.contain("object: 'list")
-      expect(ctx.stdout).to.contain("object: 'user")
-      expect(ctx.stdout).to.contain("type: 'person")
-      expect(ctx.stdout).to.contain("type: 'bot")
+      expect(ctx.stdout).to.contain("object\": \"list")
+      expect(ctx.stdout).to.contain("object\": \"user")
+      expect(ctx.stdout).to.contain("type\": \"person")
+      expect(ctx.stdout).to.contain("type\": \"bot")
     })
   })
 })

@@ -1,5 +1,6 @@
 import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../notion'
+import { outputRawJson } from '../../helper'
 
 export default class BlockRetrieve extends Command {
   static description = 'Retrieve a block'
@@ -17,6 +18,6 @@ export default class BlockRetrieve extends Command {
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockRetrieve)
     const res = await notion.retrieveBlock(args.block_id)
-    console.dir(res, { depth: null })
+    outputRawJson(res)
   }
 }

@@ -23,16 +23,27 @@ describe('db:create', () => {
 
   describe('with no flags', () => {
     apiMock
-    .command(['db:create', '--no-truncate', '-t', 'dummy database title','dummy-page-id'])
+    .command([
+      'db:create',
+      '--no-truncate',
+      '-t', 'dummy database title',
+      'dummy-page-id'
+    ])
     .it('shows created result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
       expect(ctx.stdout).to.match(/dummy database title.*database.*dummy-database-id.*https:\/\/www\.notion\.so\/dummy-database-id/)
     })
   })
 
-  describe('with --row flags', () => {
+  describe('with --raw flags', () => {
     apiMock
-    .command(['db:create', 'dummy-page-id', '-t', 'dummy database title'])
+    .command([
+      'db:create',
+      'dummy-page-id',
+      '-t', 'dummy database title',
+      '--raw'
+    ])
+    .exit(0)
     .it('shows created database object when success with title flags', ctx => {
       expect(ctx.stdout).to.contain("dummy-database-id")
       expect(ctx.stdout).to.contain("dummy database title")

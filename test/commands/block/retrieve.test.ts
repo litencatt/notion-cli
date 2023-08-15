@@ -22,7 +22,7 @@ describe('block:retrieve', () => {
   .stdout()
   .command(['block:retrieve', 'dummy-block-id'])
   .it('shows retrieved block object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'block")
-    expect(ctx.stdout).to.contain("type: \'child_page")
+    expect(ctx.stdout).to.contain("object\": \"block")
+    expect(ctx.stdout).to.contain("type\": \"child_page")
   })
 })

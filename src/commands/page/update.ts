@@ -5,6 +5,7 @@ import {
   UpdatePageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { isFullPage } from '@notionhq/client'
+import { outputRawJson } from '../../helper'
 
 export default class PageUpdate extends Command {
   static description = 'Update a page'
@@ -24,7 +25,10 @@ export default class PageUpdate extends Command {
   static flags = {
     archived: Flags.boolean({ char: 'a'}),
     un_archive: Flags.boolean({ char: 'u'}),
-    row: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 
@@ -42,8 +46,8 @@ export default class PageUpdate extends Command {
       pageProps.archived = false
     }
     const res = await notion.updatePageProps(pageProps)
-    if (flags.row) {
-      console.dir(res, { depth: null })
+    if (flags.raw) {
+      outputRawJson(res)
       this.exit(0)
     }
 

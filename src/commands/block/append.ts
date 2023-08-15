@@ -3,6 +3,7 @@ import * as notion from '../../notion'
 import {
   AppendBlockChildrenParameters
 } from '@notionhq/client/build/src/api-endpoints'
+import { outputRawJson } from '../../helper'
 
 export default class BlockAppend extends Command {
   static description = 'Append block children'
@@ -30,6 +31,6 @@ export default class BlockAppend extends Command {
       params.after = args.after
     }
     const res = await notion.appendBlockChildren(params)
-    console.dir(res, { depth: null })
+    outputRawJson(res)
   }
 }

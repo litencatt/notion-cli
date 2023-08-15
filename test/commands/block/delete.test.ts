@@ -32,8 +32,8 @@ describe('block:delete', () => {
   .stdout()
   .command(['block:delete', 'dummy-block-id'])
   .it('shows deleted block object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'block")
-    expect(ctx.stdout).to.contain("id: \'dummy-block-id")
-    expect(ctx.stdout).to.contain("archived: true")
+    expect(ctx.stdout).to.contain("object\": \"block")
+    expect(ctx.stdout).to.contain("id\": \"dummy-block-id")
+    expect(ctx.stdout).to.contain("archived\": true")
   })
 })
