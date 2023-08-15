@@ -30,21 +30,25 @@ $ docker run -it -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli db r
 ### Multiple output formats
 
 #### default: table
+
 ```sh
 $ notion-cli page retireve c77dbaf240174ea1ac1e93a87269f3ea
  Title      Object Id                                   Url
  ────────── ────── ──────────────────────────────────── ─────────────────────────────────────────────────────────────────
  Page title page   c77dbaf2-4017-4ea1-ac1e-93a87269f3ea https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea
 ```
+
 #### csv
-```
+
+```sh
 $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output csv
 Title,Object,Id,Url
 Page title,page,c77dbaf2-4017-4ea1-ac1e-93a87269f3ea,https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea
 ```
 
-#### JSON
-```
+#### json
+
+```sh
 $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output json
 [
   {
@@ -57,7 +61,8 @@ $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output json
 ```
 
 ### yaml
-```
+
+```sh
 $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output yaml
 - title: Page title
   object: page
