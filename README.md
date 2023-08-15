@@ -95,9 +95,14 @@ $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --raw | head
 ...
 ```
 
-### Interactive mode
+### Interactive mode in db command
 
-In db commands, start interactive mode when execute without args. And you can select a database from the list. And then, you can save the filter conditions to json file and reuse it.
+1. Start interactive mode execute db command without args
+1. Select a database from list
+1. Build filter conditions
+    * And then you can choose whether to save the conditions to a json file or not.
+1. Query to db with the filter conditions
+1. Saved json files can be reused by passing them as flags at the next execution.
 
 ![interactive-mode](./docs/images/interactive.gif)
 
