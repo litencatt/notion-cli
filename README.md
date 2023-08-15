@@ -17,6 +17,10 @@ $ export NOTION_TOKEN=secret_xxx...
 $ notion-cli page retrieve <PAGE_ID>
 ```
 
+* How to create a `NOTION_TOKEN`: https://developers.notion.com/docs/create-a-notion-integration
+* `PAGE_ID` is included in the page URL: `https://www.notion.so/Page-title-<PAGE_ID>`
+
+
 Using docker image:
 
 ```sh
@@ -25,7 +29,6 @@ $ docker run -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli page ret
 # -it flag is required to run interactive mode using docker
 $ docker run -it -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli db retrieve
 ```
-#### How to create a `NOTION_TOKEN`: https://developers.notion.com/docs/create-a-notion-integration
 
 ### Multiple output formats
 
