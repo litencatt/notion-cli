@@ -73,6 +73,25 @@ $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output yaml
   url: 'https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea'
 ```
 
+### raw json
+
+Output Notion API row json response.
+
+```sh
+$ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --raw | head
+{
+  "object": "page",
+  "id": "c77dbaf2-4017-4ea1-ac1e-93a87269f3ea",
+  "created_time": "2023-05-07T09:08:00.000Z",
+  "last_edited_time": "2023-08-15T01:08:00.000Z",
+  "created_by": {
+    "object": "user",
+    "id": "3555ae80-4588-4514-bb6b-2ece534157de"
+  },
+  "last_edited_by": {
+...
+```
+
 ### Interactive mode
 
 In some commands, start interactive mode when execute without args.
