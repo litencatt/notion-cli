@@ -1,21 +1,98 @@
-## @litencatt/notion-cli
+# notion-cli
 
-Notion CLI tool written by TypeScript. And some commands can be executed in interactive mode.
+This is a Notion CLI tool written by TypeScript. And some commands can be executed in interactive mode.
+
+## Features
+
+* Support for multiple output formats including csv and JSON
+* Support interactive mode for CRUD operation.
+
 
 ## Quick Start
 
-Retrieves a page object using the ID specified.
+Retrieves a page object using the ID specified.<br>
 
 ```sh
 $ export NOTION_TOKEN=secret_xxx...
-$ notion-cli page retrieve xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+$ notion-cli page retrieve <PAGE_ID>
 ```
+
+* How to create a `NOTION_TOKEN`: https://developers.notion.com/docs/create-a-notion-integration
+* `PAGE_ID` is included in the page URL: `https://www.notion.so/Page-title-<PAGE_ID>`
+
 
 Using docker image:
 
 ```sh
-# -it flag is required to run interactive mode
-$ docker run -it -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli page retrieve  xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+$ docker run -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli page retrieve <PAGE_ID>
+
+# -it flag is required to run interactive mode using docker
+$ docker run -it -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli db retrieve
+```
+
+### Multiple output formats
+
+oclif [ux.table](https://oclif.io/docs/table) supported output formats are `table`, `csv`, `json`, `yaml`. And notion-cli supports output raw json response with `--raw`.
+
+#### default: table
+
+Output columns are only `title`, `object`, `id`, `url` now.
+```sh
+$ notion-cli page retireve c77dbaf240174ea1ac1e93a87269f3ea
+ Title      Object Id                                   Url
+ ────────── ────── ──────────────────────────────────── ─────────────────────────────────────────────────────────────────
+ Page title page   c77dbaf2-4017-4ea1-ac1e-93a87269f3ea https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea
+```
+
+#### csv
+
+```sh
+$ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output csv
+Title,Object,Id,Url
+Page title,page,c77dbaf2-4017-4ea1-ac1e-93a87269f3ea,https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea
+```
+
+#### json
+
+```sh
+$ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output json
+[
+  {
+    "title": "Page title",
+    "object": "page",
+    "id": "c77dbaf2-4017-4ea1-ac1e-93a87269f3ea",
+    "url": "https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea"
+  }
+]
+```
+
+### yaml
+
+```sh
+$ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output yaml
+- title: Page title
+  object: page
+  id: c77dbaf2-4017-4ea1-ac1e-93a87269f3ea
+  url: 'https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea'
+```
+
+### Raw json
+
+This flag returns the raw json response from the Notion API, so you can get all the data for a given resource. You can also process the response using [`jq`](https://jqlang.github.io/jq/) or other tools.
+
+```sh
+$ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --raw | head
+{
+  "object": "page",
+  "id": "c77dbaf2-4017-4ea1-ac1e-93a87269f3ea",
+  "created_time": "2023-05-07T09:08:00.000Z",
+  "last_edited_time": "2023-08-15T01:08:00.000Z",
+  "created_by": {
+    "object": "user",
+    "id": "3555ae80-4588-4514-bb6b-2ece534157de"
+  },
+  "last_edited_by": {
+...
 ```
 
 ### Interactive mode
@@ -45,21 +122,17 @@ $ docker pull ghcr.io/litencatt/notion-cli
 ```
 
 ## Commands
-<!-- commands -->
-# Command Topics
 
-* [`notion-cli block`](docs/block.md) - Append block children
-* [`notion-cli db`](docs/db.md) - Create a database
-* [`notion-cli help`](docs/help.md) - Display help for notion-cli.
-* [`notion-cli page`](docs/page.md) - Create a page
-* [`notion-cli search`](docs/search.md) - Search by title
-* [`notion-cli user`](docs/user.md) - List all users
+* [`notion-cli block`](docs/block.md)
+* [`notion-cli page`](docs/page.md)
+* [`notion-cli db`](docs/db.md)
+* [`notion-cli user`](docs/user.md)
+* [`notion-cli search`](docs/search.md)
+* [`notion-cli help`](docs/help.md)
 
-<!-- commandsstop -->
+## Supported API and functions
 
-## API Support status
-
-Endpoint | API | Support | ux.table | interactive mode
+Endpoint | API | Support | multi-format | interactive mode
 -- | -- | -- | -- | --
 Authentication | Create a token |   |   |  
 Blocks | Append  a block children |  |   |  
