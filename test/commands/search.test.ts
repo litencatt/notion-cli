@@ -56,10 +56,11 @@ describe('search', () => {
     })
   })
 
-  describe('with --row flags', () => {
+  describe('with --raw flags', () => {
     searchApiMock
     .stdout()
-    .command(['search', '--row'])
+    .command(['search', '--raw'])
+    .exit(0)
     .it('shows search result row json', ctx => {
       expect(ctx.stdout).to.contain("object: \'list")
       expect(ctx.stdout).to.contain("url: \'https://www.notion.so/dummy-page-id")

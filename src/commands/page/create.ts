@@ -30,7 +30,7 @@ export default class PageCreate extends Command {
       char: 'f',
       description: 'Path to a source markdown file',
     }),
-    row: Flags.boolean(),
+    raw: Flags.boolean(),
     ...ux.table.flags(),
   }
 
@@ -73,7 +73,7 @@ export default class PageCreate extends Command {
     }
     const res = await notion.createPage(pageProps)
 
-    if (flags.row) {
+    if (flags.raw) {
       console.dir(res, { depth: null })
       this.exit(0)
     }

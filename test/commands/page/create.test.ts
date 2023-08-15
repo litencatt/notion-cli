@@ -44,15 +44,23 @@ describe('page:create', () => {
 
   describe('with parent_page_id flags', () => {
     apiMockPage
-    .command(['page:create', '--no-truncate', '-p','dummy-parent-page-id'])
+    .command([
+      'page:create',
+      '--no-truncate',
+      '-p','dummy-parent-page-id'
+    ])
     .it('shows create page result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
       expect(ctx.stdout).to.match(/undefined.*page.*dummy-page-id.*https:\/\/www\.notion\.so\/dummy-page-id/)
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockPage
-      .command(['page:create', '-p', 'dummy-parent-page-id', '--row'])
+      .command([
+        'page:create',
+        '-p', 'dummy-parent-page-id',
+        '--raw'
+      ])
       .exit(0)
       .it('shows a page object', ctx => {
         expect(ctx.stdout).to.contain("dummy-parent-page-id")
@@ -67,15 +75,23 @@ describe('page:create', () => {
 
   describe('with parent_db_id flags', () => {
     apiMockDb
-    .command(['page:create', '--no-truncate', '-p','dummy-parent-database-id'])
+    .command([
+      'page:create',
+      '--no-truncate',
+      '-p','dummy-parent-database-id'
+    ])
     .it('shows create page result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
       expect(ctx.stdout).to.match(/undefined.*page.*dummy-page-id.*https:\/\/www\.notion\.so\/dummy-page-id/)
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockDb
-      .command(['page:create', '-p', 'dummy-parent-database-id', '--row'])
+      .command([
+        'page:create',
+        '-p', 'dummy-parent-database-id',
+        '--raw'
+      ])
       .exit(0)
       .it('shows a page object', ctx => {
         expect(ctx.stdout).to.contain("dummy-parent-database-id")

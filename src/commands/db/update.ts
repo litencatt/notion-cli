@@ -37,7 +37,7 @@ export default class DbUpdate extends Command {
       char: 't',
       description: 'New database title'
     }),
-    row: Flags.boolean(),
+    raw: Flags.boolean(),
     ...ux.table.flags(),
   }
 
@@ -82,7 +82,7 @@ export default class DbUpdate extends Command {
 
     const res = await notion.updateDb(dbProps)
 
-    if (flags.row) {
+    if (flags.raw) {
       console.dir(res, { depth: null })
       this.exit(0)
     }

@@ -18,7 +18,7 @@ Create a page
 
 ```
 USAGE
-  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
+  $ notion-cli page c [-p <value>] [-d <value>] [-f <value>] [--raw] [--columns <value> | -x] [--sort
     <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
@@ -33,7 +33,7 @@ FLAGS
   --no-truncate                 do not truncate output to fit screen
   --output=<option>             output in a more machine friendly format
                                 <options: csv|json|yaml>
-  --row
+  --raw
   --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -52,7 +52,7 @@ Create a page
 
 ```
 USAGE
-  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>] [--row] [--columns <value> | -x] [--sort
+  $ notion-cli page create [-p <value>] [-d <value>] [-f <value>] [--raw] [--columns <value> | -x] [--sort
     <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
@@ -67,7 +67,7 @@ FLAGS
   --no-truncate                 do not truncate output to fit screen
   --output=<option>             output in a more machine friendly format
                                 <options: csv|json|yaml>
-  --row
+  --raw
   --sort=<value>                property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -88,7 +88,7 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page r PAGE_ID [-p <value>] [--row] [--columns <value> | -x] [--sort <value>] [--filter
+  $ notion-cli page r PAGE_ID [-p <value>] [--raw] [--columns <value> | -x] [--sort <value>] [--filter
     <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
@@ -101,7 +101,7 @@ FLAGS
   --no-truncate                    do not truncate output to fit screen
   --output=<option>                output in a more machine friendly format
                                    <options: csv|json|yaml>
-  --row
+  --raw
   --sort=<value>                   property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -140,7 +140,7 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page retrieve PAGE_ID [-p <value>] [--row] [--columns <value> | -x] [--sort <value>] [--filter
+  $ notion-cli page retrieve PAGE_ID [-p <value>] [--raw] [--columns <value> | -x] [--sort <value>] [--filter
     <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
@@ -153,7 +153,7 @@ FLAGS
   --no-truncate                    do not truncate output to fit screen
   --output=<option>                output in a more machine friendly format
                                    <options: csv|json|yaml>
-  --row
+  --raw
   --sort=<value>                   property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -196,7 +196,7 @@ Update a page
 
 ```
 USAGE
-  $ notion-cli page u PAGE_ID [-a] [-u] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+  $ notion-cli page u PAGE_ID [-a] [-u] [--raw] [--columns <value> | -x] [--sort <value>] [--filter <value>]
     [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
@@ -210,7 +210,7 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
+  --raw
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -233,7 +233,7 @@ Update a page
 
 ```
 USAGE
-  $ notion-cli page update PAGE_ID [-a] [-u] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+  $ notion-cli page update PAGE_ID [-a] [-u] [--raw] [--columns <value> | -x] [--sort <value>] [--filter <value>]
     [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
@@ -247,7 +247,7 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
+  --raw
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION

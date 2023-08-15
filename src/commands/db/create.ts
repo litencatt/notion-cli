@@ -33,7 +33,7 @@ export default class DbCreate extends Command {
 
   static flags = {
     title: Flags.string({char: 't'}),
-    row: Flags.boolean(),
+    raw: Flags.boolean(),
     ...ux.table.flags(),
   }
 
@@ -75,7 +75,7 @@ export default class DbCreate extends Command {
     }
 
     const res = await notion.createDb(dbProps)
-    if (flags.row) {
+    if (flags.raw) {
       console.dir(res, { depth: null })
       this.exit(0)
     }

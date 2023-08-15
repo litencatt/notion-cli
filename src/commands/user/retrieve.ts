@@ -18,14 +18,14 @@ export default class UserRetrieve extends Command {
   }
 
   static flags = {
-    row: Flags.boolean(),
+    raw: Flags.boolean(),
     ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(UserRetrieve)
     const res = await notion.retrieveUser(args.user_id)
-    if (flags.row) {
+    if (flags.raw) {
       console.dir(res, { depth: null })
       this.exit(0)
     }

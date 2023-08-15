@@ -24,7 +24,7 @@ export default class PageUpdate extends Command {
   static flags = {
     archived: Flags.boolean({ char: 'a'}),
     un_archive: Flags.boolean({ char: 'u'}),
-    row: Flags.boolean(),
+    raw: Flags.boolean(),
     ...ux.table.flags(),
   }
 
@@ -42,7 +42,7 @@ export default class PageUpdate extends Command {
       pageProps.archived = false
     }
     const res = await notion.updatePageProps(pageProps)
-    if (flags.row) {
+    if (flags.raw) {
       console.dir(res, { depth: null })
       this.exit(0)
     }

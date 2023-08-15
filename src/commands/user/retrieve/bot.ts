@@ -16,14 +16,14 @@ export default class UserRetrieveBot extends Command {
   static args = {}
 
   static flags = {
-    row: Flags.boolean(),
+    raw: Flags.boolean(),
     ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(UserRetrieveBot)
     const res = await notion.botUser()
-    if (flags.row) {
+    if (flags.raw) {
       console.dir(res, { depth: null })
       this.exit(0)
     }

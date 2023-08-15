@@ -54,9 +54,9 @@ describe('user:retrieve:bot', () => {
       })
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockUser
-      .command(['user:retrieve:bot', '--row'])
+      .command(['user:retrieve:bot', '--raw'])
       .exit(0)
       .it('shows a retrieved bot objects', ctx => {
         expect(ctx.stdout).to.contain("object: \'user")
@@ -80,9 +80,9 @@ describe('user:retrieve:bot', () => {
       })
     })
 
-    describe('with --row flags', () => {
+    describe('with --raw flags', () => {
       apiMockWs
-      .command(['user:retrieve:bot', '--row'])
+      .command(['user:retrieve:bot', '--raw'])
       .exit(0)
       .it('shows a retrieved bot objects', ctx => {
         expect(ctx.stdout).to.contain("object: \'user")

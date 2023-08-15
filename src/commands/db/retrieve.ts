@@ -32,7 +32,7 @@ export default class DbRetrieve extends Command {
   }
 
   static flags = {
-    row: Flags.boolean(),
+    raw: Flags.boolean(),
     ...ux.table.flags(),
   }
 
@@ -56,7 +56,7 @@ export default class DbRetrieve extends Command {
     }
 
     const res = await notion.retrieveDb(databaseId)
-    if (flags.row) {
+    if (flags.raw) {
       console.dir(res, { depth: null })
       this.exit(0)
     }

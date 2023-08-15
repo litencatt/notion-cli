@@ -45,13 +45,13 @@ describe('db:query', () => {
     })
   })
 
-  describe('with --row flags', () => {
+  describe('with --raw flags', () => {
     apiMock
     .command([
       'db:query',
       'dummy-database-id',
       '-r', '{"and": []}',
-      '--row',
+      '--raw',
     ])
     .exit(0)
     .it('shows query result page objects', ctx => {
