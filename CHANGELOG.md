@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.13.3](https://github.com/litencatt/notion-cli/compare/v0.13.2...v0.13.3) - 2023-08-15
+- Add interactive mode operation gif by @litencatt in https://github.com/litencatt/notion-cli/pull/210
+- Update readme by @litencatt in https://github.com/litencatt/notion-cli/pull/212
+
 ## [v0.13.2](https://github.com/litencatt/notion-cli/compare/v0.13.1...v0.13.2) - 2023-08-15
 - Remove not used package by @litencatt in https://github.com/litencatt/notion-cli/pull/208
 
