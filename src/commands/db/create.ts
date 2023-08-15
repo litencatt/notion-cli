@@ -7,6 +7,7 @@ import { isFullDatabase } from '@notionhq/client';
 import * as notion from '../../notion'
 import {
   onCancel,
+  outputRawJson,
 } from '../../helper'
 
 const  prompts  = require('prompts')
@@ -32,8 +33,14 @@ export default class DbCreate extends Command {
   }
 
   static flags = {
-    title: Flags.string({char: 't'}),
-    row: Flags.boolean(),
+    title: Flags.string({
+      char: 't',
+      description: 'new database title'
+    }),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 
@@ -75,8 +82,8 @@ export default class DbCreate extends Command {
     }
 
     const res = await notion.createDb(dbProps)
-    if (flags.row) {
-      console.dir(res, { depth: null })
+    if (flags.raw) {
+      outputRawJson(res)
       this.exit(0)
     }
 

@@ -1,5 +1,6 @@
 import {Args, Command} from '@oclif/core'
 import * as notion from '../../../notion'
+import { outputRawJson } from '../../../helper'
 
 export default class PageRetrievePropertyItem extends Command {
   static description = 'Retrieve a page property item'
@@ -19,6 +20,6 @@ export default class PageRetrievePropertyItem extends Command {
     const {args} = await this.parse(PageRetrievePropertyItem)
 
     const res = await notion.retrievePageProperty(args.page_id, args.property_id)
-    console.dir(res, { depth: null })
+    outputRawJson(res)
   }
 }

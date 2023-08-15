@@ -33,16 +33,22 @@ describe('block:append', () => {
     block: {},
   }
 
-  test
-  .nock('https://api.notion.com', api => api
-    .patch('/v1/blocks/dummy-block-id/children')
-    .reply(200, response)
-  )
-  .stdout()
-  .command(['block:append', 'dummy-block-id', '{"type": "breadcrump", "breadcrump": {}}'])
-  .it('shows retrieved block object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'list")
-    expect(ctx.stdout).to.contain("results: [")
-    expect(ctx.stdout).to.contain("type: \'block")
+  describe('with children flags', () => {
+    test
+    .nock('https://api.notion.com', api => api
+      .patch('/v1/blocks/dummy-block-id/children')
+      .reply(200, response)
+    )
+    .stdout()
+    .command([
+      'block:append',
+      'dummy-block-id',
+      '{"type": "breadcrump", "breadcrump": {}}'
+    ])
+    .it('shows retrieved block object when success', ctx => {
+      expect(ctx.stdout).to.contain("object\": \"list")
+      expect(ctx.stdout).to.contain("results\": [")
+      expect(ctx.stdout).to.contain("type\": \"block")
+    })
   })
 })

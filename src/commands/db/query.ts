@@ -8,15 +8,14 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as dayjs from 'dayjs'
 import {
-    buildOneDepthJson,
     buildFilterPagePrompt,
     buildDatabaseQueryFilter,
     getDbChoices,
     getPromptChoices,
     getFilterFields,
     onCancel,
+    outputRawJson,
   } from '../../helper'
-import { Parser } from '@json2csv/plainjs';
 import { isFullPage } from '@notionhq/client'
 
 const  prompts  = require('prompts')
@@ -36,7 +35,7 @@ export default class DbQuery extends Command {
       command: `$ notion-cli db query DATABASE_ID`,
     },
     {
-      description: 'Query a db with a specific database_id and row filter string',
+      description: 'Query a db with a specific database_id and raw filter string',
       command: `$ notion-cli db query -r='{"and": ...}' DATABASE_ID`,
     },
     {
@@ -54,15 +53,18 @@ export default class DbQuery extends Command {
   }
 
   static flags = {
-    rowFilter: Flags.string({
-      char: 'r',
+    rawFilter: Flags.string({
+      char: 'a',
       description: 'JSON stringified filter string'
     }),
     fileFilter: Flags.string({
       char: 'f',
       description: 'JSON filter file path'
     }),
-    row: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 
@@ -87,8 +89,8 @@ export default class DbQuery extends Command {
     // Set a filter
     let filter: object | undefined
     try {
-      if (flags.rowFilter != undefined) {
-        filter = JSON.parse(flags.rowFilter)
+      if (flags.rawFilter != undefined) {
+        filter = JSON.parse(flags.rawFilter)
       } else if (flags.fileFilter != undefined) {
         const fp = path.join('./', flags.fileFilter)
         const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
@@ -212,7 +214,7 @@ export default class DbQuery extends Command {
     } catch(e) {
       this.error(e, {exit: 1})
     }
-    if (filter != undefined && (flags.rowFilter == undefined && flags.fileFilter == undefined)) {
+    if (filter != undefined && (flags.rawFilter == undefined && flags.fileFilter == undefined)) {
       console.log("")
       console.log("Filter:")
       console.dir(filter, {depth: null})
@@ -239,8 +241,8 @@ export default class DbQuery extends Command {
 
     const res = await notion.queryDb(databaseId, filter)
 
-    if (flags.row) {
-      console.dir(res, { depth: null })
+    if (flags.raw) {
+      outputRawJson(res)
       this.exit(0)
     }
 

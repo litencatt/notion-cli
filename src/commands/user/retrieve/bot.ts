@@ -3,6 +3,7 @@ import {
   UserObjectResponse
 } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../../notion'
+import { outputRawJson } from '../../../helper'
 
 export default class UserRetrieveBot extends Command {
   static description = 'Retrieve a bot user'
@@ -16,15 +17,18 @@ export default class UserRetrieveBot extends Command {
   static args = {}
 
   static flags = {
-    row: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(UserRetrieveBot)
     const res = await notion.botUser()
-    if (flags.row) {
-      console.dir(res, { depth: null })
+    if (flags.raw) {
+      outputRawJson(res)
       this.exit(0)
     }
 

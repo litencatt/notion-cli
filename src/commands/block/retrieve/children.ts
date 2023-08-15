@@ -1,5 +1,6 @@
 import {Args, Command, Flags} from '@oclif/core'
 import * as notion from '../../../notion'
+import { outputRawJson } from '../../../helper'
 
 export default class BlockRetrieveChildren extends Command {
   static description = 'Retrieve block children'
@@ -22,6 +23,6 @@ export default class BlockRetrieveChildren extends Command {
 
     // TODO: Add support start_cursor, page_size
     const res = await notion.retrieveBlockChildren(args.block_id)
-    console.dir(res, { depth: null })
+    outputRawJson(res)
   }
 }

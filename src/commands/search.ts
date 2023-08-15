@@ -6,6 +6,7 @@ import {
   GetDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import { isFullDatabase, isFullPage } from '@notionhq/client';
+import { outputRawJson } from '../helper'
 
 export default class Search extends Command {
   static description = 'Search by title'
@@ -39,10 +40,9 @@ export default class Search extends Command {
       max: 100,
       default: 5,
     }),
-    row: Flags.boolean({
-      name: 'row-output',
+    raw: Flags.boolean({
       char: 'r',
-      description: 'Output JSON row result',
+      description: 'output raw json',
     }),
     ...ux.table.flags(),
   }
@@ -83,36 +83,37 @@ export default class Search extends Command {
     }
     const res = await notion.search(params)
 
-    if (flags.row) {
-      console.dir(res, { depth: null })
-    } else {
-      const columns = {
-        title: {
-          get: (row: GetDatabaseResponse | GetPageResponse) => {
-            if (row.object == 'database' && isFullDatabase(row)) {
-              return row.title && row.title[0].plain_text
-            } else if (row.object == 'page' && isFullPage(row)) {
-              let title: string
-              Object.entries(row.properties).find(([_, prop]) => {
-                if (prop.type === 'title') {
-                  title = prop.title[0].plain_text
-                }
-              })
-              return title
-            } else {
-              return 'untitled'
-            }
-          },
-        },
-        object: {},
-        id: {},
-        url: {},
-      }
-      const options = {
-        printLine: this.log.bind(this),
-        ...flags
-      }
-      ux.table(res.results, columns, options)
+    if (flags.raw) {
+      outputRawJson(res)
+      this.exit(0)
     }
+
+    const columns = {
+      title: {
+        get: (row: GetDatabaseResponse | GetPageResponse) => {
+          if (row.object == 'database' && isFullDatabase(row)) {
+            return row.title && row.title[0].plain_text
+          } else if (row.object == 'page' && isFullPage(row)) {
+            let title: string
+            Object.entries(row.properties).find(([_, prop]) => {
+              if (prop.type === 'title') {
+                title = prop.title[0].plain_text
+              }
+            })
+            return title
+          } else {
+            return 'untitled'
+          }
+        },
+      },
+      object: {},
+      id: {},
+      url: {},
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table(res.results, columns, options)
   }
 }

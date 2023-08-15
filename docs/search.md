@@ -22,7 +22,7 @@ FLAGS
                                  <options: asc|desc>
   -p, --property=<option>        <options: database|page>
   -q, --query=<value>            The text that the API compares page and database titles against
-  -r, --row                      Output JSON row result
+  -r, --raw                      output raw json
   -s, --page_size=<value>        [default: 5] The number of results to return. The default is 5, with a minimum of 1 and
                                  a maximum of 100.
   -x, --extended                 show extra columns

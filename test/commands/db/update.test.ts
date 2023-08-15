@@ -23,16 +23,26 @@ describe('db:update', () => {
 
   describe('with no flags', () => {
     apiMock
-    .command(['db:update', '--no-truncate', '-t dummy database title','dummy-database-id'])
+    .command([
+      'db:update',
+      '--no-truncate',
+      '-t dummy database title',
+      'dummy-database-id'
+    ])
     .it('shows updated result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
       expect(ctx.stdout).to.match(/dummy database title.*database.*dummy-database-id.*https:\/\/www\.notion\.so\/dummy-database-id/)
     })
   })
 
-  describe('with --row flags', () => {
+  describe('with --raw flags', () => {
     apiMock
-    .command(['db:update', '-t', 'dummy database title', 'dummy-database-id', '--row'])
+    .command([
+      'db:update',
+      '-t', 'dummy database title',
+      'dummy-database-id',
+      '--raw'
+    ])
     .exit(0)
     .it('shows updated database object', ctx => {
       expect(ctx.stdout).to.contain("dummy-database-id")

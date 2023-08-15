@@ -16,10 +16,11 @@ List all users
 
 ```
 USAGE
-  $ notion-cli user l [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+  $ notion-cli user l [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
     csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -28,7 +29,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -47,10 +47,11 @@ List all users
 
 ```
 USAGE
-  $ notion-cli user list [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+  $ notion-cli user list [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
     csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -59,7 +60,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -80,10 +80,11 @@ Retrieve a user
 
 ```
 USAGE
-  $ notion-cli user r [USER_ID] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli user r [USER_ID] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -92,7 +93,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -111,10 +111,11 @@ Retrieve a bot user
 
 ```
 USAGE
-  $ notion-cli user r b [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+  $ notion-cli user r b [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
     csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -123,7 +124,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -142,10 +142,11 @@ Retrieve a user
 
 ```
 USAGE
-  $ notion-cli user retrieve [USER_ID] [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli user retrieve [USER_ID] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -154,7 +155,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -175,10 +175,11 @@ Retrieve a bot user
 
 ```
 USAGE
-  $ notion-cli user retrieve bot [--row] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+  $ notion-cli user retrieve bot [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
     csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -187,7 +188,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --row
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION

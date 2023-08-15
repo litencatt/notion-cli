@@ -32,8 +32,8 @@ describe('block:update', () => {
   .stdout()
   .command(['block:update', 'dummy-block-id'])
   .it('shows updated block object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'block")
-    expect(ctx.stdout).to.contain("id: \'dummy-block-id")
-    expect(ctx.stdout).to.contain("archived: true")
+    expect(ctx.stdout).to.contain("object\": \"block")
+    expect(ctx.stdout).to.contain("id\": \"dummy-block-id")
+    expect(ctx.stdout).to.contain("archived\": true")
   })
 })

@@ -27,9 +27,13 @@ describe('page:retrieve:property_item', () => {
     .reply(200, response)
   )
   .stdout()
-  .command(['page:retrieve:property_item', 'dummy-page-id', 'dummy-property-id'])
+  .command([
+    'page:retrieve:property_item',
+    'dummy-page-id',
+    'dummy-property-id'
+  ])
   .it('shows retrieved page object when success', ctx => {
-    expect(ctx.stdout).to.contain("object: \'list")
-    expect(ctx.stdout).to.contain("type: \'property_item")
+    expect(ctx.stdout).to.contain("object\": \"list")
+    expect(ctx.stdout).to.contain("type\": \"property_item")
   })
 })
