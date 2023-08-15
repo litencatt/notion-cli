@@ -32,8 +32,11 @@ $ docker run -it -e NOTION_TOKEN=secret_xxx... ghcr.io/litencatt/notion-cli db r
 
 ### Multiple output formats
 
+oclif [ux.table](https://oclif.io/docs/table) supported output formats are `table`, `csv`, `json`, `yaml`. And notion-cli supports output raw json response with `--raw`.
+
 #### default: table
 
+Output columns are only `title`, `object`, `id`, `url` now.
 ```sh
 $ notion-cli page retireve c77dbaf240174ea1ac1e93a87269f3ea
  Title      Object Id                                   Url
@@ -73,9 +76,9 @@ $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output yaml
   url: 'https://www.notion.so/Page-title-c77dbaf240174ea1ac1e93a87269f3ea'
 ```
 
-### raw json
+### Raw json
 
-Output Notion API row json response.
+This flag returns the raw json response from the Notion API and it incluedes object data all . So you can use [`jq`](https://jqlang.github.io/jq/) or other tools to process the response.
 
 ```sh
 $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --raw | head
@@ -119,21 +122,17 @@ $ docker pull ghcr.io/litencatt/notion-cli
 ```
 
 ## Commands
-<!-- commands -->
-# Command Topics
 
-* [`notion-cli block`](docs/block.md) - Append block children
-* [`notion-cli db`](docs/db.md) - Create a database
-* [`notion-cli help`](docs/help.md) - Display help for notion-cli.
-* [`notion-cli page`](docs/page.md) - Create a page
-* [`notion-cli search`](docs/search.md) - Search by title
-* [`notion-cli user`](docs/user.md) - List all users
-
-<!-- commandsstop -->
+* [`notion-cli block`](docs/block.md)
+* [`notion-cli page`](docs/page.md)
+* [`notion-cli db`](docs/db.md)
+* [`notion-cli user`](docs/user.md)
+* [`notion-cli search`](docs/search.md)
+* [`notion-cli help`](docs/help.md)
 
 ## Supported API and functions
 
-Endpoint | API | Support | ux.table | interactive mode
+Endpoint | API | Support | multi-format | interactive mode
 -- | -- | -- | -- | --
 Authentication | Create a token |   |   |  
 Blocks | Append  a block children |  |   |  
