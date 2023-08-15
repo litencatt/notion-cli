@@ -1,4 +1,4 @@
-## notion-cli
+# notion-cli
 
 This is a Notion CLI tool written by TypeScript. And some commands can be executed in interactive mode.
 
@@ -78,7 +78,7 @@ $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --output yaml
 
 ### Raw json
 
-This flag returns the raw json response from the Notion API and it incluedes object data all . So you can use [`jq`](https://jqlang.github.io/jq/) or other tools to process the response.
+This flag returns the raw json response from the Notion API, so you can get all the data for a given resource. You can also process the response using [`jq`](https://jqlang.github.io/jq/) or other tools.
 
 ```sh
 $ notion-cli page retrieve c77dbaf240174ea1ac1e93a87269f3ea --raw | head
