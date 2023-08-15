@@ -41,7 +41,8 @@ export default class Search extends Command {
       default: 5,
     }),
     raw: Flags.boolean({
-      description: 'Output JSON raw result',
+      char: 'r',
+      description: 'output raw json',
     }),
     ...ux.table.flags(),
   }

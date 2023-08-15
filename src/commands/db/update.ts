@@ -38,7 +38,10 @@ export default class DbUpdate extends Command {
       char: 't',
       description: 'New database title'
     }),
-    raw: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 

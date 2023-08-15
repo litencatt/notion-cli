@@ -54,14 +54,17 @@ export default class DbQuery extends Command {
 
   static flags = {
     rawFilter: Flags.string({
-      char: 'r',
+      char: 'a',
       description: 'JSON stringified filter string'
     }),
     fileFilter: Flags.string({
       char: 'f',
       description: 'JSON filter file path'
     }),
-    raw: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 

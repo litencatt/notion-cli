@@ -18,11 +18,12 @@ Create a database
 
 ```
 USAGE
-  $ notion-cli db c PAGE_ID [-t <value>] [--raw] [--columns <value> | -x] [--sort <value>] [--filter
-    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli db c PAGE_ID [-t <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
-  -t, --title=<value>
+  -r, --raw            output raw json
+  -t, --title=<value>  new database title
   -x, --extended       show extra columns
   --columns=<value>    only show provided columns (comma-separated)
   --csv                output is csv format [alias: --output=csv]
@@ -31,7 +32,6 @@ FLAGS
   --no-truncate        do not truncate output to fit screen
   --output=<option>    output in a more machine friendly format
                        <options: csv|json|yaml>
-  --raw
   --sort=<value>       property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -56,11 +56,12 @@ Create a database
 
 ```
 USAGE
-  $ notion-cli db create PAGE_ID [-t <value>] [--raw] [--columns <value> | -x] [--sort <value>] [--filter
-    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli db create PAGE_ID [-t <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
-  -t, --title=<value>
+  -r, --raw            output raw json
+  -t, --title=<value>  new database title
   -x, --extended       show extra columns
   --columns=<value>    only show provided columns (comma-separated)
   --csv                output is csv format [alias: --output=csv]
@@ -69,7 +70,6 @@ FLAGS
   --no-truncate        do not truncate output to fit screen
   --output=<option>    output in a more machine friendly format
                        <options: csv|json|yaml>
-  --raw
   --sort=<value>       property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -96,12 +96,13 @@ Query a database
 
 ```
 USAGE
-  $ notion-cli db q [DATABASE_ID] [-r <value>] [-f <value>] [--raw] [--columns <value> | -x] [--sort
-    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli db q [DATABASE_ID] [-a <value>] [-f <value>] [-r] [--columns <value> | -x] [--sort <value>]
+    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -a, --rawFilter=<value>   JSON stringified filter string
   -f, --fileFilter=<value>  JSON filter file path
-  -r, --rawFilter=<value>   JSON stringified filter string
+  -r, --raw                 output raw json
   -x, --extended            show extra columns
   --columns=<value>         only show provided columns (comma-separated)
   --csv                     output is csv format [alias: --output=csv]
@@ -110,7 +111,6 @@ FLAGS
   --no-truncate             do not truncate output to fit screen
   --output=<option>         output in a more machine friendly format
                             <options: csv|json|yaml>
-  --raw
   --sort=<value>            property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -147,12 +147,13 @@ Query a database
 
 ```
 USAGE
-  $ notion-cli db query [DATABASE_ID] [-r <value>] [-f <value>] [--raw] [--columns <value> | -x] [--sort
-    <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli db query [DATABASE_ID] [-a <value>] [-f <value>] [-r] [--columns <value> | -x] [--sort <value>]
+    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -a, --rawFilter=<value>   JSON stringified filter string
   -f, --fileFilter=<value>  JSON filter file path
-  -r, --rawFilter=<value>   JSON stringified filter string
+  -r, --raw                 output raw json
   -x, --extended            show extra columns
   --columns=<value>         only show provided columns (comma-separated)
   --csv                     output is csv format [alias: --output=csv]
@@ -161,7 +162,6 @@ FLAGS
   --no-truncate             do not truncate output to fit screen
   --output=<option>         output in a more machine friendly format
                             <options: csv|json|yaml>
-  --raw
   --sort=<value>            property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -200,10 +200,11 @@ Retrieve a database
 
 ```
 USAGE
-  $ notion-cli db r [DATABASE_ID] [--raw] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+  $ notion-cli db r [DATABASE_ID] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
     [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -212,7 +213,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --raw
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -237,10 +237,11 @@ Retrieve a database
 
 ```
 USAGE
-  $ notion-cli db retrieve [DATABASE_ID] [--raw] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+  $ notion-cli db retrieve [DATABASE_ID] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
     [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw          output raw json
   -x, --extended     show extra columns
   --columns=<value>  only show provided columns (comma-separated)
   --csv              output is csv format [alias: --output=csv]
@@ -249,7 +250,6 @@ FLAGS
   --no-truncate      do not truncate output to fit screen
   --output=<option>  output in a more machine friendly format
                      <options: csv|json|yaml>
-  --raw
   --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -276,10 +276,11 @@ Update a database
 
 ```
 USAGE
-  $ notion-cli db u [DATABASE_ID] [-t <value>] [--raw] [--columns <value> | -x] [--sort <value>] [--filter
+  $ notion-cli db u [DATABASE_ID] [-t <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter
     <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw            output raw json
   -t, --title=<value>  New database title
   -x, --extended       show extra columns
   --columns=<value>    only show provided columns (comma-separated)
@@ -289,7 +290,6 @@ FLAGS
   --no-truncate        do not truncate output to fit screen
   --output=<option>    output in a more machine friendly format
                        <options: csv|json|yaml>
-  --raw
   --sort=<value>       property to sort by (prepend '-' for descending)
 
 DESCRIPTION
@@ -314,10 +314,11 @@ Update a database
 
 ```
 USAGE
-  $ notion-cli db update [DATABASE_ID] [-t <value>] [--raw] [--columns <value> | -x] [--sort <value>] [--filter
+  $ notion-cli db update [DATABASE_ID] [-t <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter
     <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -r, --raw            output raw json
   -t, --title=<value>  New database title
   -x, --extended       show extra columns
   --columns=<value>    only show provided columns (comma-separated)
@@ -327,7 +328,6 @@ FLAGS
   --no-truncate        do not truncate output to fit screen
   --output=<option>    output in a more machine friendly format
                        <options: csv|json|yaml>
-  --raw
   --sort=<value>       property to sort by (prepend '-' for descending)
 
 DESCRIPTION

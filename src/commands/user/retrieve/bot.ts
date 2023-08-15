@@ -17,7 +17,10 @@ export default class UserRetrieveBot extends Command {
   static args = {}
 
   static flags = {
-    raw: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 

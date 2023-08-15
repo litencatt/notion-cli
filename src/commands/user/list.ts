@@ -15,7 +15,10 @@ export default class UserList extends Command {
   ]
 
   static flags = {
-    raw: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 

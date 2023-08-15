@@ -25,7 +25,10 @@ export default class PageUpdate extends Command {
   static flags = {
     archived: Flags.boolean({ char: 'a'}),
     un_archive: Flags.boolean({ char: 'u'}),
-    raw: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 

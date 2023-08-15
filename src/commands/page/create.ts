@@ -31,7 +31,10 @@ export default class PageCreate extends Command {
       char: 'f',
       description: 'Path to a source markdown file',
     }),
-    raw: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 

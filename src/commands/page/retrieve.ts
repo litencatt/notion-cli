@@ -26,7 +26,10 @@ export default class PageRetrieve extends Command {
       char: 'p',
       description: 'Comma separated property id string'
     }),
-    raw: Flags.boolean(),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 

@@ -32,12 +32,12 @@ describe('db:query', () => {
     .reply(200, response)
   ).stdout({print: process.env.TEST_DEBUG ? true : false})
 
-  describe('with row query flags', () => {
+  describe('with raw filter flags', () => {
     apiMock
     .command([
       'db:query',
       'dummy-database-id',
-      '-r', '{"and": []}',
+      '-a', '{"and": []}',
     ])
     .it('shows query result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
@@ -50,7 +50,7 @@ describe('db:query', () => {
     .command([
       'db:query',
       'dummy-database-id',
-      '-r', '{"and": []}',
+      '-a', '{"and": []}',
       '--raw',
     ])
     .exit(0)

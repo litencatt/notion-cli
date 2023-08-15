@@ -33,8 +33,14 @@ export default class DbCreate extends Command {
   }
 
   static flags = {
-    title: Flags.string({char: 't'}),
-    raw: Flags.boolean(),
+    title: Flags.string({
+      char: 't',
+      description: 'new database title'
+    }),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
     ...ux.table.flags(),
   }
 
