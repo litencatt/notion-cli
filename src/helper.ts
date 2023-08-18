@@ -2,6 +2,7 @@ import {
   QueryDatabaseResponse,
   GetDatabaseResponse,
   DatabaseObjectResponse,
+  PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { IPromptChoice } from './interface'
 import * as notion from './notion'
@@ -513,4 +514,16 @@ export const getDbTitle = (
     return row.title[0].plain_text
   }
   return 'Untitled'
+}
+
+export const getPageTitle = (
+  row: PageObjectResponse
+) => {
+  let title = 'Untitled'
+  Object.entries(row.properties).find(([_, prop]) => {
+    if (prop.type === 'title' && prop.title.length > 0) {
+      title = prop.title[0].plain_text
+    }
+  })
+  return title
 }

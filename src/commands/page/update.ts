@@ -2,10 +2,12 @@ import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../notion'
 import {
   UpdatePageParameters,
-  UpdatePageResponse,
+  PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { isFullPage } from '@notionhq/client'
-import { outputRawJson } from '../../helper'
+import {
+    getPageTitle,
+    outputRawJson
+  } from '../../helper'
 
 export default class PageUpdate extends Command {
   static description = 'Update a page'
@@ -53,18 +55,8 @@ export default class PageUpdate extends Command {
 
     const columns = {
       title: {
-        get: (row: UpdatePageResponse) => {
-          if (isFullPage(row)) {
-            let title: string
-            Object.entries(row.properties).find(([_, prop]) => {
-              if (prop.type === 'title') {
-                title = prop.title[0] && prop.title[0].plain_text
-              }
-            })
-            return title
-          } else {
-            return 'untitled'
-          }
+        get: (row: PageObjectResponse) => {
+          return getPageTitle(row)
         },
       },
       object: {},

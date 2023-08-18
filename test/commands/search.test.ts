@@ -21,6 +21,9 @@ const response = {
           title: [
             {
               type: 'text',
+              text: {
+                content: 'dummy page title',
+              },
               plain_text: 'dummy page title',
             }
           ]
@@ -34,9 +37,12 @@ const response = {
       title: [
         {
           type: 'text',
+          text: {
+            content: 'dummy database title',
+          },
           plain_text: 'dummy database title',
         }
-      ]
+      ],
     }
   ],
   next_cursor: null,
@@ -56,12 +62,7 @@ const titleEmptyResponse = {
         Name: {
           id: 'title',
           type: 'title',
-          title: [
-            {
-              type: 'text',
-              plain_text: 'dummy page title',
-            }
-          ]
+          title: []
         }
       }
     },
@@ -107,7 +108,7 @@ describe('search', () => {
     .command(['search', '--no-truncate'])
     .it('shows search result table', ctx => {
       expect(ctx.stdout).to.match(/Title.*Object.*Id.*Url/)
-      expect(ctx.stdout).to.match(/dummy page title.*page.*dummy-page-id.*https:\/\/www\.notion\.so\/dummy-page-id/)
+      expect(ctx.stdout).to.match(/Untitled.*page.*dummy-page-id.*https:\/\/www\.notion\.so\/dummy-page-id/)
       expect(ctx.stdout).to.match(/Untitled.*database.*dummy-database-id.*https:\/\/www\.notion\.so\/dummy-database-id/)
     })
   })
