@@ -2,7 +2,7 @@ import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../notion'
 import {
   PageObjectResponse,
-  PartialPageObjectResponse,
+  DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -15,8 +15,9 @@ import {
     getFilterFields,
     onCancel,
     outputRawJson,
+    getDbTitle,
+    getPageTitle,
   } from '../../helper'
-import { isFullPage } from '@notionhq/client'
 
 const  prompts  = require('prompts')
 
@@ -248,18 +249,11 @@ export default class DbQuery extends Command {
 
     const columns = {
       title: {
-        get: (row: PageObjectResponse | PartialPageObjectResponse) => {
-          if (isFullPage(row)) {
-            let title: string
-            Object.entries(row.properties).find(([_, prop]) => {
-              if (prop.type === 'title') {
-                title = prop.title[0] && prop.title[0].plain_text
-              }
-            })
-            return title
-          } else {
-            return 'untitled'
+        get: (row: DatabaseObjectResponse | PageObjectResponse) => {
+          if (row.object == 'database') {
+            return getDbTitle(row)
           }
+          return getPageTitle(row)
         },
       },
       object: {},

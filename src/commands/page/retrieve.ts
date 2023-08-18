@@ -2,10 +2,12 @@ import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../notion'
 import {
   GetPageParameters,
-  GetPageResponse,
+  PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { isFullPage } from '@notionhq/client'
-import { outputRawJson } from '../../helper'
+import {
+  getPageTitle,
+  outputRawJson
+} from '../../helper'
 
 export default class PageRetrieve extends Command {
   static description = 'Retrieve a page'
@@ -50,18 +52,8 @@ export default class PageRetrieve extends Command {
 
     const columns = {
       title: {
-        get: (row: GetPageResponse) => {
-          if (isFullPage(row)) {
-            let title: string
-            Object.entries(row.properties).find(([_, prop]) => {
-              if (prop.type === 'title') {
-                title = prop.title[0] && prop.title[0].plain_text
-              }
-            })
-            return title
-          } else {
-            return 'untitled'
-          }
+        get: (row: PageObjectResponse) => {
+          return getPageTitle(row)
         },
       },
       object: {},

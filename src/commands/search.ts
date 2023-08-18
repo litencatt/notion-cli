@@ -1,12 +1,16 @@
 import {Command, Flags, ux} from '@oclif/core'
 import * as notion from '../notion'
 import {
-  GetPageResponse,
+  PageObjectResponse,
   SearchParameters,
-  GetDatabaseResponse,
+  DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import { isFullDatabase, isFullPage } from '@notionhq/client';
-import { outputRawJson } from '../helper'
+import {
+    getDbTitle,
+    getPageTitle,
+    outputRawJson
+  } from '../helper'
 
 export default class Search extends Command {
   static description = 'Search by title'
@@ -90,20 +94,11 @@ export default class Search extends Command {
 
     const columns = {
       title: {
-        get: (row: GetDatabaseResponse | GetPageResponse) => {
-          if (row.object == 'database' && isFullDatabase(row)) {
-            return row.title && row.title[0].plain_text
-          } else if (row.object == 'page' && isFullPage(row)) {
-            let title: string
-            Object.entries(row.properties).find(([_, prop]) => {
-              if (prop.type === 'title') {
-                title = prop.title[0].plain_text
-              }
-            })
-            return title
-          } else {
-            return 'untitled'
+        get: (row: DatabaseObjectResponse | PageObjectResponse) => {
+          if (row.object == 'database') {
+            return getDbTitle(row)
           }
+          return getPageTitle(row)
         },
       },
       object: {},

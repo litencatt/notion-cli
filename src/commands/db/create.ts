@@ -1,13 +1,13 @@
 import {Args, Command, Flags, ux} from '@oclif/core'
 import {
   CreateDatabaseParameters,
-  CreateDatabaseResponse,
+  DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { isFullDatabase } from '@notionhq/client';
 import * as notion from '../../notion'
 import {
   onCancel,
   outputRawJson,
+  getDbTitle,
 } from '../../helper'
 
 const  prompts  = require('prompts')
@@ -89,10 +89,8 @@ export default class DbCreate extends Command {
 
     const columns = {
       title: {
-        get: (row: CreateDatabaseResponse) => {
-          if (isFullDatabase(row)) {
-            return row.title && row.title[0].plain_text
-          }
+        get: (row: DatabaseObjectResponse) => {
+          return getDbTitle(row)
         },
       },
       object: {},

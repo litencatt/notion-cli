@@ -5,11 +5,13 @@ import * as path from 'path'
 import { markdownToBlocks } from '@tryfabric/martian'
 import {
   CreatePageParameters,
-  CreatePageResponse,
+  PageObjectResponse,
   BlockObjectRequest,
 } from '@notionhq/client/build/src/api-endpoints'
-import { isFullPage } from '@notionhq/client'
-import { outputRawJson } from '../../helper'
+import {
+    getPageTitle,
+    outputRawJson
+  } from '../../helper'
 
 export default class PageCreate extends Command {
   static description = 'Create a page'
@@ -76,7 +78,6 @@ export default class PageCreate extends Command {
       }
     }
     const res = await notion.createPage(pageProps)
-
     if (flags.raw) {
       outputRawJson(res)
       this.exit(0)
@@ -84,18 +85,8 @@ export default class PageCreate extends Command {
 
     const columns = {
       title: {
-        get: (row: CreatePageResponse) => {
-          if (isFullPage(row)) {
-            let title: string
-            Object.entries(row.properties).find(([_, prop]) => {
-              if (prop.type === 'title') {
-                title = prop.title[0] && prop.title[0].plain_text
-              }
-            })
-            return title
-          } else {
-            return 'untitled'
-          }
+        get: (row: PageObjectResponse) => {
+          return getPageTitle(row)
         },
       },
       object: {},
