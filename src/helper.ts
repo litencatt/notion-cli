@@ -1,6 +1,7 @@
 import {
   QueryDatabaseResponse,
   GetDatabaseResponse,
+  DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { IPromptChoice } from './interface'
 import * as notion from './notion'
@@ -503,4 +504,13 @@ export const getDbChoices = async () => {
   })
 
   return sortedDbChoices
+}
+
+export const getDbTitle = (
+  row: DatabaseObjectResponse
+) => {
+  if (row.title && row.title.length > 0) {
+    return row.title[0].plain_text
+  }
+  return 'Untitled'
 }

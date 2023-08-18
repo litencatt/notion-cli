@@ -3,10 +3,10 @@ import * as notion from '../notion'
 import {
   GetPageResponse,
   SearchParameters,
-  GetDatabaseResponse,
+  DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
 import { isFullDatabase, isFullPage } from '@notionhq/client';
-import { outputRawJson } from '../helper'
+import { getDbTitle, outputRawJson } from '../helper'
 
 export default class Search extends Command {
   static description = 'Search by title'
@@ -90,9 +90,9 @@ export default class Search extends Command {
 
     const columns = {
       title: {
-        get: (row: GetDatabaseResponse | GetPageResponse) => {
-          if (row.object == 'database' && isFullDatabase(row)) {
-            return row.title && row.title[0].plain_text
+        get: (row: DatabaseObjectResponse | GetPageResponse) => {
+          if (row.object == 'database') {
+            return getDbTitle(row)
           } else if (row.object == 'page' && isFullPage(row)) {
             let title: string
             Object.entries(row.properties).find(([_, prop]) => {

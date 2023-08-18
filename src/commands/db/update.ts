@@ -1,7 +1,7 @@
 import {Args, Command, Flags, ux} from '@oclif/core'
 import {
   UpdateDatabaseParameters,
-  GetDatabaseResponse,
+  DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { isFullDatabase } from '@notionhq/client';
 import * as notion from '../../notion'
@@ -9,6 +9,7 @@ import {
   onCancel,
   getDbChoices,
   outputRawJson,
+  getDbTitle,
 } from '../../helper'
 
 const  prompts  = require('prompts')
@@ -93,10 +94,8 @@ export default class DbUpdate extends Command {
 
     const columns = {
       title: {
-        get: (row: GetDatabaseResponse) => {
-          if (isFullDatabase(row)) {
-            return row.title && row.title[0].plain_text
-          }
+        get: (row: DatabaseObjectResponse) => {
+          return getDbTitle(row)
         },
       },
       object: {},
