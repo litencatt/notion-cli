@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.13.4](https://github.com/litencatt/notion-cli/compare/v0.13.3...v0.13.4) - 2023-08-18
+- Fix response handling of object title is empty  by @litencatt in https://github.com/litencatt/notion-cli/pull/213
+
 ## [v0.13.3](https://github.com/litencatt/notion-cli/compare/v0.13.2...v0.13.3) - 2023-08-15
 - Add interactive mode operation gif by @litencatt in https://github.com/litencatt/notion-cli/pull/210
 - Update readme by @litencatt in https://github.com/litencatt/notion-cli/pull/212
