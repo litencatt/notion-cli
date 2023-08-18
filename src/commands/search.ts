@@ -1,7 +1,7 @@
 import {Command, Flags, ux} from '@oclif/core'
 import * as notion from '../notion'
 import {
-  GetPageResponse,
+  PageObjectResponse,
   SearchParameters,
   DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints';
@@ -90,7 +90,7 @@ export default class Search extends Command {
 
     const columns = {
       title: {
-        get: (row: DatabaseObjectResponse | GetPageResponse) => {
+        get: (row: DatabaseObjectResponse | PageObjectResponse) => {
           if (row.object == 'database') {
             return getDbTitle(row)
           } else if (row.object == 'page' && isFullPage(row)) {
