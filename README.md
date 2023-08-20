@@ -134,14 +134,14 @@ $ docker pull ghcr.io/litencatt/notion-cli
 Endpoint | API | Support | multi-format | interactive mode
 -- | -- | -- | -- | --
 Authentication | Create a token |   |   |  
-Blocks | Append  a block children |  |   |  
-Blocks | Retrieve  a block | o |   |  
-Blocks | Retrieve a block children | o |   |  
-Blocks | Update a block |   |   |  
-Blocks | Delete a block | o |   |  
+Blocks | Append  a block children | o | o |  
+Blocks | Retrieve  a block | o | o |  
+Blocks | Retrieve a block children | o | o |  
+Blocks | Update a block | o | o |  
+Blocks | Delete a block | o | o |  
 Pages | Create a page | o | o |  
 Pages | Retrieve a page | o | o |  
-Pages | Update a page |  |  |  
+Pages | Update a page | o | o |  
 Database | Create a database | o | o | o
 Database | Retrieve a database | o | o | o
 Database | Update a database | o | o | o
@@ -153,4 +153,4 @@ Comments | Create a comment |   |   |  
 Comments | Retrieve a comment |   |   |  
 Search | Search by title | o | o |
 
-\* multi-format not supported commands output only raw json response
+\* multi-format NOT supported commands output only raw json response
