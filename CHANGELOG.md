@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.14.1](https://github.com/litencatt/notion-cli/compare/v0.14.0...v0.14.1) - 2023-08-20
+- Add flags output page as markdown by @litencatt in https://github.com/litencatt/notion-cli/pull/220
+- Remove not used interface by @litencatt in https://github.com/litencatt/notion-cli/pull/222
+
 ## [v0.14.0](https://github.com/litencatt/notion-cli/compare/v0.13.5...v0.14.0) - 2023-08-20
 - Support ux.table to block by @litencatt in https://github.com/litencatt/notion-cli/pull/217
 - Fix readme by @litencatt in https://github.com/litencatt/notion-cli/pull/219
