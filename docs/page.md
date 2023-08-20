@@ -88,10 +88,11 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page r PAGE_ID [-p <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli page r PAGE_ID [-p <value>] [-r] [-m] [--columns <value> | -x] [--sort <value>] [--filter
+    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -m, --markdown                   output markdown
   -p, --filter_properties=<value>  Comma separated property id string
   -r, --raw                        output raw json
   -x, --extended                   show extra columns
@@ -140,10 +141,11 @@ Retrieve a page
 
 ```
 USAGE
-  $ notion-cli page retrieve PAGE_ID [-p <value>] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
-    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli page retrieve PAGE_ID [-p <value>] [-r] [-m] [--columns <value> | -x] [--sort <value>] [--filter
+    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -m, --markdown                   output markdown
   -p, --filter_properties=<value>  Comma separated property id string
   -r, --raw                        output raw json
   -x, --extended                   show extra columns

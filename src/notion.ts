@@ -15,7 +15,7 @@ import {
   SearchParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 
-const notion = new Client({
+export const client = new Client({
   auth: process.env.NOTION_TOKEN,
   logLevel: process.env.DEBUG ? LogLevel.DEBUG : null,
 })
@@ -28,7 +28,7 @@ export const queryDb = async (
   const pages = []
   let cursor: string | undefined = undefined
   while (true) {
-    const { results, next_cursor } = await notion.databases.query({
+    const { results, next_cursor } = await client.databases.query({
       database_id: databaseId,
       filter: f,
       start_cursor: cursor
@@ -46,28 +46,28 @@ export const queryDb = async (
 export const createDb = async (
   dbProps: CreateDatabaseParameters
 ): Promise<CreateDatabaseResponse> => {
-  return await notion.databases.create(dbProps)
+  return await client.databases.create(dbProps)
 }
 
 export const updateDb = async (
   dbProps: UpdateDatabaseParameters
 ): Promise<GetDatabaseResponse> => {
-  return await notion.databases.update(dbProps)
+  return await client.databases.update(dbProps)
 }
 
 export const retrieveDb = async (
   databaseId: string,
 ): Promise<GetDatabaseResponse> => {
-  return await notion.databases.retrieve({ database_id: databaseId })
+  return await client.databases.retrieve({ database_id: databaseId })
 }
 
 export const retrievePage = async (pageProp: GetPageParameters) => {
-  return notion.pages.retrieve(pageProp)
+  return client.pages.retrieve(pageProp)
 }
 
 // TODO: support page_size, start_cursor
 export const retrievePageProperty = async (pageId: string, propId: string) => {
-  const res = notion.pages.properties.retrieve({
+  const res = client.pages.properties.retrieve({
     page_id: pageId,
     property_id: propId,
   })
@@ -77,13 +77,13 @@ export const retrievePageProperty = async (pageId: string, propId: string) => {
 export const createPage = async (
   pageProps: CreatePageParameters,
 ) => {
-  return notion.pages.create(pageProps)
+  return client.pages.create(pageProps)
 }
 
 export const updatePageProps = async (
   pageParams: UpdatePageParameters,
 ) => {
-  return notion.pages.update(pageParams)
+  return client.pages.update(pageParams)
 }
 
 // To keep the same page URL,
@@ -92,16 +92,16 @@ export const updatePage = async (
   pageId: string,
   blocks: BlockObjectRequest[]
 ) => {
-  const blks = await notion.blocks.children.list({
+  const blks = await client.blocks.children.list({
     block_id: pageId,
   });
   for (const blk of blks.results) {
-    await notion.blocks.delete({
+    await client.blocks.delete({
       block_id: blk.id,
     });
   }
 
-  const res = await notion.blocks.children.append({
+  const res = await client.blocks.children.append({
     block_id: pageId,
     // @ts-ignore
     children: blocks,
@@ -111,18 +111,18 @@ export const updatePage = async (
 };
 
 export const retrieveBlock = async (blockId: string) => {
-  const res = notion.blocks.retrieve({
+  const res = client.blocks.retrieve({
     block_id: blockId,
   })
   return res
 }
 
 export const updateBlock = async (params: UpdateBlockParameters) => {
-  return notion.blocks.update(params)
+  return client.blocks.update(params)
 }
 
 export const retrieveBlockChildren = async (blockId: string) => {
-  const res = notion.blocks.children.list({
+  const res = client.blocks.children.list({
     block_id: blockId,
   })
   return res
@@ -131,32 +131,32 @@ export const retrieveBlockChildren = async (blockId: string) => {
 export const appendBlockChildren = async (
   params: AppendBlockChildrenParameters
 ) => {
-  return notion.blocks.children.append(params)
+  return client.blocks.children.append(params)
 }
 
 export const deleteBlock = async (blockId: string) => {
-  const res = notion.blocks.delete({
+  const res = client.blocks.delete({
     block_id: blockId,
   })
   return res
 }
 
 export const retrieveUser = async (userId: string) => {
-  return await notion.users.retrieve({
+  return await client.users.retrieve({
     user_id: userId,
   })
 }
 
 export const listUser = async () => {
-  return await notion.users.list({})
+  return await client.users.list({})
 }
 
 export const botUser = async () => {
-  return await notion.users.me({})
+  return await client.users.me({})
 }
 
 export const searchDb = async () => {
-  const { results } = await notion.search({
+  const { results } = await client.search({
     filter: {
       value: 'database',
       property: 'object'
@@ -168,5 +168,5 @@ export const searchDb = async () => {
 export const search = async (
   params: SearchParameters
 ) => {
-  return await notion.search(params)
+  return await client.search(params)
 }

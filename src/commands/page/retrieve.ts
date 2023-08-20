@@ -8,6 +8,7 @@ import {
   getPageTitle,
   outputRawJson
 } from '../../helper'
+import { NotionToMarkdown } from "notion-to-md"
 
 export default class PageRetrieve extends Command {
   static description = 'Retrieve a page'
@@ -32,15 +33,28 @@ export default class PageRetrieve extends Command {
       char: 'r',
       description: 'output raw json',
     }),
+    markdown: Flags.boolean({
+      char: 'm',
+      description: 'output markdown',
+    }),
     ...ux.table.flags(),
   }
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageRetrieve)
 
+    if (flags.markdown) {
+      const n2m = new NotionToMarkdown({ notionClient: notion.client })
+      const mdBlocks = await n2m.pageToMarkdown(args.page_id)
+      const mdString = n2m.toMarkdownString(mdBlocks)
+      console.log(mdString.parent)
+      this.exit(0)
+    }
+
     const pageProps: GetPageParameters = {
       page_id: args.page_id,
     }
+
     if (flags.filter_properties) {
       pageProps.filter_properties = flags.filter_properties.split(',')
     }
