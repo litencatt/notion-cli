@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.14.0](https://github.com/litencatt/notion-cli/compare/v0.13.5...v0.14.0) - 2023-08-20
+- Support ux.table to block by @litencatt in https://github.com/litencatt/notion-cli/pull/217
+- Fix readme by @litencatt in https://github.com/litencatt/notion-cli/pull/219
+
 ## [v0.13.5](https://github.com/litencatt/notion-cli/compare/v0.13.4...v0.13.5) - 2023-08-20
 - Return true if find by @litencatt in https://github.com/litencatt/notion-cli/pull/215
 
