@@ -1,9 +1,13 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../notion'
 import {
-  AppendBlockChildrenParameters
+  AppendBlockChildrenParameters,
+  BlockObjectResponse
 } from '@notionhq/client/build/src/api-endpoints'
-import { outputRawJson } from '../../helper'
+import {
+  getBlockPlainText,
+  outputRawJson
+} from '../../helper'
 
 export default class BlockAppend extends Command {
   static description = 'Append block children'
@@ -20,6 +24,14 @@ export default class BlockAppend extends Command {
     after: Args.string({required: false}),
   }
 
+  static flags = {
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
+    ...ux.table.flags(),
+  }
+
   // TODO: Add support children params building prompt
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockAppend)
@@ -31,6 +43,26 @@ export default class BlockAppend extends Command {
       params.after = args.after
     }
     const res = await notion.appendBlockChildren(params)
-    outputRawJson(res)
+    if (flags.raw) {
+      outputRawJson(res)
+      this.exit(0)
+    }
+
+    const columns = {
+      object: {},
+      id: {},
+      type: {},
+      parent: {},
+      content: {
+        get: (row: BlockObjectResponse) => {
+          return getBlockPlainText(row)
+        }
+      }
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table(res.results, columns, options)
   }
 }
