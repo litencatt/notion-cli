@@ -1,7 +1,13 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../notion'
-import { UpdateBlockParameters } from '@notionhq/client/build/src/api-endpoints'
-import { outputRawJson } from '../../helper'
+import {
+  UpdateBlockParameters,
+  BlockObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints'
+import {
+  outputRawJson,
+  getBlockPlainText,
+} from '../../helper'
 
 export default class BlockUpdate extends Command {
   static description = 'Update a block'
@@ -18,6 +24,11 @@ export default class BlockUpdate extends Command {
 
   static flags = {
     archived: Flags.boolean({ char: 'a'}),
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
+    ...ux.table.flags(),
   }
 
   // TODO: Add support for updating block type objects
@@ -29,6 +40,26 @@ export default class BlockUpdate extends Command {
       archived: flags.archived,
     }
     const res = await notion.updateBlock(params)
-    outputRawJson(res)
+    if (flags.raw) {
+      outputRawJson(res)
+      this.exit(0)
+    }
+
+    const columns = {
+      object: {},
+      id: {},
+      type: {},
+      parent: {},
+      content: {
+        get: (row: BlockObjectResponse) => {
+          return getBlockPlainText(row)
+        }
+      }
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table([res], columns, options)
   }
 }

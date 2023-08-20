@@ -1,6 +1,12 @@
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command, Flags, ux} from '@oclif/core'
 import * as notion from '../../../notion'
-import { outputRawJson } from '../../../helper'
+import {
+  BlockObjectResponse
+} from '@notionhq/client/build/src/api-endpoints'
+import {
+  getBlockPlainText,
+  outputRawJson,
+} from '../../../helper'
 
 export default class BlockRetrieveChildren extends Command {
   static description = 'Retrieve block children'
@@ -18,11 +24,38 @@ export default class BlockRetrieveChildren extends Command {
     }),
   }
 
+  static flags = {
+    raw: Flags.boolean({
+      char: 'r',
+      description: 'output raw json',
+    }),
+    ...ux.table.flags(),
+  }
+
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(BlockRetrieveChildren)
 
     // TODO: Add support start_cursor, page_size
     const res = await notion.retrieveBlockChildren(args.block_id)
-    outputRawJson(res)
+    if (flags.raw) {
+      outputRawJson(res)
+      this.exit(0)
+    }
+
+    const columns = {
+      object: {},
+      id: {},
+      type: {},
+      content: {
+        get: (row: BlockObjectResponse) => {
+          return getBlockPlainText(row)
+        }
+      },
+    }
+    const options = {
+      printLine: this.log.bind(this),
+      ...flags
+    }
+    ux.table(res.results, columns, options)
   }
 }

@@ -3,6 +3,7 @@ import {
   GetDatabaseResponse,
   DatabaseObjectResponse,
   PageObjectResponse,
+  BlockObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { IPromptChoice } from './interface'
 import * as notion from './notion'
@@ -527,4 +528,68 @@ export const getPageTitle = (
     }
   })
   return title
+}
+
+export const getBlockPlainText = (
+  row: BlockObjectResponse
+) => {
+  try {
+    switch (row.type) {
+      case 'bookmark':
+        return row[row.type].url
+      case 'breadcrumb':
+        return ''
+      case 'child_database':
+        return row[row.type].title
+      case 'child_page':
+        return row[row.type].title
+      case 'column_list':
+        return ''
+      case 'divider':
+        return ''
+      case 'embed':
+        return row[row.type].url
+      case 'equation':
+        return row[row.type].expression
+      case 'file':
+      case 'image':
+        if (row[row.type].type == 'file') {
+          return row[row.type].file.url
+        } else {
+          return row[row.type].external.url
+        }
+      case 'link_preview':
+        return row[row.type].url
+      case 'synced_block':
+        return ''
+      case 'table_of_contents':
+        return ''
+      case 'table':
+        return ''
+
+      case 'bulleted_list_item':
+      case 'callout':
+      case 'code':
+      case 'heading_1':
+      case 'heading_2':
+      case 'heading_3':
+      case 'numbered_list_item':
+      case 'paragraph':
+      case 'quote':
+      case 'to_do':
+      case 'toggle':
+        let plainText = ''
+        if (row[row.type].rich_text.length > 0) {
+          plainText = row[row.type].rich_text[0].plain_text
+        }
+        return plainText
+
+      default:
+        return row[row.type]
+    }
+  } catch(e) {
+    console.error(`${row.type} is not supported`)
+    console.error(e)
+    return ''
+  }
 }

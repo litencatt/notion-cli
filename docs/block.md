@@ -20,7 +20,20 @@ Append block children
 
 ```
 USAGE
-  $ notion-cli block a BLOCK_ID CHILDREN [AFTER]
+  $ notion-cli block a BLOCK_ID CHILDREN [AFTER] [-r] [--columns <value> | -x] [--sort <value>] [--filter
+    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Append block children
@@ -38,7 +51,20 @@ Append block children
 
 ```
 USAGE
-  $ notion-cli block append BLOCK_ID CHILDREN [AFTER]
+  $ notion-cli block append BLOCK_ID CHILDREN [AFTER] [-r] [--columns <value> | -x] [--sort <value>] [--filter
+    <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Append block children
@@ -58,7 +84,20 @@ Delete a block
 
 ```
 USAGE
-  $ notion-cli block d BLOCK_ID
+  $ notion-cli block d BLOCK_ID [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Delete a block
@@ -76,7 +115,20 @@ Delete a block
 
 ```
 USAGE
-  $ notion-cli block delete BLOCK_ID
+  $ notion-cli block delete BLOCK_ID [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Delete a block
@@ -96,7 +148,20 @@ Retrieve a block
 
 ```
 USAGE
-  $ notion-cli block r BLOCK_ID
+  $ notion-cli block r BLOCK_ID [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Retrieve a block
@@ -114,10 +179,23 @@ Retrieve block children
 
 ```
 USAGE
-  $ notion-cli block r c BLOCK_ID
+  $ notion-cli block r c BLOCK_ID [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 ARGUMENTS
   BLOCK_ID  block_id or page_id
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Retrieve block children
@@ -135,7 +213,20 @@ Retrieve a block
 
 ```
 USAGE
-  $ notion-cli block retrieve BLOCK_ID
+  $ notion-cli block retrieve BLOCK_ID [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Retrieve a block
@@ -155,10 +246,23 @@ Retrieve block children
 
 ```
 USAGE
-  $ notion-cli block retrieve children BLOCK_ID
+  $ notion-cli block retrieve children BLOCK_ID [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output
+    csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 ARGUMENTS
   BLOCK_ID  block_id or page_id
+
+FLAGS
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Retrieve block children
@@ -178,10 +282,21 @@ Update a block
 
 ```
 USAGE
-  $ notion-cli block u BLOCK_ID [-a]
+  $ notion-cli block u BLOCK_ID [-a] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -a, --archived
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Update a block
@@ -199,10 +314,21 @@ Update a block
 
 ```
 USAGE
-  $ notion-cli block update BLOCK_ID [-a]
+  $ notion-cli block update BLOCK_ID [-a] [-r] [--columns <value> | -x] [--sort <value>] [--filter <value>]
+    [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
   -a, --archived
+  -r, --raw          output raw json
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   Update a block
