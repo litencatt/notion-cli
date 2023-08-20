@@ -47,7 +47,19 @@ EXAMPLES
 
   Create a database with a specific page_id
 
-    $ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d
+    $ notion-cli db create PAGE_ID
+
+  Create a database with a specific page_id and title
+
+    $ notion-cli db create PAGE_ID -t 'My Database'
+
+  Create a database with a specific page_id and output raw json
+
+    $ notion-cli db create PAGE_ID -r
+
+  Create a database with a specific page_id and output raw json with title
+
+    $ notion-cli db create PAGE_ID -t 'My Database' -r
 ```
 
 ## `notion-cli db create PAGE_ID`
@@ -85,7 +97,19 @@ EXAMPLES
 
   Create a database with a specific page_id
 
-    $ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d
+    $ notion-cli db create PAGE_ID
+
+  Create a database with a specific page_id and title
+
+    $ notion-cli db create PAGE_ID -t 'My Database'
+
+  Create a database with a specific page_id and output raw json
+
+    $ notion-cli db create PAGE_ID -r
+
+  Create a database with a specific page_id and output raw json with title
+
+    $ notion-cli db create PAGE_ID -t 'My Database' -r
 ```
 
 
@@ -228,7 +252,7 @@ EXAMPLES
 
   Retrieve a database via database_id
 
-    $ notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d
+    $ notion-cli db retrieve DATABSE_ID
 ```
 
 ## `notion-cli db retrieve [DATABASE_ID]`
@@ -265,7 +289,7 @@ EXAMPLES
 
   Retrieve a database via database_id
 
-    $ notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d
+    $ notion-cli db retrieve DATABSE_ID
 ```
 
 
@@ -306,6 +330,14 @@ EXAMPLES
   Update a database with a specific database_id
 
     $ notion-cli db update DATABASE_ID
+
+  Update a database with a specific database_id and title
+
+    $ notion-cli db update DATABASE_ID -t 'My Database'
+
+  Update a database with a specific database_id and output raw json
+
+    $ notion-cli db update DATABASE_ID -r
 ```
 
 ## `notion-cli db update [DATABASE_ID]`
@@ -344,6 +376,14 @@ EXAMPLES
   Update a database with a specific database_id
 
     $ notion-cli db update DATABASE_ID
+
+  Update a database with a specific database_id and title
+
+    $ notion-cli db update DATABASE_ID -t 'My Database'
+
+  Update a database with a specific database_id and output raw json
+
+    $ notion-cli db update DATABASE_ID -r
 ```
 
 

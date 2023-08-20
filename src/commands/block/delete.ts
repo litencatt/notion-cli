@@ -14,7 +14,14 @@ export default class BlockDelete extends Command {
   static aliases: string[] = ['block:d']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    {
+      description: 'Delete a block',
+      command: `$ notion-cli block delete BLOCK_ID`,
+    },
+    {
+      description: 'Delete a block and output raw json',
+      command: `$ notion-cli block delete BLOCK_ID -r`,
+    },
   ]
 
   static args = {

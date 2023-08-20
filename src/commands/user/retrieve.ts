@@ -11,7 +11,14 @@ export default class UserRetrieve extends Command {
   static aliases: string[] = ['user:r']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    {
+      description: 'Retrieve a user',
+      command: `$ notion-cli user retrieve USER_ID`,
+    },
+    {
+      description: 'Retrieve a user and output raw json',
+      command: `$ notion-cli user retrieve USER_ID -r`,
+    }
   ]
 
   static args = {
