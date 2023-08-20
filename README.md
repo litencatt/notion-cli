@@ -131,7 +131,7 @@ $ docker pull ghcr.io/litencatt/notion-cli
 
 ## Supported API and functions
 
-Endpoint | API | Support | multi-format | interactive mode
+Endpoint | API | Support | multi-format* | interactive mode
 -- | -- | -- | -- | --
 Authentication | Create a token |   |   |  
 Blocks | Append  a block children | o | o |  
