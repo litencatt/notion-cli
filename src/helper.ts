@@ -554,10 +554,8 @@ export const getBlockPlainText = (
       case 'file':
       case 'image':
         if (row[row.type].type == 'file') {
-          // @ts-ignore
           return row[row.type].file.url
         } else {
-          // @ts-ignore
           return row[row.type].external.url
         }
       case 'link_preview':
