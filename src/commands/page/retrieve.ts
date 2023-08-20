@@ -43,22 +43,24 @@ export default class PageRetrieve extends Command {
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(PageRetrieve)
 
+    if (flags.markdown) {
+      const n2m = new NotionToMarkdown({ notionClient: notion.client })
+      const mdBlocks = await n2m.pageToMarkdown(args.page_id)
+      const mdString = n2m.toMarkdownString(mdBlocks)
+      console.log(mdString.parent)
+      this.exit(0)
+    }
+
     const pageProps: GetPageParameters = {
       page_id: args.page_id,
     }
+
     if (flags.filter_properties) {
       pageProps.filter_properties = flags.filter_properties.split(',')
     }
     const res = await notion.retrievePage(pageProps)
     if (flags.raw) {
       outputRawJson(res)
-      this.exit(0)
-    }
-    if (flags.markdown) {
-      const n2m = new NotionToMarkdown({ notionClient: notion.client })
-      const mdBlocks = await n2m.pageToMarkdown(args.page_id)
-      const mdString = n2m.toMarkdownString(mdBlocks)
-      console.log(mdString.parent)
       this.exit(0)
     }
 
