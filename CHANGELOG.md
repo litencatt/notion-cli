@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.13.5](https://github.com/litencatt/notion-cli/compare/v0.13.4...v0.13.5) - 2023-08-20
+- Return true if find by @litencatt in https://github.com/litencatt/notion-cli/pull/215
+
 ## [v0.13.4](https://github.com/litencatt/notion-cli/compare/v0.13.3...v0.13.4) - 2023-08-18
 - Fix response handling of object title is empty  by @litencatt in https://github.com/litencatt/notion-cli/pull/213
 
