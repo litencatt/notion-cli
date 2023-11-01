@@ -880,10 +880,10 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
-"@types/prompts@^2.4.4":
-  version "2.4.4"
-  resolved "https://registry.yarnpkg.com/@types/prompts/-/prompts-2.4.4.tgz#dd5a1d41cb1bcd0fc4464bf44a0c8354f36ea735"
-  integrity sha512-p5N9uoTH76lLvSAaYSZtBCdEXzpOOufsRjnhjVSrZGXikVGHX9+cc9ERtHRV4hvBKHyZb1bg4K+56Bd2TqUn4A==
+"@types/prompts@^2.4.7":
+  version "2.4.7"
+  resolved "https://registry.yarnpkg.com/@types/prompts/-/prompts-2.4.7.tgz#d9f2e53b00639721eddc949289843cef4fb1679b"
+  integrity sha512-5zTamE+QQM4nR6Ab3yHK+ovWuhLJXaa2ZLt3mT1en8U3ubWtjVT1vXDaVFC2+cL89uVn7Y+gIq5B3IcVvBl5xQ==
   dependencies:
     "@types/node" "*"
     kleur "^3.0.3"
