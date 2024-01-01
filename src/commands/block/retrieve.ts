@@ -14,7 +14,14 @@ export default class BlockRetrieve extends Command {
   static aliases: string[] = ['block:r']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %> BLOCK_ID',
+    {
+      description: 'Retrieve a block',
+      command: `$ notion-cli block retrieve BLOCK_ID`,
+    },
+    {
+      description: 'Retrieve a block and output raw json',
+      command: `$ notion-cli block retrieve BLOCK_ID -r`,
+    }
   ]
 
   static args = {

@@ -19,7 +19,30 @@ export default class PageCreate extends Command {
   static aliases: string[] = ['page:c']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %> -f ./path/to/source.md -p <parent_page_id>',
+    {
+      description: 'Create a page via interactive mode',
+      command: `$ notion-cli page create`,
+    },
+    {
+      description: 'Create a page with a specific parent_page_id',
+      command: `$ notion-cli page create -p PARENT_PAGE_ID`,
+    },
+    {
+      description: 'Create a page with a specific parent_db_id',
+      command: `$ notion-cli page create -d PARENT_DB_ID`,
+    },
+    {
+      description: 'Create a page with a specific source markdown file and parent_page_id',
+      command: `$ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID`,
+    },
+    {
+      description: 'Create a page with a specific source markdown file and parent_db_id',
+      command: `$ notion-cli page create -f ./path/to/source.md -d PARENT_DB_ID`,
+    },
+    {
+      description: 'Create a page with a specific source markdown file and output raw json with parent_page_id',
+      command: `$ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID -r`,
+    }
   ]
 
   static flags = {

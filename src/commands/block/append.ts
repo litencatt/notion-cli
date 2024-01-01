@@ -15,7 +15,18 @@ export default class BlockAppend extends Command {
   static aliases: string[] = ['block:a']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %> BLOCK_ID CHILDREN AFTER',
+    {
+      description: 'Append block children',
+      command: `$ notion-cli block append BLOCK_ID -c '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello world!"}}]}}]'`,
+    },
+    {
+      description: 'Append block children after a block',
+      command: `$ notion-cli block append BLOCK_ID -c '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello world!"}}]}}]' -a BLOCK_ID`,
+    },
+    {
+      description: 'Append block children and output raw json',
+      command: `$ notion-cli block append BLOCK_ID -c '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello world!"}}]}}]' -r`,
+    },
   ]
 
   static args = {

@@ -43,7 +43,29 @@ ALIASES
   $ notion-cli page c
 
 EXAMPLES
-  $ notion-cli page c -f ./path/to/source.md -p <parent_page_id>
+  Create a page via interactive mode
+
+    $ notion-cli page create
+
+  Create a page with a specific parent_page_id
+
+    $ notion-cli page create -p PARENT_PAGE_ID
+
+  Create a page with a specific parent_db_id
+
+    $ notion-cli page create -d PARENT_DB_ID
+
+  Create a page with a specific source markdown file and parent_page_id
+
+    $ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID
+
+  Create a page with a specific source markdown file and parent_db_id
+
+    $ notion-cli page create -f ./path/to/source.md -d PARENT_DB_ID
+
+  Create a page with a specific source markdown file and output raw json with parent_page_id
+
+    $ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID -r
 ```
 
 ## `notion-cli page create`
@@ -77,7 +99,29 @@ ALIASES
   $ notion-cli page c
 
 EXAMPLES
-  $ notion-cli page create -f ./path/to/source.md -p <parent_page_id>
+  Create a page via interactive mode
+
+    $ notion-cli page create
+
+  Create a page with a specific parent_page_id
+
+    $ notion-cli page create -p PARENT_PAGE_ID
+
+  Create a page with a specific parent_db_id
+
+    $ notion-cli page create -d PARENT_DB_ID
+
+  Create a page with a specific source markdown file and parent_page_id
+
+    $ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID
+
+  Create a page with a specific source markdown file and parent_db_id
+
+    $ notion-cli page create -f ./path/to/source.md -d PARENT_DB_ID
+
+  Create a page with a specific source markdown file and output raw json with parent_page_id
+
+    $ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID -r
 ```
 
 
@@ -112,9 +156,25 @@ ALIASES
   $ notion-cli page r
 
 EXAMPLES
-  $ notion-cli page r
+  Retrieve a page and output table
 
-  $ notion-cli page r -p title,Z%3ESr
+    $ notion-cli page retrieve PAGE_ID
+
+  Retrieve a page and output raw json
+
+    $ notion-cli page retrieve PAGE_ID -r
+
+  Retrieve a page and output markdown
+
+    $ notion-cli page retrieve PAGE_ID -m
+
+  Retrieve a page with filter properties
+
+    $ notion-cli page retrieve PAGE_ID -p title,Z%3ESr
+
+  Retrieve a page with filter properties and output raw json
+
+    $ notion-cli page retrieve PAGE_ID -p title,Z%3ESr -r
 ```
 
 ## `notion-cli page r pi PAGE_ID PROPERTY_ID`
@@ -132,7 +192,13 @@ ALIASES
   $ notion-cli page r pi
 
 EXAMPLES
-  $ notion-cli page r pi <page_id> <page_property_id>
+  Retrieve a page property item
+
+    $ notion-cli page retrieve:property_item PAGE_ID PROPERTY_ID
+
+  Retrieve a page property item and output raw json
+
+    $ notion-cli page retrieve:property_item PAGE_ID PROPERTY_ID -r
 ```
 
 ## `notion-cli page retrieve PAGE_ID`
@@ -165,9 +231,25 @@ ALIASES
   $ notion-cli page r
 
 EXAMPLES
-  $ notion-cli page retrieve
+  Retrieve a page and output table
 
-  $ notion-cli page retrieve -p title,Z%3ESr
+    $ notion-cli page retrieve PAGE_ID
+
+  Retrieve a page and output raw json
+
+    $ notion-cli page retrieve PAGE_ID -r
+
+  Retrieve a page and output markdown
+
+    $ notion-cli page retrieve PAGE_ID -m
+
+  Retrieve a page with filter properties
+
+    $ notion-cli page retrieve PAGE_ID -p title,Z%3ESr
+
+  Retrieve a page with filter properties and output raw json
+
+    $ notion-cli page retrieve PAGE_ID -p title,Z%3ESr -r
 ```
 
 
@@ -187,7 +269,13 @@ ALIASES
   $ notion-cli page r pi
 
 EXAMPLES
-  $ notion-cli page retrieve property_item <page_id> <page_property_id>
+  Retrieve a page property item
+
+    $ notion-cli page retrieve:property_item PAGE_ID PROPERTY_ID
+
+  Retrieve a page property item and output raw json
+
+    $ notion-cli page retrieve:property_item PAGE_ID PROPERTY_ID -r
 ```
 
 
@@ -222,11 +310,29 @@ ALIASES
   $ notion-cli page u
 
 EXAMPLES
-  $ notion-cli page u <page_id>
+  Update a page and output table
 
-  $ notion-cli page u <page_id> -a
+    $ notion-cli page update PAGE_ID
 
-  $ notion-cli page u <page_id> -u
+  Update a page and output raw json
+
+    $ notion-cli page update PAGE_ID -r
+
+  Update a page and archive
+
+    $ notion-cli page update PAGE_ID -a
+
+  Update a page and un archive
+
+    $ notion-cli page update PAGE_ID -u
+
+  Update a page and archive and output raw json
+
+    $ notion-cli page update PAGE_ID -a -r
+
+  Update a page and un archive and output raw json
+
+    $ notion-cli page update PAGE_ID -u -r
 ```
 
 ## `notion-cli page update PAGE_ID`
@@ -259,11 +365,29 @@ ALIASES
   $ notion-cli page u
 
 EXAMPLES
-  $ notion-cli page update <page_id>
+  Update a page and output table
 
-  $ notion-cli page update <page_id> -a
+    $ notion-cli page update PAGE_ID
 
-  $ notion-cli page update <page_id> -u
+  Update a page and output raw json
+
+    $ notion-cli page update PAGE_ID -r
+
+  Update a page and archive
+
+    $ notion-cli page update PAGE_ID -a
+
+  Update a page and un archive
+
+    $ notion-cli page update PAGE_ID -u
+
+  Update a page and archive and output raw json
+
+    $ notion-cli page update PAGE_ID -a -r
+
+  Update a page and un archive and output raw json
+
+    $ notion-cli page update PAGE_ID -u -r
 ```
 
 

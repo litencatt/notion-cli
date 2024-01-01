@@ -16,7 +16,38 @@ export default class Search extends Command {
   static description = 'Search by title'
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    {
+      description: 'Search by title',
+      command: `$ notion-cli search -q 'My Page'`,
+    },
+    {
+      description: 'Search by title and output csv',
+      command: `$ notion-cli search -q 'My Page' --csv`,
+    },
+    {
+      description: 'Search by title and output raw json',
+      command: `$ notion-cli search -q 'My Page' -r`,
+    },
+    {
+      description: 'Search by title and output table with specific columns',
+      command: `$ notion-cli search -q 'My Page' --columns=title,object`,
+    },
+    {
+      description: 'Search by title and output table with specific columns and sort direction',
+      command: `$ notion-cli search -q 'My Page' --columns=title,object -d asc`,
+    },
+    {
+      description: 'Search by title and output table with specific columns and sort direction and page size',
+      command: `$ notion-cli search -q 'My Page' -columns=title,object -d asc -s 10`,
+    },
+    {
+      description: 'Search by title and output table with specific columns and sort direction and page size and start cursor',
+      command: `$ notion-cli search -q 'My Page' --columns=title,object -d asc -s 10 -c START_CURSOR_ID`,
+    },
+    {
+      description: 'Search by title and output table with specific columns and sort direction and page size and start cursor and property',
+      command: `$ notion-cli search -q 'My Page' --columns=title,object -d asc -s 10 -c START_CURSOR_ID -p page`,
+    }
   ]
 
   static flags = {

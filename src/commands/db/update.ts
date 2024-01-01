@@ -28,6 +28,14 @@ export default class DbUpdate extends Command {
       description: 'Update a database with a specific database_id',
       command: `$ notion-cli db update DATABASE_ID`,
     },
+    {
+      description: 'Update a database with a specific database_id and title',
+      command: `$ notion-cli db update DATABASE_ID -t 'My Database'`,
+    },
+    {
+      description: 'Update a database with a specific database_id and output raw json',
+      command: `$ notion-cli db update DATABASE_ID -r`,
+    }
   ]
 
   static args = {

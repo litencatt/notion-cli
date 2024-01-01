@@ -24,7 +24,7 @@ export default class DbRetrieve extends Command {
     },
     {
       description: 'Retrieve a database via database_id',
-      command: 'notion-cli db retrieve f929e92f257c4d8bb9d0c176ce24814d',
+      command: 'notion-cli db retrieve DATABSE_ID',
     }
   ]
 

@@ -8,7 +8,14 @@ export default class PageRetrievePropertyItem extends Command {
   static aliases: string[] = ['page:r:pi']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %> <page_id> <page_property_id>',
+    {
+      description: 'Retrieve a page property item',
+      command: `$ notion-cli page retrieve:property_item PAGE_ID PROPERTY_ID`,
+    },
+    {
+      description: 'Retrieve a page property item and output raw json',
+      command: `$ notion-cli page retrieve:property_item PAGE_ID PROPERTY_ID -r`,
+    },
   ]
 
   static args = {

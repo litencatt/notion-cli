@@ -15,9 +15,30 @@ export default class PageUpdate extends Command {
   static aliases: string[] = ['page:u']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %> <page_id>',
-    '<%= config.bin %> <%= command.id %> <page_id> -a',
-    '<%= config.bin %> <%= command.id %> <page_id> -u',
+    {
+      description: 'Update a page and output table',
+      command: `$ notion-cli page update PAGE_ID`,
+    },
+    {
+      description: 'Update a page and output raw json',
+      command: `$ notion-cli page update PAGE_ID -r`,
+    },
+    {
+      description: 'Update a page and archive',
+      command: `$ notion-cli page update PAGE_ID -a`,
+    },
+    {
+      description: 'Update a page and un archive',
+      command: `$ notion-cli page update PAGE_ID -u`,
+    },
+    {
+      description: 'Update a page and archive and output raw json',
+      command: `$ notion-cli page update PAGE_ID -a -r`,
+    },
+    {
+      description: 'Update a page and un archive and output raw json',
+      command: `$ notion-cli page update PAGE_ID -u -r`,
+    }
   ]
 
   static args = {
