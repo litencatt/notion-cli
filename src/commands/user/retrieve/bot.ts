@@ -1,7 +1,5 @@
-import { Args, Command, Flags, ux} from '@oclif/core'
-import {
-  UserObjectResponse
-} from '@notionhq/client/build/src/api-endpoints'
+import { Args, Command, Flags, ux } from '@oclif/core'
+import { UserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../../notion'
 import { outputRawJson } from '../../../helper'
 
@@ -18,7 +16,7 @@ export default class UserRetrieveBot extends Command {
     {
       description: 'Retrieve a bot user and output raw json',
       command: `$ notion-cli user retrieve:bot -r`,
-    }
+    },
   ]
 
   static args = {}
@@ -32,7 +30,7 @@ export default class UserRetrieveBot extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(UserRetrieveBot)
+    const { args, flags } = await this.parse(UserRetrieveBot)
     const res = await notion.botUser()
     if (flags.raw) {
       outputRawJson(res)
@@ -51,13 +49,13 @@ export default class UserRetrieveBot extends Command {
             return row.person
           }
           return row.bot
-        }
+        },
       },
       avatar_url: {},
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

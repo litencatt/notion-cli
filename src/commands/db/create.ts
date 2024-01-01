@@ -1,16 +1,12 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import {
   CreateDatabaseParameters,
   DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
-import {
-  onCancel,
-  outputRawJson,
-  getDbTitle,
-} from '../../helper'
+import { onCancel, outputRawJson, getDbTitle } from '../../helper'
 
-const  prompts  = require('prompts')
+const prompts = require('prompts')
 
 export default class DbCreate extends Command {
   static description = 'Create a database'
@@ -37,17 +33,17 @@ export default class DbCreate extends Command {
     {
       description: 'Create a database with a specific page_id and output raw json with title',
       command: `$ notion-cli db create PAGE_ID -t 'My Database' -r`,
-    }
+    },
   ]
 
   static args = {
-    page_id: Args.string({required: true}),
+    page_id: Args.string({ required: true }),
   }
 
   static flags = {
     title: Flags.string({
       char: 't',
-      description: 'new database title'
+      description: 'new database title',
     }),
     raw: Flags.boolean({
       char: 'r',
@@ -62,11 +58,16 @@ export default class DbCreate extends Command {
 
     let dbTitle = flags.title
     if (dbTitle == undefined) {
-      const dbPropPromptResult = await prompts([{
-        type: 'text',
-        name: 'title',
-        message: 'Please input database title',
-      }], { onCancel })
+      const dbPropPromptResult = await prompts(
+        [
+          {
+            type: 'text',
+            name: 'title',
+            message: 'Please input database title',
+          },
+        ],
+        { onCancel }
+      )
       console.log(dbPropPromptResult)
 
       dbTitle = dbPropPromptResult.title
@@ -83,13 +84,13 @@ export default class DbCreate extends Command {
           type: 'text',
           text: {
             content: dbTitle,
-          }
-        }
+          },
+        },
       ],
       properties: {
         Name: {
-          title: {}
-        }
+          title: {},
+        },
       },
     }
 
@@ -111,7 +112,7 @@ export default class DbCreate extends Command {
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

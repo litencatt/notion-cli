@@ -1,7 +1,5 @@
-import {expect, test} from '@oclif/test'
-import {
-  BlockObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints'
+import { expect, test } from '@oclif/test'
+import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import * as helper from '../src/helper'
 
 const response = (type: BlockObjectResponse['type']): any => {
@@ -143,31 +141,30 @@ describe('getBlockPlainText', () => {
   })
   describe('type has rich_text object', () => {
     const richTextIncludesObjects = [
-      "bulleted_list_item",
-      "callout",
-      "code",
-      "heading_1",
-      "heading_2",
-      "heading_3",
-      "numbered_list_item",
-      "paragraph",
-      "quote",
-      "to_do",
-      "toggle",
+      'bulleted_list_item',
+      'callout',
+      'code',
+      'heading_1',
+      'heading_2',
+      'heading_3',
+      'numbered_list_item',
+      'paragraph',
+      'quote',
+      'to_do',
+      'toggle',
     ]
-    richTextIncludesObjects.forEach(type => {
+    richTextIncludesObjects.forEach((type) => {
       const res = response(type as BlockObjectResponse['type'])
       res[type] = {
         rich_text: [
           {
             type: 'text',
             plain_text: `${type} dummy text`,
-          }
-        ]
+          },
+        ],
       }
       test.it(() => {
-        expect(helper.getBlockPlainText(res))
-          .to.equal(res[type].rich_text[0].plain_text)
+        expect(helper.getBlockPlainText(res)).to.equal(res[type].rich_text[0].plain_text)
       })
     })
   })

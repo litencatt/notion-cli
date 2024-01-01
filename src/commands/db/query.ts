@@ -1,4 +1,4 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import * as notion from '../../notion'
 import {
   PageObjectResponse,
@@ -8,18 +8,18 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as dayjs from 'dayjs'
 import {
-    buildFilterPagePrompt,
-    buildDatabaseQueryFilter,
-    getDbChoices,
-    getPromptChoices,
-    getFilterFields,
-    onCancel,
-    outputRawJson,
-    getDbTitle,
-    getPageTitle,
-  } from '../../helper'
+  buildFilterPagePrompt,
+  buildDatabaseQueryFilter,
+  getDbChoices,
+  getPromptChoices,
+  getFilterFields,
+  onCancel,
+  outputRawJson,
+  getDbTitle,
+  getPageTitle,
+} from '../../helper'
 
-const  prompts  = require('prompts')
+const prompts = require('prompts')
 
 export default class DbQuery extends Command {
   static description = 'Query a database'
@@ -56,11 +56,11 @@ export default class DbQuery extends Command {
   static flags = {
     rawFilter: Flags.string({
       char: 'a',
-      description: 'JSON stringified filter string'
+      description: 'JSON stringified filter string',
     }),
     fileFilter: Flags.string({
       char: 'f',
-      description: 'JSON filter file path'
+      description: 'JSON filter file path',
     }),
     raw: Flags.boolean({
       char: 'r',
@@ -75,12 +75,17 @@ export default class DbQuery extends Command {
     let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
-      const promptSelectedDbResult = await prompts([{
-        message: 'Select a database to query',
-        type: 'autocomplete',
-        name: 'database_id',
-        choices: dbChoices
-      }], { onCancel })
+      const promptSelectedDbResult = await prompts(
+        [
+          {
+            message: 'Select a database to query',
+            type: 'autocomplete',
+            name: 'database_id',
+            choices: dbChoices,
+          },
+        ],
+        { onCancel }
+      )
       if (process.env.DEBUG) {
         this.log(promptSelectedDbResult)
       }
@@ -99,73 +104,89 @@ export default class DbQuery extends Command {
       } else {
         let CombineOperator = undefined
 
-        const promptAddFilterResult = await prompts([{
-          message: 'Add filter?',
-          type: 'confirm',
-          name: 'value',
-          initial: true
-        }], { onCancel })
+        const promptAddFilterResult = await prompts(
+          [
+            {
+              message: 'Add filter?',
+              type: 'confirm',
+              name: 'value',
+              initial: true,
+            },
+          ],
+          { onCancel }
+        )
 
         const selectedDb = await notion.retrieveDb(databaseId)
         const dbPropsChoices = await getPromptChoices(selectedDb)
         if (process.env.DEBUG) {
-          console.dir(dbPropsChoices, {depth: null})
+          console.dir(dbPropsChoices, { depth: null })
         }
 
         while (promptAddFilterResult.value) {
           // Choice the operator first time and keep using it.
           if (filter != undefined && CombineOperator == undefined) {
-            const promptAndOrPropResult = await prompts([{
-              message: 'Select and/or',
-              type: 'autocomplete',
-              name: 'operator',
-              choices: [
-                { title: 'and'},
-                { title: 'or'},
-              ]
-            }], { onCancel })
+            const promptAndOrPropResult = await prompts(
+              [
+                {
+                  message: 'Select and/or',
+                  type: 'autocomplete',
+                  name: 'operator',
+                  choices: [{ title: 'and' }, { title: 'or' }],
+                },
+              ],
+              { onCancel }
+            )
             // rebuild filter object with choose operator
             const tmp = filter
             CombineOperator = promptAndOrPropResult.operator
-            filter = {[CombineOperator]: [tmp]}
+            filter = { [CombineOperator]: [tmp] }
             if (process.env.DEBUG) {
-              console.dir(filter, {depth: null})
+              console.dir(filter, { depth: null })
             }
           }
 
-          const promptSelectFilterPropResult = await prompts([{
-            message: 'Select a property for filter by',
-            type: 'autocomplete',
-            name: 'property',
-            choices: dbPropsChoices
-          }], { onCancel })
+          const promptSelectFilterPropResult = await prompts(
+            [
+              {
+                message: 'Select a property for filter by',
+                type: 'autocomplete',
+                name: 'property',
+                choices: dbPropsChoices,
+              },
+            ],
+            { onCancel }
+          )
           // 選ばれたプロパティのタイプに応じて次のプロンプト情報を作成する.
           // 同一DBでプロパティ名は必ずユニークなので対象プロパティが確定する
-          const selectedProp = Object.entries(selectedDb.properties)
-            .find(([_, prop]) => {
-              // prompt result => "prperty_name <property_type>"
-              return prop.name == promptSelectFilterPropResult.property.split(" <")[0]
-            })
+          const selectedProp = Object.entries(selectedDb.properties).find(([_, prop]) => {
+            // prompt result => "prperty_name <property_type>"
+            return prop.name == promptSelectFilterPropResult.property.split(' <')[0]
+          })
           if (process.env.DEBUG) {
-            console.dir(selectedProp[1], {depth: null})
+            console.dir(selectedProp[1], { depth: null })
           }
           if (selectedProp[1].type == undefined) {
-            this.logToStderr("selectedProp.type is undefined")
+            this.logToStderr('selectedProp.type is undefined')
             return
           }
 
           const fieldChoices = await getFilterFields(selectedProp[1].type)
           if (fieldChoices == null) {
-            this.logToStderr("selected property is not supported to filter")
+            this.logToStderr('selected property is not supported to filter')
             continue
           }
 
-          const promptFieldResult = await prompts([{
-            message: 'Select a field of filter',
-            type: 'autocomplete',
-            name: 'value',
-            choices: fieldChoices
-          }], { onCancel })
+          const promptFieldResult = await prompts(
+            [
+              {
+                message: 'Select a field of filter',
+                type: 'autocomplete',
+                name: 'value',
+                choices: fieldChoices,
+              },
+            ],
+            { onCancel }
+          )
           const filterField = promptFieldResult.value
           if (process.env.DEBUG) {
             console.log(`filterField: ${filterField}`)
@@ -187,7 +208,7 @@ export default class DbQuery extends Command {
             filterValue
           )
           if (filterObj == null) {
-            this.logToStderr("buildDatabaseQueryFilter error")
+            this.logToStderr('buildDatabaseQueryFilter error')
             this.exit(1)
           }
 
@@ -201,39 +222,49 @@ export default class DbQuery extends Command {
             console.log(filter)
           }
 
-          const promptConfirmAddFilterFinishResult = await prompts([{
-            message: 'Finish add filter?',
-            type: 'confirm',
-            name: 'value',
-            initial: true
-          }], { onCancel })
+          const promptConfirmAddFilterFinishResult = await prompts(
+            [
+              {
+                message: 'Finish add filter?',
+                type: 'confirm',
+                name: 'value',
+                initial: true,
+              },
+            ],
+            { onCancel }
+          )
           if (promptConfirmAddFilterFinishResult.value) {
             break
           }
         }
       }
-    } catch(e) {
-      this.error(e, {exit: 1})
+    } catch (e) {
+      this.error(e, { exit: 1 })
     }
-    if (filter != undefined && (flags.rawFilter == undefined && flags.fileFilter == undefined)) {
-      console.log("")
-      console.log("Filter:")
-      console.dir(filter, {depth: null})
-      console.log("")
+    if (filter != undefined && flags.rawFilter == undefined && flags.fileFilter == undefined) {
+      console.log('')
+      console.log('Filter:')
+      console.dir(filter, { depth: null })
+      console.log('')
 
-      const promptConfirmSaveFilterResult = await prompts([{
-        message: 'Save this filter to a file?',
-        type: 'confirm',
-        name: 'value',
-        initial: false
-      }], { onCancel })
+      const promptConfirmSaveFilterResult = await prompts(
+        [
+          {
+            message: 'Save this filter to a file?',
+            type: 'confirm',
+            name: 'value',
+            initial: false,
+          },
+        ],
+        { onCancel }
+      )
       if (promptConfirmSaveFilterResult.value) {
         const promptFileNameResult = await prompts({
           message: 'Filename',
           type: 'text',
           name: 'filename',
-          initial: dayjs().format('YYYYMMDD_HHmmss')
-        });
+          initial: dayjs().format('YYYYMMDD_HHmmss'),
+        })
         const fileName = `${promptFileNameResult.filename}.json`
         fs.writeFileSync(fileName, JSON.stringify(filter, null, 2))
         this.logToStderr(`Saved to ${fileName}\n`)
@@ -262,7 +293,7 @@ export default class DbQuery extends Command {
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table(res, columns, options)
   }

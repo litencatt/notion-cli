@@ -1,12 +1,7 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import * as notion from '../../notion'
-import {
-  BlockObjectResponse
-} from '@notionhq/client/build/src/api-endpoints'
-import {
-  getBlockPlainText,
-  outputRawJson
-} from '../../helper'
+import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { getBlockPlainText, outputRawJson } from '../../helper'
 
 export default class BlockDelete extends Command {
   static description = 'Delete a block'
@@ -25,7 +20,7 @@ export default class BlockDelete extends Command {
   ]
 
   static args = {
-    block_id: Args.string({required: true}),
+    block_id: Args.string({ required: true }),
   }
 
   static flags = {
@@ -37,7 +32,7 @@ export default class BlockDelete extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(BlockDelete)
+    const { args, flags } = await this.parse(BlockDelete)
 
     const res = await notion.deleteBlock(args.block_id)
     if (flags.raw) {
@@ -53,12 +48,12 @@ export default class BlockDelete extends Command {
       content: {
         get: (row: BlockObjectResponse) => {
           return getBlockPlainText(row)
-        }
-      }
+        },
+      },
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

@@ -1,7 +1,5 @@
-import {Command, Flags, ux} from '@oclif/core'
-import {
-  UserObjectResponse
-} from '@notionhq/client/build/src/api-endpoints'
+import { Command, Flags, ux } from '@oclif/core'
+import { UserObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
 import { outputRawJson } from '../../helper'
 
@@ -18,7 +16,7 @@ export default class UserList extends Command {
     {
       description: 'List all users and output raw json',
       command: `$ notion-cli user list -r`,
-    }
+    },
   ]
 
   static flags = {
@@ -30,7 +28,7 @@ export default class UserList extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(UserList)
+    const { args, flags } = await this.parse(UserList)
     const res = await notion.listUser()
     if (flags.raw) {
       outputRawJson(res)
@@ -49,13 +47,13 @@ export default class UserList extends Command {
             return row.person
           }
           return row.bot
-        }
+        },
       },
       avatar_url: {},
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table(res.results, columns, options)
   }

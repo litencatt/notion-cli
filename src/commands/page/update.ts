@@ -1,13 +1,7 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import * as notion from '../../notion'
-import {
-  UpdatePageParameters,
-  PageObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints'
-import {
-    getPageTitle,
-    outputRawJson
-  } from '../../helper'
+import { UpdatePageParameters, PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { getPageTitle, outputRawJson } from '../../helper'
 
 export default class PageUpdate extends Command {
   static description = 'Update a page'
@@ -38,7 +32,7 @@ export default class PageUpdate extends Command {
     {
       description: 'Update a page and un archive and output raw json',
       command: `$ notion-cli page update PAGE_ID -u -r`,
-    }
+    },
   ]
 
   static args = {
@@ -46,8 +40,8 @@ export default class PageUpdate extends Command {
   }
 
   static flags = {
-    archived: Flags.boolean({ char: 'a'}),
-    un_archive: Flags.boolean({ char: 'u'}),
+    archived: Flags.boolean({ char: 'a' }),
+    un_archive: Flags.boolean({ char: 'u' }),
     raw: Flags.boolean({
       char: 'r',
       description: 'output raw json',
@@ -58,7 +52,7 @@ export default class PageUpdate extends Command {
   // NOTE: Support only archived or un archive property for now
   // TODO: Add support for updating a page properties, icon, cover
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(PageUpdate)
+    const { args, flags } = await this.parse(PageUpdate)
     const pageProps: UpdatePageParameters = {
       page_id: args.page_id,
     }
@@ -86,7 +80,7 @@ export default class PageUpdate extends Command {
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }
