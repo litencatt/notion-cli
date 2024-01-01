@@ -45,7 +45,7 @@ export default class DbQuery extends Command {
     },
     {
       description: 'Query a db with a specific database_id and output format',
-      command: `$ notion-cli db query -o csv DATABASE_ID`,
+      command: `$ notion-cli db query --csv DATABASE_ID`,
     },
   ]
 

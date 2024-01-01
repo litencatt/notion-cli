@@ -162,7 +162,7 @@ EXAMPLES
 
   Query a db with a specific database_id and output format
 
-    $ notion-cli db query -o csv DATABASE_ID
+    $ notion-cli db query --csv DATABASE_ID
 ```
 
 ## `notion-cli db query [DATABASE_ID]`
@@ -213,7 +213,7 @@ EXAMPLES
 
   Query a db with a specific database_id and output format
 
-    $ notion-cli db query -o csv DATABASE_ID
+    $ notion-cli db query --csv DATABASE_ID
 ```
 
 
