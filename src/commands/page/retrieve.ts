@@ -1,14 +1,8 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import * as notion from '../../notion'
-import {
-  GetPageParameters,
-  PageObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints'
-import {
-  getPageTitle,
-  outputRawJson
-} from '../../helper'
-import { NotionToMarkdown } from "notion-to-md"
+import { GetPageParameters, PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { getPageTitle, outputRawJson } from '../../helper'
+import { NotionToMarkdown } from 'notion-to-md'
 
 export default class PageRetrieve extends Command {
   static description = 'Retrieve a page'
@@ -45,7 +39,7 @@ export default class PageRetrieve extends Command {
   static flags = {
     filter_properties: Flags.string({
       char: 'p',
-      description: 'Comma separated property id string'
+      description: 'Comma separated property id string',
     }),
     raw: Flags.boolean({
       char: 'r',
@@ -59,7 +53,7 @@ export default class PageRetrieve extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(PageRetrieve)
+    const { args, flags } = await this.parse(PageRetrieve)
 
     if (flags.markdown) {
       const n2m = new NotionToMarkdown({ notionClient: notion.client })
@@ -94,7 +88,7 @@ export default class PageRetrieve extends Command {
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

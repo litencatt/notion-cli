@@ -1,18 +1,13 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import {
   UpdateDatabaseParameters,
   DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { isFullDatabase } from '@notionhq/client';
+import { isFullDatabase } from '@notionhq/client'
 import * as notion from '../../notion'
-import {
-  onCancel,
-  getDbChoices,
-  outputRawJson,
-  getDbTitle,
-} from '../../helper'
+import { onCancel, getDbChoices, outputRawJson, getDbTitle } from '../../helper'
 
-const  prompts  = require('prompts')
+const prompts = require('prompts')
 
 export default class DbUpdate extends Command {
   static description = 'Update a database'
@@ -35,7 +30,7 @@ export default class DbUpdate extends Command {
     {
       description: 'Update a database with a specific database_id and output raw json',
       command: `$ notion-cli db update DATABASE_ID -r`,
-    }
+    },
   ]
 
   static args = {
@@ -45,7 +40,7 @@ export default class DbUpdate extends Command {
   static flags = {
     title: Flags.string({
       char: 't',
-      description: 'New database title'
+      description: 'New database title',
     }),
     raw: Flags.boolean({
       char: 'r',
@@ -60,23 +55,33 @@ export default class DbUpdate extends Command {
     let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
-      const promptSelectedDbResult = await prompts([{
-        type: 'autocomplete',
-        name: 'database_id',
-        message: 'Select a database to update',
-        choices: dbChoices
-      }], { onCancel })
+      const promptSelectedDbResult = await prompts(
+        [
+          {
+            type: 'autocomplete',
+            name: 'database_id',
+            message: 'Select a database to update',
+            choices: dbChoices,
+          },
+        ],
+        { onCancel }
+      )
       console.log(promptSelectedDbResult)
       databaseId = promptSelectedDbResult.database_id
     }
 
     let dbTitle = flags.title
     if (dbTitle == undefined) {
-      const dbPropPromptResult = await prompts([{
-        type: 'text',
-        name: 'title',
-        message: 'Please input new database title',
-      }], { onCancel })
+      const dbPropPromptResult = await prompts(
+        [
+          {
+            type: 'text',
+            name: 'title',
+            message: 'Please input new database title',
+          },
+        ],
+        { onCancel }
+      )
       dbTitle = dbPropPromptResult.title
     }
 
@@ -88,9 +93,9 @@ export default class DbUpdate extends Command {
           type: 'text',
           text: {
             content: dbTitle,
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
 
     const res = await notion.updateDb(dbProps)
@@ -112,7 +117,7 @@ export default class DbUpdate extends Command {
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

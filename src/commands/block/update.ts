@@ -1,13 +1,10 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import * as notion from '../../notion'
 import {
   UpdateBlockParameters,
   BlockObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import {
-  outputRawJson,
-  getBlockPlainText,
-} from '../../helper'
+import { outputRawJson, getBlockPlainText } from '../../helper'
 
 export default class BlockUpdate extends Command {
   static description = 'Update a block'
@@ -22,15 +19,15 @@ export default class BlockUpdate extends Command {
     {
       description: 'Update a block and output raw json',
       command: `$ notion-cli block update BLOCK_ID -r`,
-    }
+    },
   ]
 
   static args = {
-    block_id: Args.string({descriptin: 'block_id', required: true}),
+    block_id: Args.string({ descriptin: 'block_id', required: true }),
   }
 
   static flags = {
-    archived: Flags.boolean({ char: 'a'}),
+    archived: Flags.boolean({ char: 'a' }),
     raw: Flags.boolean({
       char: 'r',
       description: 'output raw json',
@@ -40,7 +37,7 @@ export default class BlockUpdate extends Command {
 
   // TODO: Add support for updating block type objects
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(BlockUpdate)
+    const { args, flags } = await this.parse(BlockUpdate)
     // Support only archived for now
     const params: UpdateBlockParameters = {
       block_id: args.block_id,
@@ -60,12 +57,12 @@ export default class BlockUpdate extends Command {
       content: {
         get: (row: BlockObjectResponse) => {
           return getBlockPlainText(row)
-        }
-      }
+        },
+      },
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

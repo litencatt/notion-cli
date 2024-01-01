@@ -1,16 +1,9 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
-import {
-  DatabaseObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints'
+import { Args, Command, Flags, ux } from '@oclif/core'
+import { DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import * as notion from '../../notion'
-import {
-  onCancel,
-  getDbChoices,
-  outputRawJson,
-  getDbTitle,
-} from '../../helper'
+import { onCancel, getDbChoices, outputRawJson, getDbTitle } from '../../helper'
 
-const  prompts  = require('prompts')
+const prompts = require('prompts')
 
 export default class DbRetrieve extends Command {
   static description = 'Retrieve a database'
@@ -25,7 +18,7 @@ export default class DbRetrieve extends Command {
     {
       description: 'Retrieve a database via database_id',
       command: 'notion-cli db retrieve DATABSE_ID',
-    }
+    },
   ]
 
   static args = {
@@ -46,12 +39,17 @@ export default class DbRetrieve extends Command {
     let databaseId = args.database_id
     if (databaseId == undefined) {
       const dbChoices = await getDbChoices()
-      const promptSelectedDbResult = await prompts([{
-        type: 'autocomplete',
-        name: 'database_id',
-        message: 'Select a database',
-        choices: dbChoices
-      }], { onCancel })
+      const promptSelectedDbResult = await prompts(
+        [
+          {
+            type: 'autocomplete',
+            name: 'database_id',
+            message: 'Select a database',
+            choices: dbChoices,
+          },
+        ],
+        { onCancel }
+      )
       if (process.env.DEBUG) {
         console.log(promptSelectedDbResult)
       }
@@ -77,7 +75,7 @@ export default class DbRetrieve extends Command {
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

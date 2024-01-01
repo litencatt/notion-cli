@@ -31,7 +31,7 @@ export const queryDb = async (
     const { results, next_cursor } = await client.databases.query({
       database_id: databaseId,
       filter: f,
-      start_cursor: cursor
+      start_cursor: cursor,
     })
     pages.push(...results)
     if (!next_cursor) {
@@ -49,15 +49,11 @@ export const createDb = async (
   return await client.databases.create(dbProps)
 }
 
-export const updateDb = async (
-  dbProps: UpdateDatabaseParameters
-): Promise<GetDatabaseResponse> => {
+export const updateDb = async (dbProps: UpdateDatabaseParameters): Promise<GetDatabaseResponse> => {
   return await client.databases.update(dbProps)
 }
 
-export const retrieveDb = async (
-  databaseId: string,
-): Promise<GetDatabaseResponse> => {
+export const retrieveDb = async (databaseId: string): Promise<GetDatabaseResponse> => {
   return await client.databases.retrieve({ database_id: databaseId })
 }
 
@@ -74,41 +70,34 @@ export const retrievePageProperty = async (pageId: string, propId: string) => {
   return res
 }
 
-export const createPage = async (
-  pageProps: CreatePageParameters,
-) => {
+export const createPage = async (pageProps: CreatePageParameters) => {
   return client.pages.create(pageProps)
 }
 
-export const updatePageProps = async (
-  pageParams: UpdatePageParameters,
-) => {
+export const updatePageProps = async (pageParams: UpdatePageParameters) => {
   return client.pages.update(pageParams)
 }
 
 // To keep the same page URL,
 // remove all blocks in the page and add new blocks
-export const updatePage = async (
-  pageId: string,
-  blocks: BlockObjectRequest[]
-) => {
+export const updatePage = async (pageId: string, blocks: BlockObjectRequest[]) => {
   const blks = await client.blocks.children.list({
     block_id: pageId,
-  });
+  })
   for (const blk of blks.results) {
     await client.blocks.delete({
       block_id: blk.id,
-    });
+    })
   }
 
   const res = await client.blocks.children.append({
     block_id: pageId,
     // @ts-ignore
     children: blocks,
-  });
+  })
 
   return res
-};
+}
 
 export const retrieveBlock = async (blockId: string) => {
   const res = client.blocks.retrieve({
@@ -128,9 +117,7 @@ export const retrieveBlockChildren = async (blockId: string) => {
   return res
 }
 
-export const appendBlockChildren = async (
-  params: AppendBlockChildrenParameters
-) => {
+export const appendBlockChildren = async (params: AppendBlockChildrenParameters) => {
   return client.blocks.children.append(params)
 }
 
@@ -159,14 +146,12 @@ export const searchDb = async () => {
   const { results } = await client.search({
     filter: {
       value: 'database',
-      property: 'object'
-    }
+      property: 'object',
+    },
   })
   return results
 }
 
-export const search = async (
-  params: SearchParameters
-) => {
+export const search = async (params: SearchParameters) => {
   return await client.search(params)
 }

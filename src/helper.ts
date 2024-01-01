@@ -14,19 +14,14 @@ export const outputRawJson = async (res: any) => {
 }
 
 export const onCancel = () => {
-  console.error('prompt is canceled');
+  console.error('prompt is canceled')
   process.exit(0)
 }
 
-export const getFilterFields = async (
-  type: string
-) => {
+export const getFilterFields = async (type: string) => {
   switch (type) {
     case 'checkbox':
-      return [
-        { title: 'equals' },
-        { title: 'does_not_equal' },
-      ]
+      return [{ title: 'equals' }, { title: 'does_not_equal' }]
     case 'created_time':
     case 'last_edited_time':
     case 'date':
@@ -123,10 +118,7 @@ export const buildFilterPagePrompt = async (
         type: 'autocomplete',
         name: 'value',
         message: 'select items',
-        choices: [
-          { title: 'true' },
-          { title: 'false' },
-        ]
+        choices: [{ title: 'true' }, { title: 'false' }],
       }
       break
     case 'date':
@@ -143,24 +135,24 @@ export const buildFilterPagePrompt = async (
         initial: new Date(todayYear, todayMonth, todayDate, 0, 0, 0, 0),
       }
       break
-      case 'multi_select':
-        if (prop.multi_select.options == null) {
-          console.error("selected column options is null")
-          return
+    case 'multi_select':
+      if (prop.multi_select.options == null) {
+        console.error('selected column options is null')
+        return
+      }
+      const multiSelectChoices = prop.multi_select.options.map((o) => {
+        return {
+          title: o.name,
+          value: o.name,
         }
-        const multiSelectChoices = prop.multi_select.options.map((o) => {
-          return {
-            title: o.name,
-            value: o.name
-          }
-        })
-        prompt = {
-          type: 'autocompleteMultiselect',
-          name: 'value',
-          message: 'select items',
-          choices: multiSelectChoices
-        }
-        break
+      })
+      prompt = {
+        type: 'autocompleteMultiselect',
+        name: 'value',
+        message: 'select items',
+        choices: multiSelectChoices,
+      }
+      break
     case 'number':
       prompt = {
         type: 'number',
@@ -173,17 +165,17 @@ export const buildFilterPagePrompt = async (
       // console.log(relationPages)
       const relationChoices: IPromptChoice[] = []
       for (const page of relationPages) {
-        if (page.object != "page") {
+        if (page.object != 'page') {
           continue
         }
         if (!isFullPage(page)) {
           continue
         }
         Object.entries(page.properties).forEach(([_, prop]) => {
-          if (prop.type == "title") {
+          if (prop.type == 'title') {
             relationChoices.push({
               title: prop.title[0].plain_text,
-              value: page.id
+              value: page.id,
             })
             return
           }
@@ -193,7 +185,7 @@ export const buildFilterPagePrompt = async (
         type: 'autocompleteMultiselect',
         name: 'value',
         message: 'select relation pages',
-        choices: relationChoices
+        choices: relationChoices,
       }
       break
     case 'rich_text':
@@ -205,7 +197,7 @@ export const buildFilterPagePrompt = async (
       }
       break
     case 'select':
-      const selectChoices = prop.select.options.map(o => {
+      const selectChoices = prop.select.options.map((o) => {
         return {
           title: o.name,
         }
@@ -214,11 +206,11 @@ export const buildFilterPagePrompt = async (
         type: 'autocomplete',
         name: 'value',
         message: 'select an item',
-        choices: selectChoices
+        choices: selectChoices,
       }
       break
     case 'status':
-      const statusChoices = prop.status.options.map(o => {
+      const statusChoices = prop.status.options.map((o) => {
         return {
           title: o.name,
         }
@@ -227,7 +219,7 @@ export const buildFilterPagePrompt = async (
         type: 'autocomplete',
         name: 'value',
         message: 'select an item',
-        choices: statusChoices
+        choices: statusChoices,
       }
       break
 
@@ -246,7 +238,7 @@ export const buildDatabaseQueryFilter = async (
   type: string,
   field: string,
   value: string | string[] | boolean
-): Promise<object|null> =>  {
+): Promise<object | null> => {
   let filter = null
   switch (type) {
     case 'checkbox':
@@ -254,8 +246,8 @@ export const buildDatabaseQueryFilter = async (
         property: name,
         [type]: {
           // boolean value
-          [field]: value == 'true'
-        }
+          [field]: value == 'true',
+        },
       }
       break
     case 'date':
@@ -269,8 +261,8 @@ export const buildDatabaseQueryFilter = async (
       filter = {
         property: name,
         [type]: {
-          [field]: value
-        }
+          [field]: value,
+        },
       }
       break
     case 'multi_select':
@@ -280,8 +272,8 @@ export const buildDatabaseQueryFilter = async (
         filter = {
           property: name,
           [type]: {
-            [field]: value[0]
-          }
+            [field]: value[0],
+          },
         }
       } else {
         filter = { and: [] }
@@ -289,8 +281,8 @@ export const buildDatabaseQueryFilter = async (
           filter.and.push({
             property: name,
             [type]: {
-              [field]: v
-            }
+              [field]: v,
+            },
           })
         }
       }
@@ -310,33 +302,33 @@ export const buildPagePropUpdateData = async (
   name: string,
   type: string,
   value: string
-): Promise<object|null> =>  {
+): Promise<object | null> => {
   switch (type) {
     case 'number':
       return {
         [name]: {
-          [type]: value
-        }
+          [type]: value,
+        },
       }
     case 'select':
       return {
         [name]: {
           [type]: {
-            name: value
-          }
-        }
+            name: value,
+          },
+        },
       }
     case 'multi_select':
       const nameObjects = []
       for (const val of value) {
         nameObjects.push({
-          name: val
+          name: val,
         })
       }
       return {
         [name]: {
-          [type]: nameObjects
-        }
+          [type]: nameObjects,
+        },
       }
     case 'relation':
       const relationPageIds = []
@@ -345,43 +337,41 @@ export const buildPagePropUpdateData = async (
       }
       return {
         [name]: {
-          [type]: relationPageIds
-        }
+          [type]: relationPageIds,
+        },
       }
   }
   return null
 }
 
-export const buildOneDepthJson = async (
-  pages: QueryDatabaseResponse['results'],
-) => {
+export const buildOneDepthJson = async (pages: QueryDatabaseResponse['results']) => {
   const oneDepthJson = []
   const relationJson = []
   for (const page of pages) {
-    if (page.object != "page") {
+    if (page.object != 'page') {
       continue
     }
     if (!isFullPage(page)) {
       continue
     }
     const pageData = {}
-    pageData["page_id"] = page.id
+    pageData['page_id'] = page.id
     Object.entries(page.properties).forEach(([key, prop]) => {
-      switch(prop.type) {
-        case "number":
+      switch (prop.type) {
+        case 'number':
           pageData[key] = prop.number
           break
-        case "select":
-          pageData[key] = prop.select === null ? "" : prop.select.name
+        case 'select':
+          pageData[key] = prop.select === null ? '' : prop.select.name
           break
-        case "multi_select":
+        case 'multi_select':
           const multiSelects = []
           for (const select of prop.multi_select) {
             multiSelects.push(select.name)
           }
-          pageData[key] = multiSelects.join(",")
+          pageData[key] = multiSelects.join(',')
           break
-        case "relation":
+        case 'relation':
           const relationPages = []
           // relationJsonにkeyがなければ作成
           if (relationJson[key] == null) {
@@ -391,87 +381,87 @@ export const buildOneDepthJson = async (
             relationPages.push(relation.id)
             relationJson[key].push({
               page_id: page.id,
-              relation_page_id: relation.id
+              relation_page_id: relation.id,
             })
           }
-          pageData[key] = relationPages.join(",")
+          pageData[key] = relationPages.join(',')
           break
-        case "created_time":
+        case 'created_time':
           pageData[key] = prop.created_time
           break
-        case "last_edited_time":
+        case 'last_edited_time':
           pageData[key] = prop.last_edited_time
           break
-        case "formula":
+        case 'formula':
           switch (prop.formula.type) {
-            case "string":
+            case 'string':
               pageData[key] = prop.formula.string
               break
-            case "number":
+            case 'number':
               pageData[key] = prop.formula.number
               break
-            case "boolean":
+            case 'boolean':
               pageData[key] = prop.formula.boolean
               break
-            case "date":
+            case 'date':
               pageData[key] = prop.formula.date.start
               break
             default:
-              // console.error(`${prop.formula.type} is not supported`)
+            // console.error(`${prop.formula.type} is not supported`)
           }
           break
-        case "url":
+        case 'url':
           pageData[key] = prop.url
           break
-        case "date":
-          pageData[key] = prop.date === null ? "" : prop.date.start
+        case 'date':
+          pageData[key] = prop.date === null ? '' : prop.date.start
           break
-        case "email":
+        case 'email':
           pageData[key] = prop.email
           break
-        case "phone_number":
+        case 'phone_number':
           pageData[key] = prop.phone_number
           break
-        case "created_by":
+        case 'created_by':
           pageData[key] = prop.created_by.id
           break
-        case "last_edited_by":
+        case 'last_edited_by':
           pageData[key] = prop.last_edited_by.id
           break
-        case "people":
+        case 'people':
           const people = []
           for (const person of prop.people) {
             people.push(person.id)
           }
-          pageData[key] = people.join(",")
+          pageData[key] = people.join(',')
           break
-        case "files":
+        case 'files':
           const files = []
           for (const file of prop.files) {
             files.push(file.name)
           }
-          pageData[key] = files.join(",")
+          pageData[key] = files.join(',')
           break
-        case "checkbox":
+        case 'checkbox':
           pageData[key] = prop.checkbox
           break
         // @ts-ignore
-        case "unique_id":
+        case 'unique_id':
           // @ts-ignore
           pageData[key] = `${prop.unique_id.prefix}-${prop.unique_id.number}`
           break
-        case "title":
+        case 'title':
           pageData[key] = prop.title[0].plain_text
           break
-        case "rich_text":
+        case 'rich_text':
           const richTexts = []
           for (const richText of prop.rich_text) {
             richTexts.push(richText.plain_text)
           }
-          pageData[key] = richTexts.join(",")
+          pageData[key] = richTexts.join(',')
           break
-        case "status":
-          pageData[key] = prop.status === null ? "" : prop.status.name
+        case 'status':
+          pageData[key] = prop.status === null ? '' : prop.status.name
           break
         default:
           console.error(`${key}(type: ${prop.type}) is not supported`)
@@ -480,14 +470,14 @@ export const buildOneDepthJson = async (
     oneDepthJson.push(pageData)
   }
 
-  return {oneDepthJson, relationJson}
+  return { oneDepthJson, relationJson }
 }
 
 export const getDbChoices = async () => {
   const dbs = await notion.searchDb()
   const dbChoices = []
   for (const db of dbs) {
-    if (db.object != "database") {
+    if (db.object != 'database') {
       continue
     }
     if (!isFullDatabase(db)) {
@@ -501,25 +491,21 @@ export const getDbChoices = async () => {
       value: db.id,
     })
   }
-  const sortedDbChoices = dbChoices.sort((a,b)=> {
+  const sortedDbChoices = dbChoices.sort((a, b) => {
     return a.title.localeCompare(b.title)
   })
 
   return sortedDbChoices
 }
 
-export const getDbTitle = (
-  row: DatabaseObjectResponse
-) => {
+export const getDbTitle = (row: DatabaseObjectResponse) => {
   if (row.title && row.title.length > 0) {
     return row.title[0].plain_text
   }
   return 'Untitled'
 }
 
-export const getPageTitle = (
-  row: PageObjectResponse
-) => {
+export const getPageTitle = (row: PageObjectResponse) => {
   let title = 'Untitled'
   Object.entries(row.properties).find(([_, prop]) => {
     if (prop.type === 'title' && prop.title.length > 0) {
@@ -530,9 +516,7 @@ export const getPageTitle = (
   return title
 }
 
-export const getBlockPlainText = (
-  row: BlockObjectResponse
-) => {
+export const getBlockPlainText = (row: BlockObjectResponse) => {
   try {
     switch (row.type) {
       case 'bookmark':
@@ -587,7 +571,7 @@ export const getBlockPlainText = (
       default:
         return row[row.type]
     }
-  } catch(e) {
+  } catch (e) {
     console.error(`${row.type} is not supported`)
     console.error(e)
     return ''

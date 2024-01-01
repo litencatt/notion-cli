@@ -1,11 +1,11 @@
-import {expect, test} from '@oclif/test'
+import { expect, test } from '@oclif/test'
 
 const apiMock = (response: any) => {
   return test
-  .nock('https://api.notion.com', api => api
-    .patch('/v1/blocks/dummy-block-id')
-    .reply(200, response)
-  ).stdout({print: process.env.TEST_DEBUG ? true : false})
+    .nock('https://api.notion.com', (api) =>
+      api.patch('/v1/blocks/dummy-block-id').reply(200, response)
+    )
+    .stdout({ print: process.env.TEST_DEBUG ? true : false })
 }
 
 const response = {
@@ -23,28 +23,28 @@ const response = {
       {
         type: 'text',
         plain_text: 'dummy-heading-2-content',
-      }
-    ]
-  }
+      },
+    ],
+  },
 }
 
 describe('block:update', () => {
   describe('shows ux.table result', () => {
     apiMock(response)
-    .command(['block:update', 'dummy-block-id', '--no-truncate'])
-    .it('shows deleted block object when success', ctx => {
-      expect(ctx.stdout).to.match(/Object.*Id.*Type.*Parent.*Content/)
-      expect(ctx.stdout).to.match(/block.*dummy-block-id.*heading_2.*dummy-heading-2-content/)
-    })
+      .command(['block:update', 'dummy-block-id', '--no-truncate'])
+      .it('shows deleted block object when success', (ctx) => {
+        expect(ctx.stdout).to.match(/Object.*Id.*Type.*Parent.*Content/)
+        expect(ctx.stdout).to.match(/block.*dummy-block-id.*heading_2.*dummy-heading-2-content/)
+      })
   })
   describe('shows raw json result', () => {
     apiMock(response)
-    .command(['block:update', 'dummy-block-id', '--raw'])
-    .exit(0)
-    .it('shows updated block object when success', ctx => {
-      expect(ctx.stdout).to.contain("object\": \"block")
-      expect(ctx.stdout).to.contain("id\": \"dummy-block-id")
-      expect(ctx.stdout).to.contain("archived\": true")
-    })
+      .command(['block:update', 'dummy-block-id', '--raw'])
+      .exit(0)
+      .it('shows updated block object when success', (ctx) => {
+        expect(ctx.stdout).to.contain('object": "block')
+        expect(ctx.stdout).to.contain('id": "dummy-block-id')
+        expect(ctx.stdout).to.contain('archived": true')
+      })
   })
 })

@@ -1,6 +1,6 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.format.enable": false,
   "editor.formatOnSave": true,
@@ -12,12 +12,11 @@
   },
   "editor.lineNumbers": "on",
   "editor.wordWrap": "on",
-  "eslint.packageManager": "yarn",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "npm.packageManager": "yarn",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "[makefile]": {
     "editor.insertSpaces": false
-  },
+  }
 }

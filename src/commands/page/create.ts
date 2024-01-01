@@ -1,4 +1,4 @@
-import {Args, Command, Flags, ux} from '@oclif/core'
+import { Args, Command, Flags, ux } from '@oclif/core'
 import * as notion from '../../notion'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -8,10 +8,7 @@ import {
   PageObjectResponse,
   BlockObjectRequest,
 } from '@notionhq/client/build/src/api-endpoints'
-import {
-    getPageTitle,
-    outputRawJson
-  } from '../../helper'
+import { getPageTitle, outputRawJson } from '../../helper'
 
 export default class PageCreate extends Command {
   static description = 'Create a page'
@@ -40,9 +37,10 @@ export default class PageCreate extends Command {
       command: `$ notion-cli page create -f ./path/to/source.md -d PARENT_DB_ID`,
     },
     {
-      description: 'Create a page with a specific source markdown file and output raw json with parent_page_id',
+      description:
+        'Create a page with a specific source markdown file and output raw json with parent_page_id',
       command: `$ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID -r`,
-    }
+    },
   ]
 
   static flags = {
@@ -64,7 +62,7 @@ export default class PageCreate extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(PageCreate)
+    const { args, flags } = await this.parse(PageCreate)
 
     let pageProps: CreatePageParameters
     let pageParent: CreatePageParameters['parent']
@@ -89,7 +87,7 @@ export default class PageCreate extends Command {
         parent: pageParent,
         properties: {
           Name: {
-            title: [{ text: {content: fileName} }],
+            title: [{ text: { content: fileName } }],
           },
         },
         children: blocks as BlockObjectRequest[],
@@ -97,7 +95,7 @@ export default class PageCreate extends Command {
     } else {
       pageProps = {
         parent: pageParent,
-        properties: {}
+        properties: {},
       }
     }
     const res = await notion.createPage(pageProps)
@@ -118,7 +116,7 @@ export default class PageCreate extends Command {
     }
     const options = {
       printLine: this.log.bind(this),
-      ...flags
+      ...flags,
     }
     ux.table([res], columns, options)
   }

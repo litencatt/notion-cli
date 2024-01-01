@@ -1,4 +1,4 @@
-import {Args, Command} from '@oclif/core'
+import { Args, Command } from '@oclif/core'
 import * as notion from '../../../notion'
 import { outputRawJson } from '../../../helper'
 
@@ -24,7 +24,7 @@ export default class PageRetrievePropertyItem extends Command {
   }
 
   public async run(): Promise<void> {
-    const {args} = await this.parse(PageRetrievePropertyItem)
+    const { args } = await this.parse(PageRetrievePropertyItem)
 
     const res = await notion.retrievePageProperty(args.page_id, args.property_id)
     outputRawJson(res)
