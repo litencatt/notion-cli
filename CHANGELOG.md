@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.14.3](https://github.com/litencatt/notion-cli/compare/v0.14.2...v0.14.3) - 2024-01-01
+- Update version of docker build actions by @litencatt in https://github.com/litencatt/notion-cli/pull/251
+
 ## [v0.14.2](https://github.com/litencatt/notion-cli/compare/v0.14.1...v0.14.2) - 2024-01-01
 - Update command examples by @litencatt in https://github.com/litencatt/notion-cli/pull/223
 - Bump @notionhq/client from 2.2.10 to 2.2.13 by @dependabot in https://github.com/litencatt/notion-cli/pull/236
