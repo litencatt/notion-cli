@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.14.2](https://github.com/litencatt/notion-cli/compare/v0.14.1...v0.14.2) - 2024-01-01
+- Update command examples by @litencatt in https://github.com/litencatt/notion-cli/pull/223
+- Bump @notionhq/client from 2.2.10 to 2.2.13 by @dependabot in https://github.com/litencatt/notion-cli/pull/236
+- Bump oclif from 3.11.3 to 3.17.2 by @dependabot in https://github.com/litencatt/notion-cli/pull/239
+- Bump dayjs from 1.11.9 to 1.11.10 by @dependabot in https://github.com/litencatt/notion-cli/pull/238
+- Bump eslint from 8.46.0 to 8.52.0 by @dependabot in https://github.com/litencatt/notion-cli/pull/243
+- Bump @types/node from 16.18.40 to 16.18.60 by @dependabot in https://github.com/litencatt/notion-cli/pull/245
+- Bump @oclif/plugin-help from 5.2.16 to 5.2.20 by @dependabot in https://github.com/litencatt/notion-cli/pull/241
+- Bump chai and @types/chai by @dependabot in https://github.com/litencatt/notion-cli/pull/234
+- Bump tslib from 2.6.1 to 2.6.2 by @dependabot in https://github.com/litencatt/notion-cli/pull/231
+- Bump @oclif/test from 2.4.4 to 2.5.6 by @dependabot in https://github.com/litencatt/notion-cli/pull/235
+- Bump semver from 5.7.1 to 5.7.2 by @dependabot in https://github.com/litencatt/notion-cli/pull/248
+- Bump @types/prompts from 2.4.4 to 2.4.9 by @dependabot in https://github.com/litencatt/notion-cli/pull/250
+- Bump @babel/traverse from 7.21.5 to 7.23.7 by @dependabot in https://github.com/litencatt/notion-cli/pull/249
+- Bump @oclif/core from 2.11.8 to 2.15.0 by @dependabot in https://github.com/litencatt/notion-cli/pull/240
+
 ## [v0.14.1](https://github.com/litencatt/notion-cli/compare/v0.14.0...v0.14.1) - 2023-08-20
 - Add flags output page as markdown by @litencatt in https://github.com/litencatt/notion-cli/pull/220
 - Remove not used interface by @litencatt in https://github.com/litencatt/notion-cli/pull/222
