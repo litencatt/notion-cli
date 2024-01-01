@@ -30,7 +30,7 @@
     "@oclif/test": "^2",
     "@types/chai": "^4",
     "@types/mocha": "^9.1.0",
-    "@types/node": "^16.18.40",
+    "@types/node": "^16.18.60",
     "@types/prompts": "^2.4.4",
     "chai": "^4",
     "eslint": "^8.52.0",
