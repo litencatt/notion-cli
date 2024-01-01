@@ -24,8 +24,20 @@ export default class DbCreate extends Command {
     },
     {
       description: 'Create a database with a specific page_id',
-      command: `$ notion-cli db create f929e92f257c4d8bb9d0c176ce24814d`,
+      command: `$ notion-cli db create PAGE_ID`,
     },
+    {
+      description: 'Create a database with a specific page_id and title',
+      command: `$ notion-cli db create PAGE_ID -t 'My Database'`,
+    },
+    {
+      description: 'Create a database with a specific page_id and output raw json',
+      command: `$ notion-cli db create PAGE_ID -r`,
+    },
+    {
+      description: 'Create a database with a specific page_id and output raw json with title',
+      command: `$ notion-cli db create PAGE_ID -t 'My Database' -r`,
+    }
   ]
 
   static args = {

@@ -42,7 +42,23 @@ ALIASES
   $ notion-cli block a
 
 EXAMPLES
-  $ notion-cli block a BLOCK_ID CHILDREN AFTER
+  Append block children
+
+    $ notion-cli block append BLOCK_ID -c \
+      '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello \
+      world!"}}]}}]'
+
+  Append block children after a block
+
+    $ notion-cli block append BLOCK_ID -c \
+      '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello \
+      world!"}}]}}]' -a BLOCK_ID
+
+  Append block children and output raw json
+
+    $ notion-cli block append BLOCK_ID -c \
+      '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello \
+      world!"}}]}}]' -r
 ```
 
 ## `notion-cli block append BLOCK_ID CHILDREN [AFTER]`
@@ -73,7 +89,23 @@ ALIASES
   $ notion-cli block a
 
 EXAMPLES
-  $ notion-cli block append BLOCK_ID CHILDREN AFTER
+  Append block children
+
+    $ notion-cli block append BLOCK_ID -c \
+      '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello \
+      world!"}}]}}]'
+
+  Append block children after a block
+
+    $ notion-cli block append BLOCK_ID -c \
+      '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello \
+      world!"}}]}}]' -a BLOCK_ID
+
+  Append block children and output raw json
+
+    $ notion-cli block append BLOCK_ID -c \
+      '[{"object":"block","type":"paragraph","paragraph":{"text":[{"type":"text","text":{"content":"Hello \
+      world!"}}]}}]' -r
 ```
 
 
@@ -106,7 +138,13 @@ ALIASES
   $ notion-cli block d
 
 EXAMPLES
-  $ notion-cli block d
+  Delete a block
+
+    $ notion-cli block delete BLOCK_ID
+
+  Delete a block and output raw json
+
+    $ notion-cli block delete BLOCK_ID -r
 ```
 
 ## `notion-cli block delete BLOCK_ID`
@@ -137,7 +175,13 @@ ALIASES
   $ notion-cli block d
 
 EXAMPLES
-  $ notion-cli block delete
+  Delete a block
+
+    $ notion-cli block delete BLOCK_ID
+
+  Delete a block and output raw json
+
+    $ notion-cli block delete BLOCK_ID -r
 ```
 
 
@@ -170,7 +214,13 @@ ALIASES
   $ notion-cli block r
 
 EXAMPLES
-  $ notion-cli block r BLOCK_ID
+  Retrieve a block
+
+    $ notion-cli block retrieve BLOCK_ID
+
+  Retrieve a block and output raw json
+
+    $ notion-cli block retrieve BLOCK_ID -r
 ```
 
 ## `notion-cli block r c BLOCK_ID`
@@ -204,7 +254,13 @@ ALIASES
   $ notion-cli block r c
 
 EXAMPLES
-  $ notion-cli block r c BLOCK_ID
+  Retrieve block children
+
+    $ notion-cli block retrieve:children BLOCK_ID
+
+  Retrieve block children and output raw json
+
+    $ notion-cli block retrieve:children BLOCK_ID -r
 ```
 
 ## `notion-cli block retrieve BLOCK_ID`
@@ -235,7 +291,13 @@ ALIASES
   $ notion-cli block r
 
 EXAMPLES
-  $ notion-cli block retrieve BLOCK_ID
+  Retrieve a block
+
+    $ notion-cli block retrieve BLOCK_ID
+
+  Retrieve a block and output raw json
+
+    $ notion-cli block retrieve BLOCK_ID -r
 ```
 
 
@@ -271,7 +333,13 @@ ALIASES
   $ notion-cli block r c
 
 EXAMPLES
-  $ notion-cli block retrieve children BLOCK_ID
+  Retrieve block children
+
+    $ notion-cli block retrieve:children BLOCK_ID
+
+  Retrieve block children and output raw json
+
+    $ notion-cli block retrieve:children BLOCK_ID -r
 ```
 
 
@@ -305,7 +373,13 @@ ALIASES
   $ notion-cli block u
 
 EXAMPLES
-  $ notion-cli block u
+  Update a block and output table
+
+    $ notion-cli block update BLOCK_ID
+
+  Update a block and output raw json
+
+    $ notion-cli block update BLOCK_ID -r
 ```
 
 ## `notion-cli block update BLOCK_ID`
@@ -337,7 +411,13 @@ ALIASES
   $ notion-cli block u
 
 EXAMPLES
-  $ notion-cli block update
+  Update a block and output table
+
+    $ notion-cli block update BLOCK_ID
+
+  Update a block and output raw json
+
+    $ notion-cli block update BLOCK_ID -r
 ```
 
 

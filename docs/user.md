@@ -38,7 +38,13 @@ ALIASES
   $ notion-cli user l
 
 EXAMPLES
-  $ notion-cli user l
+  List all users
+
+    $ notion-cli user list
+
+  List all users and output raw json
+
+    $ notion-cli user list -r
 ```
 
 ## `notion-cli user list`
@@ -69,7 +75,13 @@ ALIASES
   $ notion-cli user l
 
 EXAMPLES
-  $ notion-cli user list
+  List all users
+
+    $ notion-cli user list
+
+  List all users and output raw json
+
+    $ notion-cli user list -r
 ```
 
 
@@ -102,7 +114,13 @@ ALIASES
   $ notion-cli user r
 
 EXAMPLES
-  $ notion-cli user r
+  Retrieve a user
+
+    $ notion-cli user retrieve USER_ID
+
+  Retrieve a user and output raw json
+
+    $ notion-cli user retrieve USER_ID -r
 ```
 
 ## `notion-cli user r b`
@@ -133,7 +151,13 @@ ALIASES
   $ notion-cli user r b
 
 EXAMPLES
-  $ notion-cli user r b
+  Retrieve a bot user
+
+    $ notion-cli user retrieve:bot
+
+  Retrieve a bot user and output raw json
+
+    $ notion-cli user retrieve:bot -r
 ```
 
 ## `notion-cli user retrieve [USER_ID]`
@@ -164,7 +188,13 @@ ALIASES
   $ notion-cli user r
 
 EXAMPLES
-  $ notion-cli user retrieve
+  Retrieve a user
+
+    $ notion-cli user retrieve USER_ID
+
+  Retrieve a user and output raw json
+
+    $ notion-cli user retrieve USER_ID -r
 ```
 
 
@@ -197,7 +227,13 @@ ALIASES
   $ notion-cli user r b
 
 EXAMPLES
-  $ notion-cli user retrieve bot
+  Retrieve a bot user
+
+    $ notion-cli user retrieve:bot
+
+  Retrieve a bot user and output raw json
+
+    $ notion-cli user retrieve:bot -r
 ```
 
 

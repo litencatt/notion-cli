@@ -14,7 +14,14 @@ export default class BlockRetrieveChildren extends Command {
   static aliases: string[] = ['block:r:c']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %> BLOCK_ID',
+    {
+      description: 'Retrieve block children',
+      command: `$ notion-cli block retrieve:children BLOCK_ID`,
+    },
+    {
+      description: 'Retrieve block children and output raw json',
+      command: `$ notion-cli block retrieve:children BLOCK_ID -r`,
+    }
   ]
 
   static args = {

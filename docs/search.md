@@ -39,7 +39,38 @@ DESCRIPTION
   Search by title
 
 EXAMPLES
-  $ notion-cli search
+  Search by title
+
+    $ notion-cli search -q 'My Page'
+
+  Search by title and output csv
+
+    $ notion-cli search -q 'My Page' --csv
+
+  Search by title and output raw json
+
+    $ notion-cli search -q 'My Page' -r
+
+  Search by title and output table with specific columns
+
+    $ notion-cli search -q 'My Page' --columns=title,object
+
+  Search by title and output table with specific columns and sort direction
+
+    $ notion-cli search -q 'My Page' --columns=title,object -d asc
+
+  Search by title and output table with specific columns and sort direction and page size
+
+    $ notion-cli search -q 'My Page' -columns=title,object -d asc -s 10
+
+  Search by title and output table with specific columns and sort direction and page size and start cursor
+
+    $ notion-cli search -q 'My Page' --columns=title,object -d asc -s 10 -c START_CURSOR_ID
+
+  Search by title and output table with specific columns and sort direction and page size and start cursor and
+  property
+
+    $ notion-cli search -q 'My Page' --columns=title,object -d asc -s 10 -c START_CURSOR_ID -p page
 ```
 
 

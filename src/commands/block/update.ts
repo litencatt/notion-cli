@@ -15,7 +15,14 @@ export default class BlockUpdate extends Command {
   static aliases: string[] = ['block:u']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    {
+      description: 'Update a block and output table',
+      command: `$ notion-cli block update BLOCK_ID`,
+    },
+    {
+      description: 'Update a block and output raw json',
+      command: `$ notion-cli block update BLOCK_ID -r`,
+    }
   ]
 
   static args = {

@@ -17,12 +17,12 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
-    "@notionhq/client": "^2.2.10",
+    "@notionhq/client": "^2.2.13",
     "@oclif/core": "^2",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.4.7",
     "@tryfabric/martian": "^1.2.4",
-    "dayjs": "^1.11.9",
+    "dayjs": "^1.11.10",
     "notion-to-md": "^3.1.1",
     "prompts": "^2.4.2"
   },
@@ -30,10 +30,10 @@
     "@oclif/test": "^2",
     "@types/chai": "^4",
     "@types/mocha": "^9.1.0",
-    "@types/node": "^16.18.40",
-    "@types/prompts": "^2.4.4",
+    "@types/node": "^16.18.60",
+    "@types/prompts": "^2.4.9",
     "chai": "^4",
-    "eslint": "^8.46.0",
+    "eslint": "^8.52.0",
     "eslint-config-oclif": "^4",
     "eslint-config-oclif-typescript": "^1.0.3",
     "eslint-config-prettier": "^8.10.0",
@@ -44,7 +44,7 @@
     "prettier": "^2.8.8",
     "shx": "^0.3.4",
     "ts-node": "^10.9.1",
-    "tslib": "^2.6.1",
+    "tslib": "^2.6.2",
     "typescript": "^4.9.5"
   },
   "oclif": {

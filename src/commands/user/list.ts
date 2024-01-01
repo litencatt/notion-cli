@@ -11,7 +11,14 @@ export default class UserList extends Command {
   static aliases: string[] = ['user:l']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    {
+      description: 'List all users',
+      command: `$ notion-cli user list`,
+    },
+    {
+      description: 'List all users and output raw json',
+      command: `$ notion-cli user list -r`,
+    }
   ]
 
   static flags = {

@@ -16,8 +16,26 @@ export default class PageRetrieve extends Command {
   static aliases: string[] = ['page:r']
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
-    '<%= config.bin %> <%= command.id %> -p title,Z%3ESr',
+    {
+      description: 'Retrieve a page and output table',
+      command: `$ notion-cli page retrieve PAGE_ID`,
+    },
+    {
+      description: 'Retrieve a page and output raw json',
+      command: `$ notion-cli page retrieve PAGE_ID -r`,
+    },
+    {
+      description: 'Retrieve a page and output markdown',
+      command: `$ notion-cli page retrieve PAGE_ID -m`,
+    },
+    {
+      description: 'Retrieve a page with filter properties',
+      command: `$ notion-cli page retrieve PAGE_ID -p title,Z%3ESr`,
+    },
+    {
+      description: 'Retrieve a page with filter properties and output raw json',
+      command: `$ notion-cli page retrieve PAGE_ID -p title,Z%3ESr -r`,
+    },
   ]
 
   static args = {
