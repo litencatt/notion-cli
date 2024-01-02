@@ -37,7 +37,7 @@ export default class DbQuery extends Command {
     },
     {
       description: 'Query a db with a specific database_id and raw filter string',
-      command: `$ notion-cli db query -r='{"and": ...}' DATABASE_ID`,
+      command: `$ notion-cli db query -a='{"and": ...}' DATABASE_ID`,
     },
     {
       description: 'Query a db with a specific database_id and filter file',
