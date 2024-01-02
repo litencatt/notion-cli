@@ -73,4 +73,4 @@ EXAMPLES
     $ notion-cli search -q 'My Page' --columns=title,object -d asc -s 10 -c START_CURSOR_ID -p page
 ```
 
-
+_See code: [src/commands/search.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/search.ts)_
