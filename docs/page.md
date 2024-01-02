@@ -64,7 +64,7 @@ EXAMPLES
     $ notion-cli page create -f ./path/to/source.md -p PARENT_PAGE_ID -r
 ```
 
-_See code: [src/commands/page/create.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/page/create.ts)_
+
 
 ## `notion-cli page retrieve PAGE_ID`
 
@@ -117,7 +117,7 @@ EXAMPLES
     $ notion-cli page retrieve PAGE_ID -p title,Z%3ESr -r
 ```
 
-_See code: [src/commands/page/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/page/retrieve.ts)_
+
 
 ## `notion-cli page retrieve property_item PAGE_ID PROPERTY_ID`
 
@@ -143,7 +143,7 @@ EXAMPLES
     $ notion-cli page retrieve:property_item PAGE_ID PROPERTY_ID -r
 ```
 
-_See code: [src/commands/page/retrieve/property_item.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/page/retrieve/property_item.ts)_
+
 
 ## `notion-cli page update PAGE_ID`
 
@@ -200,4 +200,4 @@ EXAMPLES
     $ notion-cli page update PAGE_ID -u -r
 ```
 
-_See code: [src/commands/page/update.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/page/update.ts)_
+

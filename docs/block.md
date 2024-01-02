@@ -56,7 +56,7 @@ EXAMPLES
       world!"}}]}}]' -r
 ```
 
-_See code: [src/commands/block/append.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/block/append.ts)_
+
 
 ## `notion-cli block delete BLOCK_ID`
 
@@ -95,7 +95,7 @@ EXAMPLES
     $ notion-cli block delete BLOCK_ID -r
 ```
 
-_See code: [src/commands/block/delete.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/block/delete.ts)_
+
 
 ## `notion-cli block retrieve BLOCK_ID`
 
@@ -134,7 +134,7 @@ EXAMPLES
     $ notion-cli block retrieve BLOCK_ID -r
 ```
 
-_See code: [src/commands/block/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/block/retrieve.ts)_
+
 
 ## `notion-cli block retrieve children BLOCK_ID`
 
@@ -176,7 +176,7 @@ EXAMPLES
     $ notion-cli block retrieve:children BLOCK_ID -r
 ```
 
-_See code: [src/commands/block/retrieve/children.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/block/retrieve/children.ts)_
+
 
 ## `notion-cli block update BLOCK_ID`
 
@@ -216,4 +216,4 @@ EXAMPLES
     $ notion-cli block update BLOCK_ID -r
 ```
 
-_See code: [src/commands/block/update.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/block/update.ts)_
+

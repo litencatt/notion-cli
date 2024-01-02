@@ -23,4 +23,4 @@ DESCRIPTION
   Display help for notion-cli.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.20/src/commands/help.ts)_
+

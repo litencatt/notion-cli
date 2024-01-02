@@ -58,7 +58,7 @@ EXAMPLES
     $ notion-cli db create PAGE_ID -t 'My Database' -r
 ```
 
-_See code: [src/commands/db/create.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/db/create.ts)_
+
 
 ## `notion-cli db query [DATABASE_ID]`
 
@@ -100,7 +100,7 @@ EXAMPLES
 
   Query a db with a specific database_id and raw filter string
 
-    $ notion-cli db query -r='{"and": ...}' DATABASE_ID
+    $ notion-cli db query -a='{"and": ...}' DATABASE_ID
 
   Query a db with a specific database_id and filter file
 
@@ -108,10 +108,10 @@ EXAMPLES
 
   Query a db with a specific database_id and output format
 
-    $ notion-cli db query -o csv DATABASE_ID
+    $ notion-cli db query --csv DATABASE_ID
 ```
 
-_See code: [src/commands/db/query.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/db/query.ts)_
+
 
 ## `notion-cli db retrieve [DATABASE_ID]`
 
@@ -150,7 +150,7 @@ EXAMPLES
     $ notion-cli db retrieve DATABSE_ID
 ```
 
-_See code: [src/commands/db/retrieve.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/db/retrieve.ts)_
+
 
 ## `notion-cli db update [DATABASE_ID]`
 
@@ -198,4 +198,4 @@ EXAMPLES
     $ notion-cli db update DATABASE_ID -r
 ```
 
-_See code: [src/commands/db/update.ts](https://github.com/litencatt/notion-cli/blob/v0.14.4/src/commands/db/update.ts)_
+
