@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.14.5](https://github.com/litencatt/notion-cli/compare/v0.14.4...v0.14.5) - 2024-01-02
+- 20230102 update docs by @litencatt in https://github.com/litencatt/notion-cli/pull/256
+
 ## [v0.14.4](https://github.com/litencatt/notion-cli/compare/v0.14.3...v0.14.4) - 2024-01-01
 - Update perttier settings by @litencatt in https://github.com/litencatt/notion-cli/pull/253
 - Fix db query csv output usage by @litencatt in https://github.com/litencatt/notion-cli/pull/255
