@@ -100,21 +100,37 @@ EXAMPLES
 
     $ notion-cli db query
 
-  Query a db via non-interactive mode with a specific database_id
+  Query a db with a specific database_id
 
     $ notion-cli db query DATABASE_ID
 
   Query a db with a specific database_id and raw filter string
 
-    $ notion-cli db query -a='{"and": ...}' DATABASE_ID
+    $ notion-cli db query -a '{"and": ...}' DATABASE_ID
 
   Query a db with a specific database_id and filter file
 
     $ notion-cli db query -f ./path/to/filter.json DATABASE_ID
 
-  Query a db with a specific database_id and output format
+  Query a db with a specific database_id and output CSV
 
     $ notion-cli db query --csv DATABASE_ID
+
+  Query a db with a specific database_id and output raw json
+
+    $ notion-cli db query --raw DATABASE_ID
+
+  Query a db with a specific database_id and page size
+
+    $ notion-cli db query -s 10 DATABASE_ID
+
+  Query a db with a specific database_id and get all pages
+
+    $ notion-cli db query -A DATABASE_ID
+
+  Query a db with a specific database_id and sort property and sort direction
+
+    $ notion-cli db query -s Name -d desc DATABASE_ID
 ```
 
 
