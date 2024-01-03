@@ -69,8 +69,7 @@ export default class DbQuery extends Command {
     }),
     pageSize: Flags.integer({
       char: 'p',
-      description:
-        'The number of results to return. The default is 10, with a minimum of 1 and a maximum of 100.',
+      description: 'The number of results to return(1-100). ',
       min: 1,
       max: 100,
       default: 10,
@@ -78,10 +77,12 @@ export default class DbQuery extends Command {
     pageAll: Flags.boolean({
       char: 'A',
       description: 'get all pages',
+      default: false,
     }),
     raw: Flags.boolean({
       char: 'r',
       description: 'output raw json',
+      default: false,
     }),
     ...ux.table.flags(),
   }
