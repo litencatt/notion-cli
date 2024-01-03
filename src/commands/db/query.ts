@@ -85,26 +85,6 @@ export default class DbQuery extends Command {
     const { flags, args } = await this.parse(DbQuery)
 
     let databaseId = args.database_id
-    if (databaseId == undefined) {
-      const dbChoices = await getDbChoices()
-      const promptSelectedDbResult = await prompts(
-        [
-          {
-            message: 'Select a database to query',
-            type: 'autocomplete',
-            name: 'database_id',
-            choices: dbChoices,
-          },
-        ],
-        { onCancel }
-      )
-      if (process.env.DEBUG) {
-        this.log(promptSelectedDbResult)
-      }
-      databaseId = promptSelectedDbResult.database_id
-    }
-
-    let filter: object | undefined
     try {
       // If args is set, run as non-interactive mode.
       if (Object.keys(args).length !== 0) {
@@ -116,6 +96,28 @@ export default class DbQuery extends Command {
           filter = JSON.parse(fj)
         }
       } else {
+        // interactive mode start
+        let filter: object | undefined
+
+        // select a database
+        const dbChoices = await getDbChoices()
+        const promptSelectedDbResult = await prompts(
+          [
+            {
+              message: 'Select a database to query',
+              type: 'autocomplete',
+              name: 'database_id',
+              choices: dbChoices,
+            },
+          ],
+          { onCancel }
+        )
+        if (process.env.DEBUG) {
+          this.log(promptSelectedDbResult)
+        }
+        databaseId = promptSelectedDbResult.database_id
+
+        // select a filter
         let CombineOperator = undefined
         const promptAddFilterResult = await prompts(
           [
