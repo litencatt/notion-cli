@@ -35,20 +35,36 @@ export default class DbQuery extends Command {
       command: `$ notion-cli db query`,
     },
     {
-      description: 'Query a db via non-interactive mode with a specific database_id',
+      description: 'Query a db with a specific database_id',
       command: `$ notion-cli db query DATABASE_ID`,
     },
     {
       description: 'Query a db with a specific database_id and raw filter string',
-      command: `$ notion-cli db query -a='{"and": ...}' DATABASE_ID`,
+      command: `$ notion-cli db query -a '{"and": ...}' DATABASE_ID`,
     },
     {
       description: 'Query a db with a specific database_id and filter file',
       command: `$ notion-cli db query -f ./path/to/filter.json DATABASE_ID`,
     },
     {
-      description: 'Query a db with a specific database_id and output format',
+      description: 'Query a db with a specific database_id and output CSV',
       command: `$ notion-cli db query --csv DATABASE_ID`,
+    },
+    {
+      description: 'Query a db with a specific database_id and output raw json',
+      command: `$ notion-cli db query --raw DATABASE_ID`,
+    },
+    {
+      description: 'Query a db with a specific database_id and page size',
+      command: `$ notion-cli db query -s 10 DATABASE_ID`,
+    },
+    {
+      description: 'Query a db with a specific database_id and get all pages',
+      command: `$ notion-cli db query -A DATABASE_ID`,
+    },
+    {
+      description: 'Query a db with a specific database_id and sort property and sort direction',
+      command: `$ notion-cli db query -s Name -d desc DATABASE_ID`,
     },
   ]
 
