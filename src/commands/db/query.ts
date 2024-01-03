@@ -79,6 +79,16 @@ export default class DbQuery extends Command {
       description: 'get all pages',
       default: false,
     }),
+    sortProperty: Flags.string({
+      char: 's',
+      description: 'The property to sort results by',
+    }),
+    sortDirection: Flags.string({
+      char: 'd',
+      options: ['asc', 'desc'],
+      description: 'The direction to sort results',
+      default: 'asc',
+    }),
     raw: Flags.boolean({
       char: 'r',
       description: 'output raw json',
@@ -112,8 +122,17 @@ export default class DbQuery extends Command {
             page_size: flags.pageSize,
           }
         } else {
+          let sorts: QueryDatabaseParameters['sorts'] = []
+          const direction = flags.sortDirection == 'desc' ? 'descending' : 'ascending'
+          if (flags.sortProperty != undefined) {
+            sorts.push({
+              property: flags.sortProperty,
+              direction: direction,
+            })
+          }
           queryParams = {
             database_id: databaseId,
+            sorts: sorts,
             page_size: flags.pageSize,
           }
         }
