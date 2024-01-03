@@ -3,6 +3,8 @@ import * as notion from '../../notion'
 import {
   PageObjectResponse,
   DatabaseObjectResponse,
+  QueryDatabaseResponse,
+  QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -18,6 +20,7 @@ import {
   getDbTitle,
   getPageTitle,
 } from '../../helper'
+import { client } from '../../notion'
 
 const prompts = require('prompts')
 
@@ -87,15 +90,31 @@ export default class DbQuery extends Command {
     const { flags, args } = await this.parse(DbQuery)
 
     let databaseId = args.database_id
+    let queryParams: QueryDatabaseParameters
     try {
-      // If args is set, run as non-interactive mode.
+      // If args(database_id) is set, run as non-interactive mode.
       if (Object.keys(args).length !== 0) {
         if (flags.rawFilter != undefined) {
-          filter = JSON.parse(flags.rawFilter)
+          const filter = JSON.parse(flags.rawFilter)
+          queryParams = {
+            database_id: databaseId,
+            filter: filter as QueryDatabaseParameters['filter'],
+            page_size: flags.pageSize,
+          }
         } else if (flags.fileFilter != undefined) {
           const fp = path.join('./', flags.fileFilter)
           const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
-          filter = JSON.parse(fj)
+          const filter = JSON.parse(fj)
+          queryParams = {
+            database_id: databaseId,
+            filter: filter as QueryDatabaseParameters['filter'],
+            page_size: flags.pageSize,
+          }
+        } else {
+          queryParams = {
+            database_id: databaseId,
+            page_size: flags.pageSize,
+          }
         }
       } else {
         // interactive mode start
@@ -255,6 +274,12 @@ export default class DbQuery extends Command {
           }
         }
 
+        queryParams = {
+          database_id: databaseId,
+          filter: filter as QueryDatabaseParameters['filter'],
+          page_size: flags.pageSize,
+        }
+
         // save filter to file
         if (filter != undefined) {
           console.log('')
@@ -290,32 +315,37 @@ export default class DbQuery extends Command {
       this.error(e, { exit: 1 })
     }
 
+    let pages = []
+    if (flags.pageAll) {
+      pages = await notion.fetchAllPagesInDB(databaseId, queryParams.filter)
+    } else {
+      const res = await client.databases.query(queryParams)
+      pages.push(...res.results)
     }
 
-    const res = await notion.queryDb(databaseId, filter)
-
+    // output
     if (flags.raw) {
-      outputRawJson(res)
+      outputRawJson(pages)
       this.exit(0)
-    }
-
-    const columns = {
-      title: {
-        get: (row: DatabaseObjectResponse | PageObjectResponse) => {
-          if (row.object == 'database') {
-            return getDbTitle(row)
-          }
-          return getPageTitle(row)
+    } else {
+      const columns = {
+        title: {
+          get: (row: DatabaseObjectResponse | PageObjectResponse) => {
+            if (row.object == 'database') {
+              return getDbTitle(row)
+            }
+            return getPageTitle(row)
+          },
         },
-      },
-      object: {},
-      id: {},
-      url: {},
+        object: {},
+        id: {},
+        url: {},
+      }
+      const options = {
+        printLine: this.log.bind(this),
+        ...flags,
+      }
+      ux.table(pages, columns, options)
     }
-    const options = {
-      printLine: this.log.bind(this),
-      ...flags,
-    }
-    ux.table(res, columns, options)
   }
 }
