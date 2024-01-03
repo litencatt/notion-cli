@@ -252,39 +252,42 @@ export default class DbQuery extends Command {
             break
           }
         }
+
+        // save filter to file
+        if (filter != undefined) {
+          console.log('')
+          console.log('Filter:')
+          console.dir(filter, { depth: null })
+          console.log('')
+
+          const promptConfirmSaveFilterResult = await prompts(
+            [
+              {
+                message: 'Save this filter to a file?',
+                type: 'confirm',
+                name: 'value',
+                initial: false,
+              },
+            ],
+            { onCancel }
+          )
+          if (promptConfirmSaveFilterResult.value) {
+            const promptFileNameResult = await prompts({
+              message: 'Filename',
+              type: 'text',
+              name: 'filename',
+              initial: dayjs().format('YYYYMMDD_HHmmss'),
+            })
+            const fileName = `${promptFileNameResult.filename}.json`
+            fs.writeFileSync(fileName, JSON.stringify(filter, null, 2))
+            this.logToStderr(`Saved to ${fileName}\n`)
+          }
+        }
       }
     } catch (e) {
       this.error(e, { exit: 1 })
     }
 
-    if (filter != undefined && flags.rawFilter == undefined && flags.fileFilter == undefined) {
-      console.log('')
-      console.log('Filter:')
-      console.dir(filter, { depth: null })
-      console.log('')
-
-      const promptConfirmSaveFilterResult = await prompts(
-        [
-          {
-            message: 'Save this filter to a file?',
-            type: 'confirm',
-            name: 'value',
-            initial: false,
-          },
-        ],
-        { onCancel }
-      )
-      if (promptConfirmSaveFilterResult.value) {
-        const promptFileNameResult = await prompts({
-          message: 'Filename',
-          type: 'text',
-          name: 'filename',
-          initial: dayjs().format('YYYYMMDD_HHmmss'),
-        })
-        const fileName = `${promptFileNameResult.filename}.json`
-        fs.writeFileSync(fileName, JSON.stringify(filter, null, 2))
-        this.logToStderr(`Saved to ${fileName}\n`)
-      }
     }
 
     const res = await notion.queryDb(databaseId, filter)
