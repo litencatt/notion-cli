@@ -66,12 +66,15 @@ Query a database
 
 ```
 USAGE
-  $ notion-cli db query [DATABASE_ID] [-a <value>] [-f <value>] [-r] [--columns <value> | -x] [--sort <value>]
-    [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
+  $ notion-cli db query [DATABASE_ID] [-a <value>] [-f <value>] [-p <value>] [-A] [-r] [--columns <value> |
+    -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  | [--csv | --no-truncate]] [--no-header | ]
 
 FLAGS
+  -A, --pageAll             get all pages
   -a, --rawFilter=<value>   JSON stringified filter string
   -f, --fileFilter=<value>  JSON filter file path
+  -p, --pageSize=<value>    [default: 10] The number of results to return. The default is 10, with a minimum of 1 and a
+                            maximum of 100.
   -r, --raw                 output raw json
   -x, --extended            show extra columns
   --columns=<value>         only show provided columns (comma-separated)
@@ -94,7 +97,7 @@ EXAMPLES
 
     $ notion-cli db query
 
-  Query a db via interactive mode with a specific database_id
+  Query a db via non-interactive mode with a specific database_id
 
     $ notion-cli db query DATABASE_ID
 
