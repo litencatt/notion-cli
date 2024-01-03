@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.14.6](https://github.com/litencatt/notion-cli/compare/v0.14.5...v0.14.6) - 2024-01-03
+- Improve query a database non-interactive mode execution by @litencatt in https://github.com/litencatt/notion-cli/pull/258
+
 ## [v0.14.5](https://github.com/litencatt/notion-cli/compare/v0.14.4...v0.14.5) - 2024-01-02
 - 20230102 update docs by @litencatt in https://github.com/litencatt/notion-cli/pull/256
 
