@@ -1,6 +1,6 @@
 {
   "name": "@litencatt/notion-cli",
-  "version": "0.14.6",
+  "version": "0.15.0",
   "description": "Notion CLI",
   "author": "litencatt",
   "bin": {

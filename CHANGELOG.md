@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.14.7](https://github.com/litencatt/notion-cli/compare/v0.14.6...v0.14.7) - 2024-01-03
+- Support db query more params for non-interactive mode by @litencatt in https://github.com/litencatt/notion-cli/pull/260
+
 ## [v0.14.6](https://github.com/litencatt/notion-cli/compare/v0.14.5...v0.14.6) - 2024-01-03
 - Improve query a database non-interactive mode execution by @litencatt in https://github.com/litencatt/notion-cli/pull/258
 
