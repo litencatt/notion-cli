@@ -73,8 +73,7 @@ FLAGS
   -A, --pageAll             get all pages
   -a, --rawFilter=<value>   JSON stringified filter string
   -f, --fileFilter=<value>  JSON filter file path
-  -p, --pageSize=<value>    [default: 10] The number of results to return. The default is 10, with a minimum of 1 and a
-                            maximum of 100.
+  -p, --pageSize=<value>    [default: 10] The number of results to return(1-100).
   -r, --raw                 output raw json
   -x, --extended            show extra columns
   --columns=<value>         only show provided columns (comma-separated)
