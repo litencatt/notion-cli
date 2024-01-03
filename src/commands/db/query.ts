@@ -32,7 +32,7 @@ export default class DbQuery extends Command {
       command: `$ notion-cli db query`,
     },
     {
-      description: 'Query a db via interactive mode with a specific database_id',
+      description: 'Query a db via non-interactive mode with a specific database_id',
       command: `$ notion-cli db query DATABASE_ID`,
     },
     {
