@@ -92,18 +92,19 @@ export default class DbQuery extends Command {
       databaseId = promptSelectedDbResult.database_id
     }
 
-    // Set a filter
     let filter: object | undefined
     try {
-      if (flags.rawFilter != undefined) {
-        filter = JSON.parse(flags.rawFilter)
-      } else if (flags.fileFilter != undefined) {
-        const fp = path.join('./', flags.fileFilter)
-        const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
-        filter = JSON.parse(fj)
+      // If args is set, run as non-interactive mode.
+      if (Object.keys(args).length !== 0) {
+        if (flags.rawFilter != undefined) {
+          filter = JSON.parse(flags.rawFilter)
+        } else if (flags.fileFilter != undefined) {
+          const fp = path.join('./', flags.fileFilter)
+          const fj = fs.readFileSync(fp, { encoding: 'utf-8' })
+          filter = JSON.parse(fj)
+        }
       } else {
         let CombineOperator = undefined
-
         const promptAddFilterResult = await prompts(
           [
             {
@@ -241,6 +242,7 @@ export default class DbQuery extends Command {
     } catch (e) {
       this.error(e, { exit: 1 })
     }
+
     if (filter != undefined && flags.rawFilter == undefined && flags.fileFilter == undefined) {
       console.log('')
       console.log('Filter:')
