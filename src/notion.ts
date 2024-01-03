@@ -20,7 +20,7 @@ export const client = new Client({
   logLevel: process.env.DEBUG ? LogLevel.DEBUG : null,
 })
 
-export const queryDb = async (
+export const fetchAllPagesInDB = async (
   databaseId: string,
   filter?: object | undefined
 ): Promise<QueryDatabaseResponse['results']> => {
