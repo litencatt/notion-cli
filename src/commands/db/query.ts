@@ -327,7 +327,6 @@ export default class DbQuery extends Command {
     // output
     if (flags.raw) {
       outputRawJson(pages)
-      this.exit(0)
     } else {
       const columns = {
         title: {
