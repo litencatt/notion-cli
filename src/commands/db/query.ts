@@ -50,7 +50,9 @@ export default class DbQuery extends Command {
   ]
 
   static args = {
-    database_id: Args.string(),
+    database_id: Args.string({
+      required: false,
+    }),
   }
 
   static flags = {
