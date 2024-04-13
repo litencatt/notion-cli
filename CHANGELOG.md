@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.15.1](https://github.com/litencatt/notion-cli/compare/v0.15.0...v0.15.1) - 2024-04-13
+- Bump tar from 6.1.13 to 6.2.1 by @dependabot in https://github.com/litencatt/notion-cli/pull/271
+- Bump @notionhq/client from 2.2.13 to 2.2.14 by @dependabot in https://github.com/litencatt/notion-cli/pull/262
+- Bump ts-node from 10.9.1 to 10.9.2 by @dependabot in https://github.com/litencatt/notion-cli/pull/263
+- Bump chai and @types/chai by @dependabot in https://github.com/litencatt/notion-cli/pull/265
+- Bump ip from 2.0.0 to 2.0.1 by @dependabot in https://github.com/litencatt/notion-cli/pull/267
+- Bump eslint from 8.52.0 to 8.57.0 by @dependabot in https://github.com/litencatt/notion-cli/pull/269
+- Bump @types/node from 16.18.60 to 16.18.96 by @dependabot in https://github.com/litencatt/notion-cli/pull/273
+
 ## [v0.14.7](https://github.com/litencatt/notion-cli/compare/v0.14.6...v0.14.7) - 2024-01-03
 - Support db query more params for non-interactive mode by @litencatt in https://github.com/litencatt/notion-cli/pull/260
 
