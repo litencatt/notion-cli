@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.15.3](https://github.com/litencatt/notion-cli/compare/v0.15.2...v0.15.3) - 2024-08-01
+- Bump dayjs from 1.11.11 to 1.11.12 by @dependabot in https://github.com/litencatt/notion-cli/pull/283
+- Bump @types/node from 16.18.96 to 16.18.104 by @dependabot in https://github.com/litencatt/notion-cli/pull/284
+- Bump tslib from 2.6.2 to 2.6.3 by @dependabot in https://github.com/litencatt/notion-cli/pull/281
+- Bump chai and @types/chai by @dependabot in https://github.com/litencatt/notion-cli/pull/282
+
 ## [v0.15.2](https://github.com/litencatt/notion-cli/compare/v0.15.1...v0.15.2) - 2024-05-03
 - Bump ejs from 3.1.9 to 3.1.10 by @dependabot in https://github.com/litencatt/notion-cli/pull/277
 - Bump @oclif/core from 2.15.0 to 2.16.0 by @dependabot in https://github.com/litencatt/notion-cli/pull/276
