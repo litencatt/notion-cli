@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.15.4](https://github.com/litencatt/notion-cli/compare/v0.15.3...v0.15.4) - 2024-11-19
+- Update to actions/checkout@v4 by @litencatt in https://github.com/litencatt/notion-cli/pull/294
+- Bump @types/node from 16.18.104 to 16.18.118 by @dependabot in https://github.com/litencatt/notion-cli/pull/293
+- Bump tslib from 2.6.3 to 2.8.1 by @dependabot in https://github.com/litencatt/notion-cli/pull/292
+- Bump eslint from 8.57.0 to 8.57.1 by @dependabot in https://github.com/litencatt/notion-cli/pull/291
+- Bump micromatch from 4.0.5 to 4.0.8 by @dependabot in https://github.com/litencatt/notion-cli/pull/289
+- Bump dayjs from 1.11.12 to 1.11.13 by @dependabot in https://github.com/litencatt/notion-cli/pull/286
+- Bump braces from 3.0.2 to 3.0.3 by @dependabot in https://github.com/litencatt/notion-cli/pull/296
+
 ## [v0.15.3](https://github.com/litencatt/notion-cli/compare/v0.15.2...v0.15.3) - 2024-08-01
 - Bump dayjs from 1.11.11 to 1.11.12 by @dependabot in https://github.com/litencatt/notion-cli/pull/283
 - Bump @types/node from 16.18.96 to 16.18.104 by @dependabot in https://github.com/litencatt/notion-cli/pull/284
