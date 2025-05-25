@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.15.5](https://github.com/litencatt/notion-cli/compare/v0.15.4...v0.15.5) - 2025-05-25
+- Bump @notionhq/client from 2.2.15 to 2.2.16 by @dependabot in https://github.com/litencatt/notion-cli/pull/303
+- Bump notion-to-md from 3.1.1 to 3.1.6 by @dependabot in https://github.com/litencatt/notion-cli/pull/301
+- Bump @types/node from 16.18.118 to 16.18.126 by @dependabot in https://github.com/litencatt/notion-cli/pull/302
+
 ## [v0.15.4](https://github.com/litencatt/notion-cli/compare/v0.15.3...v0.15.4) - 2024-11-19
 - Update to actions/checkout@v4 by @litencatt in https://github.com/litencatt/notion-cli/pull/294
 - Bump @types/node from 16.18.104 to 16.18.118 by @dependabot in https://github.com/litencatt/notion-cli/pull/293
