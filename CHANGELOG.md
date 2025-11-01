@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.15.6](https://github.com/litencatt/notion-cli/compare/v0.15.5...v0.15.6) - 2025-11-01
+- Bump dayjs from 1.11.13 to 1.11.19 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/312
+- Bump @notionhq/client from 2.2.16 to 2.3.0 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/307
+- Bump shx from 0.3.4 to 0.4.0 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/306
+- Bump eslint-config-prettier from 8.10.0 to 8.10.2 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/310
+- Bump form-data from 3.0.1 to 3.0.4 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/309
+- Bump notion-to-md from 3.1.6 to 3.1.9 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/308
+
 ## [v0.15.5](https://github.com/litencatt/notion-cli/compare/v0.15.4...v0.15.5) - 2025-05-25
 - Bump @notionhq/client from 2.2.15 to 2.2.16 by @dependabot in https://github.com/litencatt/notion-cli/pull/303
 - Bump notion-to-md from 3.1.1 to 3.1.6 by @dependabot in https://github.com/litencatt/notion-cli/pull/301
