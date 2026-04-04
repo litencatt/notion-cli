@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.15.7](https://github.com/litencatt/notion-cli/compare/v0.15.6...v0.15.7) - 2026-04-04
+- Bump flatted from 3.2.7 to 3.4.2 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/315
+- Bump lodash from 4.17.21 to 4.18.1 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/318
+- Bump dayjs from 1.11.19 to 1.11.20 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/317
+- Bump picomatch from 2.3.1 to 2.3.2 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/316
+
 ## [v0.15.6](https://github.com/litencatt/notion-cli/compare/v0.15.5...v0.15.6) - 2025-11-01
 - Bump dayjs from 1.11.13 to 1.11.19 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/312
 - Bump @notionhq/client from 2.2.16 to 2.3.0 by @dependabot[bot] in https://github.com/litencatt/notion-cli/pull/307
